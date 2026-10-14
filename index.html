@@ -1,0 +1,1124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>National Intellectual Property Office (Trademark Division) | Visitor Portal</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        nipo: {
+                            navy: '#0B1E3D',
+                            navyLight: '#1B365D',
+                            gold: '#D4AF37',
+                            goldHover: '#B59226',
+                            goldLight: '#FFF8E7',
+                            accent: '#10B981',
+                            bg: '#F8FAFC',
+                            card: '#FFFFFF'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'Inter', 'sans-serif'],
+                        serif: ['Merriweather', 'serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #F8FAFC;
+            color: #0F172A;
+        }
+
+        .hero-gradient {
+            background: linear-gradient(135deg, #0B1E3D 0%, #1B365D 60%, #0F2942 100%);
+        }
+
+        .tab-btn.active {
+            background-color: #0B1E3D;
+            color: #ffffff;
+            border-bottom: 3px solid #D4AF37;
+        }
+
+        .calc-subtag.active {
+            background-color: #D4AF37;
+            color: #0B1E3D;
+            font-weight: 800;
+        }
+
+        @media print {
+            body * { visibility: hidden; }
+            #printable-area, #printable-area * { visibility: visible; }
+            #printable-area { position: absolute; left: 0; top: 0; width: 100%; color: #000; background: #fff; }
+            .no-print { display: none !important; }
+        }
+
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: #F1F5F9; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #0B1E3D; }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between selection:bg-amber-100 selection:text-nipo-navy">
+
+    <!-- Top Header -->
+    <header class="hero-gradient text-white shadow-xl relative z-20 border-b-4 border-amber-500">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2 flex flex-wrap justify-between items-center text-xs border-b border-white/10">
+            <div class="flex items-center space-x-4">
+                <span class="flex items-center text-amber-400 font-semibold">
+                    <i class="fa-solid fa-building-columns mr-1.5"></i> Democratic Socialist Republic of Sri Lanka
+                </span>
+                <span class="hidden md:inline text-slate-300">|</span>
+                <span class="hidden md:inline text-slate-300">Intellectual Property Act No. 36 of 2003</span>
+            </div>
+            
+            <div class="flex items-center space-x-6">
+                <div class="flex items-center text-amber-300 font-bold">
+                    <i class="fa-solid fa-phone-volume mr-1.5 text-red-400 animate-pulse"></i>
+                    <span id="txt-hotline">Hotline: 1934</span>[cite: 1]
+                </div>
+                <!-- Language Selector -->
+                <div class="flex items-center bg-black/30 rounded-lg p-0.5 border border-white/20">
+                    <button onclick="setLanguage('en')" id="lang-en" class="px-2.5 py-0.5 rounded text-[11px] font-bold bg-amber-500 text-slate-950 transition">EN</button>
+                    <button onclick="setLanguage('si')" id="lang-si" class="px-2.5 py-0.5 rounded text-[11px] font-bold text-slate-300 hover:text-white transition">සිං</button>
+                    <button onclick="setLanguage('ta')" id="lang-ta" class="px-2.5 py-0.5 rounded text-[11px] font-bold text-slate-300 hover:text-white transition">தமி</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col md:flex-row items-center justify-between gap-4">
+            <div class="flex items-center gap-4 text-center md:text-left">
+                <div class="w-16 h-16 sm:w-20 sm:h-20 bg-white/10 rounded-2xl p-2 flex items-center justify-center border border-amber-400/40 shadow-inner flex-shrink-0">
+                    <div class="w-full h-full rounded-xl border-2 border-amber-400/80 flex flex-col items-center justify-center text-amber-400 font-serif font-bold">
+                        <span class="text-xl sm:text-2xl tracking-widest">NIPO</span>
+                        <span class="text-[9px] uppercase tracking-tighter">Sri Lanka</span>
+                    </div>
+                </div>
+                <div>
+                    <h1 class="text-xl sm:text-2xl md:text-3xl font-extrabold tracking-tight text-white font-serif" id="header-main-title">
+                        National Intellectual Property Office (Trademark Division)
+                    </h1>
+                    <p class="text-xs sm:text-sm text-amber-300 font-medium tracking-wide mt-0.5" id="header-sinhala-sub">
+                        ජාතික බුද්ධිමය දේපළ කාර්යාලය (වෙළඳ ලකුණු අංශය) • ශ්‍රී ලංකාව
+                    </p>
+                    <p class="text-[11px] text-slate-300 mt-1 flex items-center gap-2 justify-center md:justify-start">
+                        <span class="inline-block w-2 h-2 rounded-full bg-emerald-400"></span> <span id="header-sub-tag">Trademark Division Public Kiosk & Inquiry Portal</span>
+                    </p>
+                </div>
+            </div>
+
+            <div class="hidden lg:flex flex-col items-end bg-white/5 border border-white/10 px-4 py-2.5 rounded-xl">
+                <span class="text-xs text-slate-300" id="live-date">Wednesday, Oct 14, 2026</span>
+                <span class="text-xl font-mono font-bold text-amber-400" id="live-clock">09:30:00 AM</span>
+                <span class="text-[10px] text-slate-400 mt-0.5"><i class="fa-solid fa-clock text-emerald-400"></i> <span id="txt-counter-hours-lbl">Counter Hours: 9:00 AM - 3:00 PM</span></span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation Tabs Bar -->
+    <div class="bg-white border-b border-slate-200 sticky top-0 z-30 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <nav class="flex space-x-1 overflow-x-auto py-2 custom-scrollbar text-sm font-semibold">
+                <button onclick="switchTab('divisions')" id="tab-divisions" class="tab-btn active px-4 py-2.5 rounded-lg whitespace-nowrap transition flex items-center gap-2">
+                    <i class="fa-solid fa-shapes text-amber-500"></i> <span id="nav-lbl-divs">Main Divisions</span>
+                </button>
+                <button onclick="switchTab('process')" id="tab-process" class="tab-btn px-4 py-2.5 rounded-lg whitespace-nowrap text-slate-600 hover:bg-slate-100 transition flex items-center gap-2">
+                    <i class="fa-solid fa-diagram-project text-blue-500"></i> <span id="nav-lbl-process">Trademark Process Flowchart</span>
+                </button>
+                <button onclick="switchTab('nice')" id="tab-nice" class="tab-btn px-4 py-2.5 rounded-lg whitespace-nowrap text-slate-600 hover:bg-slate-100 transition flex items-center gap-2">
+                    <i class="fa-solid fa-magnifying-glass text-indigo-500"></i> <span id="nav-lbl-nice">Nice Classes (1-45) & WIPO MGS</span>
+                </button>
+                <button onclick="switchTab('checklists')" id="tab-checklists" class="tab-btn px-4 py-2.5 rounded-lg whitespace-nowrap text-slate-600 hover:bg-slate-100 transition flex items-center gap-2">
+                    <i class="fa-solid fa-list-check text-emerald-500"></i> <span id="nav-lbl-chk">Document Checklists</span>
+                </button>
+                <button onclick="switchTab('fees')" id="tab-fees" class="tab-btn px-4 py-2.5 rounded-lg whitespace-nowrap text-slate-600 hover:bg-slate-100 transition flex items-center gap-2">
+                    <i class="fa-solid fa-calculator text-amber-600"></i> <span id="nav-lbl-fees">Fee Estimator & Structure</span>
+                </button>
+                <button onclick="switchTab('hours')" id="tab-hours" class="tab-btn px-4 py-2.5 rounded-lg whitespace-nowrap text-slate-600 hover:bg-slate-100 transition flex items-center gap-2">
+                    <i class="fa-solid fa-building-columns text-purple-500"></i> <span id="nav-lbl-hrs">Counter & Bank Info</span>
+                </button>
+            </nav>
+        </div>
+    </div>
+
+    <!-- Main Dynamic Content Area -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-1 w-full space-y-10">
+
+        <!-- ================= SECTION 1: MAIN DIVISIONS ================= -->
+        <div id="content-divisions" class="space-y-8">
+            <div class="bg-amber-50 border-l-4 border-amber-500 p-4 rounded-r-xl shadow-sm flex items-start gap-3">
+                <i class="fa-solid fa-lightbulb text-amber-600 text-xl mt-0.5"></i>
+                <div>
+                    <h4 class="font-bold text-slate-900 text-sm" id="div-banner-title">National Intellectual Property Office - Trademark Division Portal</h4>
+                    <p class="text-xs text-slate-600 mt-0.5" id="div-banner-desc">
+                        Explore trademark application procedures, official fee calculators, Nice classifications (1-45), and mandatory document checklists.
+                    </p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <!-- Trademarks Division (Primary) -->
+                <div class="bg-white rounded-2xl border-2 border-nipo-navy shadow-sm overflow-hidden flex flex-col justify-between">
+                    <div>
+                        <div class="bg-nipo-navy text-white p-5 border-b border-amber-500/30 flex items-center justify-between">
+                            <div>
+                                <span class="text-xs text-amber-400 font-bold uppercase tracking-wider block" id="card-tm-badge">Primary Focus</span>
+                                <h3 class="text-xl font-bold font-serif" id="card-tm-title">Trademarks Division</h3>
+                            </div>
+                            <span class="text-3xl">🏷️</span>
+                        </div>
+                        <div class="p-6 space-y-4">
+                            <p class="text-xs text-slate-600 leading-relaxed" id="card-tm-desc">
+                                Protects brand names, logos, slogans, and distinctive signs. Rights are acquired through official registration under IP Act No. 36 of 2003.
+                            </p>
+                            <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-2">
+                                <span class="text-xs font-bold text-nipo-navy uppercase block" id="card-tm-stats-title">Protection Highlights</span>
+                                <ul class="text-xs text-slate-700 space-y-1.5">
+                                    <li class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-500 text-xs"></i> <span id="tm-stat-1">Validity: 10 years from filing date</span></li>
+                                    <li class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-500 text-xs"></i> <span id="tm-stat-2">Renewal: Every 10 years indefinitely</span>[cite: 1]</li>
+                                    <li class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-500 text-xs"></i> <span id="tm-stat-3">Classification: Nice Classes 1 to 45</span></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-6 pt-0">
+                        <button onclick="switchTab('process')" class="w-full bg-nipo-navy hover:bg-nipo-navyLight text-white font-bold py-2.5 rounded-xl text-xs transition flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-diagram-project text-amber-400"></i> <span id="btn-view-process">View Registration Process Flowchart</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Copyright -->
+                <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex flex-col justify-between">
+                    <div>
+                        <div class="bg-slate-900 text-white p-5 border-b border-emerald-500/30 flex items-center justify-between">
+                            <div>
+                                <span class="text-xs text-emerald-400 font-bold uppercase tracking-wider block" id="card-cr-badge">Secondary Wing</span>
+                                <h3 class="text-xl font-bold font-serif" id="card-cr-title">Copyright & Related Rights</h3>
+                            </div>
+                            <span class="text-3xl">📜</span>
+                        </div>
+                        <div class="p-6 space-y-4">
+                            <p class="text-xs text-slate-600 leading-relaxed" id="card-cr-desc">
+                                Protects literary, artistic, musical works, and software automatically upon creation without mandatory registration. Voluntary deposits available.
+                            </p>
+                            <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-2">
+                                <span class="text-xs font-bold text-nipo-navy uppercase block" id="card-cr-stats-title">Protection Rules</span>
+                                <ul class="text-xs text-slate-700 space-y-1.5">
+                                    <li class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-500 text-xs"></i> <span id="cr-stat-1">Duration: Author's Lifetime + 70 Years</span></li>
+                                    <li class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-500 text-xs"></i> <span id="cr-stat-2">Deposit: Voluntary proof of ownership</span></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-6 pt-0">
+                        <button onclick="switchTab('checklists')" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold py-2.5 rounded-xl text-xs transition flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-box-archive text-emerald-400"></i> <span id="btn-view-cr-chk">Copyright Deposit Checklist</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Geographical Indications -->
+                <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex flex-col justify-between">
+                    <div>
+                        <div class="bg-nipo-navy text-white p-5 border-b border-amber-500/30 flex items-center justify-between">
+                            <div>
+                                <span class="text-xs text-amber-400 font-bold uppercase tracking-wider block" id="card-gi-badge">Regional Protection</span>
+                                <h3 class="text-xl font-bold font-serif" id="card-gi-title">Geographical Indications (GIs)</h3>
+                            </div>
+                            <span class="text-3xl">🌍</span>
+                        </div>
+                        <div class="p-6 space-y-4">
+                            <p class="text-xs text-slate-600 leading-relaxed" id="card-gi-desc">
+                                Protects goods originating from specific regions where quality is linked to geographical origin (e.g., Ceylon Tea, Ceylon Cinnamon).
+                            </p>
+                            <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-2">
+                                <span class="text-xs font-bold text-nipo-navy uppercase block" id="card-gi-stats-title">National GIs</span>
+                                <ul class="text-xs text-slate-700 space-y-1.5">
+                                    <li class="flex items-center gap-2"><i class="fa-solid fa-star text-amber-500 text-xs"></i> <span id="gi-stat-1">Ceylon Tea & Ceylon Cinnamon</span></li>
+                                    <li class="flex items-center gap-2"><i class="fa-solid fa-star text-amber-500 text-xs"></i> <span id="gi-stat-2">Managed via Producer Associations</span></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-6 pt-0">
+                        <button onclick="switchTab('checklists')" class="w-full bg-nipo-navy hover:bg-nipo-navyLight text-white font-bold py-2.5 rounded-xl text-xs transition flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-file-contract text-amber-400"></i> <span id="btn-view-gi-guide">GI Registration Guide</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= SECTION 2: EMBEDDED FLOWCHART IMAGE & PROCESS DETAILS ================= -->
+        <div id="content-process" class="space-y-6 hidden">
+            <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-sm space-y-6">
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 pb-4 border-b border-slate-200">
+                    <div>
+                        <span class="text-xs font-bold text-amber-600 uppercase" id="proc-badge">Official Workflow Diagram</span>
+                        <h3 class="text-2xl font-bold text-nipo-navy font-serif mt-1" id="proc-main-title">Trademark Registration Basic Process Flowchart</h3>
+                        <p class="text-xs text-slate-500 mt-1" id="proc-main-sub">Complete visual breakdown of filing, examination, acceptance, gazette publication, refusal hearings, and 10-year renewal cycles.</p>
+                    </div>
+                    <button onclick="window.print()" class="bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold px-4 py-2 rounded-xl text-xs transition flex items-center gap-2 shadow-sm">
+                        <i class="fa-solid fa-print"></i> Print Diagram
+                    </button>
+                </div>
+
+                <!-- Attached Flowchart Image Viewport -->
+                <div class="bg-slate-50 border-2 border-slate-200 rounded-2xl p-4 shadow-inner text-center">
+                    <img src="Gemini_Generated_Image_zbwpe5zbwpe5zbwp.jpg" alt="Trademark Registration Basic Process Flowchart" class="w-full max-w-5xl mx-auto rounded-xl shadow-md border border-slate-300 object-contain hover:scale-[1.01] transition-transform duration-300">
+                    <p class="text-[11px] text-slate-500 mt-3 font-medium">
+                        <i class="fa-solid fa-circle-info text-amber-500 mr-1"></i> Visual Workflow: Follows the legal application pathway from Formality Examination to Gazette Publication or Hearing & Court Appeals.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= SECTION 3: NICE CLASSIFICATION SEARCH & WIPO MGS LINK ================= -->
+        <div id="content-nice" class="space-y-6 hidden">
+            <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6 pb-6 border-b border-slate-200">
+                    <div>
+                        <span class="text-xs font-bold uppercase text-amber-600 tracking-wider" id="nice-badge">Classification Lookup</span>
+                        <h3 class="text-2xl font-bold text-nipo-navy font-serif mt-1" id="nice-main-title">Nice Classification (All 45 Classes)</h3>
+                        <p class="text-xs text-slate-500 mt-1" id="nice-main-sub">Browse Classes 1 to 34 (Goods) and Classes 35 to 45 (Services). Use keyword search or check official WIPO MGS.</p>
+                    </div>
+                    <div class="flex items-center gap-3 w-full md:w-auto">
+                        <div class="w-full md:w-72 relative">
+                            <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                            <input type="text" id="nice-keyword-input" onkeyup="filterNiceInteractive()" placeholder="Search class or keyword..." class="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm focus:outline-none focus:border-nipo-navy">
+                        </div>
+                        <a href="https://webaccess.wipo.int/mgs/" target="_blank" class="bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold px-4 py-2.5 rounded-xl text-xs transition flex items-center gap-2 whitespace-nowrap shadow-sm">
+                            <i class="fa-solid fa-globe"></i> <span id="btn-wipo-mgs">WIPO Madrid Goods & Services (MGS)</span>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="flex gap-2 mb-6">
+                    <button onclick="filterNiceCategory('all')" id="nice-cat-all" class="nice-cat-btn px-3.5 py-1.5 rounded-lg text-xs font-bold bg-nipo-navy text-white">All Classes (1-45)</button>
+                    <button onclick="filterNiceCategory('goods')" id="nice-cat-goods" class="nice-cat-btn px-3.5 py-1.5 rounded-lg text-xs font-bold bg-slate-100 text-slate-700 hover:bg-slate-200">Goods (Classes 1-34)</button>
+                    <button onclick="filterNiceCategory('services')" id="nice-cat-services" class="nice-cat-btn px-3.5 py-1.5 rounded-lg text-xs font-bold bg-slate-100 text-slate-700 hover:bg-slate-200">Services (Classes 35-45)</button>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="nice-classes-container">
+                    <!-- Dynamic nice cards -->
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= SECTION 4: DOCUMENT CHECKLISTS ================= -->
+        <div id="content-checklists" class="space-y-6 hidden">
+            <div id="printable-area" class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-sm space-y-6">
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 pb-6 border-b border-slate-200 no-print">
+                    <div>
+                        <span class="text-xs font-bold text-amber-600 uppercase" id="chk-badge">Filing Preparation</span>
+                        <h3 class="text-2xl font-bold text-nipo-navy font-serif" id="chk-main-title">Mandatory Document Checklists</h3>
+                        <p class="text-xs text-slate-500 mt-1" id="chk-main-sub">Review required documents before approaching front desk officers or Shroff.</p>
+                    </div>
+                    <button onclick="window.print()" class="bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold px-4 py-2.5 rounded-xl text-xs transition flex items-center gap-2 shadow-sm">
+                        <i class="fa-solid fa-print"></i> <span id="btn-print-chk">Print Checklist</span>
+                    </button>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 no-print">
+                    <button onclick="showChecklist('m01')" id="chk-btn-m01" class="chk-tab-btn active p-4 rounded-xl border-2 border-nipo-navy bg-nipo-navy text-white text-left transition">
+                        <div class="font-bold text-sm">Form M 01</div>
+                        <div class="text-xs opacity-80 mt-1" id="chk-tab-1">New Trademark Application</div>
+                    </button>
+                    <button onclick="showChecklist('m03')" id="chk-btn-m03" class="chk-tab-btn p-4 rounded-xl border-2 border-slate-200 bg-slate-50 text-slate-800 text-left transition">
+                        <div class="font-bold text-sm">Form M 03 / Assignments</div>
+                        <div class="text-xs opacity-80 mt-1" id="chk-tab-2">Change Name/Address & Transfers[cite: 1]</div>
+                    </button>
+                    <button onclick="showChecklist('cr_deposit')" id="chk-btn-cr_deposit" class="chk-tab-btn p-4 rounded-xl border-2 border-slate-200 bg-slate-50 text-slate-800 text-left transition">
+                        <div class="font-bold text-sm">Copyright Deposit</div>
+                        <div class="text-xs opacity-80 mt-1" id="chk-tab-3">Voluntary Work Registration</div>
+                    </button>
+                </div>
+
+                <div id="checklist-display" class="space-y-6 pt-2">
+                    <!-- Dynamic checklist items -->
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= SECTION 5: UPGRADED FEE ESTIMATOR & COMPLETE STRUCTURE ================= -->
+        <div id="content-fees" class="space-y-10 hidden">
+            
+            <!-- Interactive Fee Estimator Component -->
+            <div class="bg-gradient-to-br from-nipo-navy to-nipo-navyLight text-white p-6 sm:p-8 rounded-3xl shadow-xl border border-amber-500/30 space-y-8">
+                
+                <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6 border-b border-white/10 pb-6">
+                    <div>
+                        <span class="bg-amber-500/20 text-amber-300 border border-amber-500/40 text-[11px] font-bold px-3 py-1 rounded-full uppercase">
+                            Gazette No. 2509/17 Revision + 18% VAT Compliant
+                        </span>
+                        <h3 class="text-2xl sm:text-3xl font-extrabold font-serif mt-3 text-white">
+                            Interactive Trademark Fee Estimator
+                        </h3>
+                        <p class="text-xs sm:text-sm text-slate-300 mt-1 max-w-2xl">
+                            Switch between calculation modes below. Select either your applicant category or your publication word count/size criteria independently.
+                        </p>
+                    </div>
+
+                    <!-- Big Total Payable Display -->
+                    <div class="bg-black/40 border-2 border-amber-400/60 p-5 rounded-2xl text-center min-w-[280px] w-full lg:w-auto shadow-inner">
+                        <span class="text-xs text-amber-300 font-bold uppercase tracking-wider block">Estimated Total Payable</span>
+                        <div class="text-3xl sm:text-4xl font-black text-amber-400 mt-2 font-mono" id="est-total-amount">Rs. 2,360.00</div>
+                        <span class="text-[10px] text-slate-300 block mt-1">Includes Official Base Fee + 18% VAT</span>
+                    </div>
+                </div>
+
+                <!-- Calculation Mode Selector Sub-tabs -->
+                <div class="flex bg-slate-900/80 p-1.5 rounded-xl border border-slate-700 max-w-md">
+                    <button onclick="switchCalcMode('app')" id="mode-btn-app" class="calc-subtag active flex-1 py-2 px-4 rounded-lg text-xs font-bold transition text-center">
+                        1. Application / Other Fees
+                    </button>
+                    <button onclick="switchCalcMode('pub')" id="mode-btn-pub" class="calc-subtag flex-1 py-2 px-4 rounded-lg text-xs font-bold text-slate-300 transition text-center">
+                        2. Publication Fees (Section 111(7))
+                    </button>
+                </div>
+
+                <!-- Mode 1: Applicant Type & Stage -->
+                <div id="calc-panel-app" class="bg-slate-900/60 p-6 rounded-2xl border border-slate-700/80 space-y-4">
+                    <h4 class="text-xs font-bold text-amber-300 uppercase tracking-wider">Select Applicant Type & Stage</h4>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <label onclick="setAppType('individual')" id="card-app-individual" class="cursor-pointer bg-slate-950 border-2 border-amber-400 p-4 rounded-xl block transition">
+                            <div class="text-amber-400 font-bold text-xs uppercase">Individual Applicant</div>
+                            <div class="text-xl font-black text-white font-mono mt-1">Rs. 2,360.00</div>
+                            <div class="text-[10px] text-slate-400 mt-1">Per Mark Application</div>
+                        </label>
+                        <label onclick="setAppType('corporate')" id="card-app-corporate" class="cursor-pointer bg-slate-950 border border-slate-700 p-4 rounded-xl block transition">
+                            <div class="text-amber-400 font-bold text-xs uppercase">Corporate / Company</div>
+                            <div class="text-xl font-black text-white font-mono mt-1">Rs. 7,080.00</div>
+                            <div class="text-[10px] text-slate-400 mt-1">Other / Registered Company</div>
+                        </label>
+                        <label onclick="setAppType('collective')" id="card-app-collective" class="cursor-pointer bg-slate-950 border border-slate-700 p-4 rounded-xl block transition">
+                            <div class="text-amber-400 font-bold text-xs uppercase">Collective / Certification</div>
+                            <div class="text-xl font-black text-white font-mono mt-1">Rs. 11,800.00</div>
+                            <div class="text-[10px] text-slate-400 mt-1">Special Mark Category</div>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Mode 2: Publication Word Count & Size Criteria -->
+                <div id="calc-panel-pub" class="bg-slate-900/60 p-6 rounded-2xl border border-slate-700/80 space-y-4 hidden">
+                    <h4 class="text-xs font-bold text-amber-300 uppercase tracking-wider">Publication Word Count & Mark Size Criteria (Section 111(7))</h4>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                        <label onclick="setPubTier('1a')" id="card-pub-1a" class="cursor-pointer bg-slate-950 border-2 border-amber-400 p-4 rounded-xl block transition">
+                            <div class="text-xs text-amber-300 font-bold">Tier 1-A</div>
+                            <div class="text-sm font-bold text-white mt-0.5">0–10 words</div>
+                            <div class="text-[11px] text-slate-400">Mark size &le; 4x4 cm</div>
+                            <div class="text-lg font-black text-amber-400 font-mono mt-2">Rs. 2,000.00</div>
+                        </label>
+                        <label onclick="setPubTier('1b')" id="card-pub-1b" class="cursor-pointer bg-slate-950 border border-slate-700 p-4 rounded-xl block transition">
+                            <div class="text-xs text-amber-300 font-bold">Tier 1-B</div>
+                            <div class="text-sm font-bold text-white mt-0.5">0–10 words</div>
+                            <div class="text-[11px] text-slate-400">Mark size > 4x4 cm</div>
+                            <div class="text-lg font-black text-amber-400 font-mono mt-2">Rs. 2,500.00</div>
+                        </label>
+                        <label onclick="setPubTier('2a')" id="card-pub-2a" class="cursor-pointer bg-slate-950 border border-slate-700 p-4 rounded-xl block transition">
+                            <div class="text-xs text-amber-300 font-bold">Tier 2-A</div>
+                            <div class="text-sm font-bold text-white mt-0.5">11–20 words</div>
+                            <div class="text-[11px] text-slate-400">Mark size &le; 4x4 cm</div>
+                            <div class="text-lg font-black text-amber-400 font-mono mt-2">Rs. 3,000.00</div>
+                        </label>
+                        <label onclick="setPubTier('2b')" id="card-pub-2b" class="cursor-pointer bg-slate-950 border border-slate-700 p-4 rounded-xl block transition">
+                            <div class="text-xs text-amber-300 font-bold">Tier 2-B</div>
+                            <div class="text-sm font-bold text-white mt-0.5">11–20 words</div>
+                            <div class="text-[11px] text-slate-400">Mark size > 4x4 cm</div>
+                            <div class="text-lg font-black text-amber-400 font-mono mt-2">Rs. 3,500.00</div>
+                        </label>
+                        <label onclick="setPubTier('3a')" id="card-pub-3a" class="cursor-pointer bg-slate-950 border border-slate-700 p-4 rounded-xl block transition">
+                            <div class="text-xs text-amber-300 font-bold">Tier 3-A</div>
+                            <div class="text-sm font-bold text-white mt-0.5">More than 20 words</div>
+                            <div class="text-[11px] text-slate-400">Mark size &le; 4x4 cm</div>
+                            <div class="text-lg font-black text-amber-400 font-mono mt-2">Rs. 4,000.00</div>
+                        </label>
+                        <label onclick="setPubTier('3b')" id="card-pub-3b" class="cursor-pointer bg-slate-950 border border-slate-700 p-4 rounded-xl block transition">
+                            <div class="text-xs text-amber-300 font-bold">Tier 3-B</div>
+                            <div class="text-sm font-bold text-white mt-0.5">More than 20 words</div>
+                            <div class="text-[11px] text-slate-400">Mark size > 4x4 cm</div>
+                            <div class="text-lg font-black text-amber-400 font-mono mt-2">Rs. 5,500.00</div>
+                        </label>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Complete Fee Structure Sections (1 to 8) -->
+            <div class="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200 shadow-sm space-y-8">
+                <div class="border-b border-slate-200 pb-4">
+                    <span class="text-xs font-bold uppercase tracking-wider text-amber-600">Official Schedule</span>
+                    <h3 class="text-2xl font-bold text-nipo-navy font-serif mt-1">Complete Trademark Fee Structure (2026 Revision)</h3>
+                    <p class="text-xs text-slate-500 mt-1">All statutory rates inclusive of 18% VAT as governed under IP Act No. 36 of 2003.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+
+                    <!-- Category 1 & 2 -->
+                    <div class="space-y-6">
+                        <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 space-y-3">
+                            <h4 class="font-bold text-sm text-nipo-navy flex items-center gap-2"><span class="w-6 h-6 rounded-full bg-amber-500 text-slate-950 flex items-center justify-center text-xs">1</span> Trademark Search & Initial Filings</h4>
+                            <div class="flex justify-between text-xs py-1.5 border-b border-slate-200">
+                                <span>Trademark Search (Per item/file)</span>
+                                <strong class="font-mono text-nipo-navy">Rs. 177.00</strong>
+                            </div>
+                        </div>
+
+                        <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 space-y-3">
+                            <h4 class="font-bold text-sm text-nipo-navy flex items-center gap-2"><span class="w-6 h-6 rounded-full bg-amber-500 text-slate-950 flex items-center justify-center text-xs">2</span> Trademark Application Cost</h4>
+                            <div class="space-y-2 text-xs">
+                                <div class="flex justify-between py-1 border-b border-slate-200">
+                                    <span>Individual Applicant (Per Mark)</span>
+                                    <strong class="font-mono text-nipo-navy">Rs. 2,360.00</strong>
+                                </div>
+                                <div class="flex justify-between py-1 border-b border-slate-200">
+                                    <span>Other / Corporate / Registered Company</span>
+                                    <strong class="font-mono text-nipo-navy">Rs. 7,080.00</strong>
+                                </div>
+                                <div class="flex justify-between py-1">
+                                    <span>Collective Mark / Certification Mark</span>
+                                    <strong class="font-mono text-nipo-navy">Rs. 11,800.00</strong>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Category 3: Publication Fees Table -->
+                        <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 space-y-3">
+                            <h4 class="font-bold text-sm text-nipo-navy flex items-center gap-2"><span class="w-6 h-6 rounded-full bg-amber-500 text-slate-950 flex items-center justify-center text-xs">3</span> Publication Fees (Section 111(7))</h4>
+                            <div class="overflow-x-auto">
+                                <table class="w-full text-xs text-left border-collapse">
+                                    <thead>
+                                        <tr class="border-b border-slate-300 text-slate-500 bg-slate-100/80">
+                                            <th class="py-2 px-3 font-semibold">Word Count Tier</th>
+                                            <th class="py-2 px-3 font-semibold">Mark Size Criteria</th>
+                                            <th class="py-2 px-3 font-semibold text-right">Fee (incl. 18% VAT)</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="divide-y divide-slate-200 text-slate-700">
+                                        <tr>
+                                            <td class="py-2 px-3 font-medium">0–10 words</td>
+                                            <td class="py-2 px-3">Mark size &le; 4x4 cm (Tier 1-A)</td>
+                                            <td class="py-2 px-3 text-right font-mono font-bold text-nipo-navy">Rs. 2,000.00</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="py-2 px-3 font-medium">0–10 words</td>
+                                            <td class="py-2 px-3">Mark size > 4x4 cm (Tier 1-B)</td>
+                                            <td class="py-2 px-3 text-right font-mono font-bold text-nipo-navy">Rs. 2,500.00</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="py-2 px-3 font-medium">11–20 words</td>
+                                            <td class="py-2 px-3">Mark size &le; 4x4 cm (Tier 2-A)</td>
+                                            <td class="py-2 px-3 text-right font-mono font-bold text-nipo-navy">Rs. 3,000.00</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="py-2 px-3 font-medium">11–20 words</td>
+                                            <td class="py-2 px-3">Mark size > 4x4 cm (Tier 2-B)</td>
+                                            <td class="py-2 px-3 text-right font-mono font-bold text-nipo-navy">Rs. 3,500.00</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="py-2 px-3 font-medium">More than 20 words</td>
+                                            <td class="py-2 px-3">Mark size &le; 4x4 cm (Tier 3-A)</td>
+                                            <td class="py-2 px-3 text-right font-mono font-bold text-nipo-navy">Rs. 4,000.00</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="py-2 px-3 font-medium">More than 20 words</td>
+                                            <td class="py-2 px-3">Mark size > 4x4 cm (Tier 3-B)</td>
+                                            <td class="py-2 px-3 text-right font-mono font-bold text-nipo-navy">Rs. 5,500.00</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 space-y-3">
+                            <h4 class="font-bold text-sm text-nipo-navy flex items-center gap-2"><span class="w-6 h-6 rounded-full bg-amber-500 text-slate-950 flex items-center justify-center text-xs">4</span> Registration & Certification Fees</h4>
+                            <div class="space-y-2 text-xs">
+                                <div class="flex justify-between py-1 border-b border-slate-200">
+                                    <span>Mark Registration & Certificate Issuance</span>
+                                    <strong class="font-mono text-nipo-navy">Rs. 2,360.00</strong>
+                                </div>
+                                <div class="flex justify-between py-1 border-b border-slate-200">
+                                    <span>Additional Associated Mark Entry</span>
+                                    <strong class="font-mono text-nipo-navy">Rs. 590.00</strong>
+                                </div>
+                                <div class="flex justify-between py-1">
+                                    <span>Current Status Certificate / Priority Document</span>
+                                    <strong class="font-mono text-nipo-navy">Rs. 1,180.00</strong>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Category 5 to 8 -->
+                    <div class="space-y-6">
+                        <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 space-y-3">
+                            <h4 class="font-bold text-sm text-nipo-navy flex items-center gap-2"><span class="w-6 h-6 rounded-full bg-amber-500 text-slate-950 flex items-center justify-center text-xs">5</span> Renewal Fees (Every 10 Years)</h4>
+                            <div class="space-y-2 text-xs">
+                                <div class="flex justify-between py-1 border-b border-slate-200">
+                                    <span>Individual Owner Renewal</span>
+                                    <strong class="font-mono text-nipo-navy">Rs. 7,080.00</strong>
+                                </div>
+                                <div class="flex justify-between py-1 border-b border-slate-200">
+                                    <span>Other / Corporate Renewal</span>
+                                    <strong class="font-mono text-nipo-navy">Rs. 9,440.00</strong>
+                                </div>
+                                <div class="flex justify-between py-1 border-b border-slate-200">
+                                    <span>Collective or Certification Mark Renewal</span>
+                                    <strong class="font-mono text-nipo-navy">Rs. 11,800.00</strong>
+                                </div>
+                                <div class="flex justify-between py-1 text-rose-700 font-medium">
+                                    <span>Surcharge (Late payment up to 6 months)</span>
+                                    <strong class="font-mono">+10% of Fee</strong>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 space-y-3">
+                            <h4 class="font-bold text-sm text-nipo-navy flex items-center gap-2"><span class="w-6 h-6 rounded-full bg-amber-500 text-slate-950 flex items-center justify-center text-xs">6</span> Oppositions & Hearings</h4>
+                            <div class="space-y-2 text-xs">
+                                <div class="flex justify-between py-1 border-b border-slate-200">
+                                    <span>Notice of Opposition</span>
+                                    <strong class="font-mono text-nipo-navy">Rs. 4,720.00</strong>
+                                </div>
+                                <div class="flex justify-between py-1 border-b border-slate-200">
+                                    <span>Answer to Notice of Opposition</span>
+                                    <strong class="font-mono text-nipo-navy">Rs. 2,360.00</strong>
+                                </div>
+                                <div class="flex justify-between py-1 border-b border-slate-200">
+                                    <span>Hearing Examination (Per party)</span>
+                                    <strong class="font-mono text-nipo-navy">Rs. 2,360.00</strong>
+                                </div>
+                                <div class="flex justify-between py-1">
+                                    <span>Director General Reason Explanations</span>
+                                    <strong class="font-mono text-nipo-navy">Rs. 2,360.00</strong>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 space-y-3">
+                            <h4 class="font-bold text-sm text-nipo-navy flex items-center gap-2"><span class="w-6 h-6 rounded-full bg-amber-500 text-slate-950 flex items-center justify-center text-xs">7</span> Alterations, Assignments & Recordals</h4>
+                            <div class="space-y-2 text-xs">
+                                <div class="flex justify-between py-1 border-b border-slate-200">
+                                    <span>Change Name/Address (1st Mark)</span>
+                                    <strong class="font-mono text-nipo-navy">Rs. 1,652.00</strong>
+                                </div>
+                                <div class="flex justify-between py-1 border-b border-slate-200">
+                                    <span>Change Name/Address (Additional Marks)</span>
+                                    <strong class="font-mono text-nipo-navy">Rs. 826.00</strong>
+                                </div>
+                                <div class="flex justify-between py-1 border-b border-slate-200">
+                                    <span>Assignment / Transmission Recordal (1st Mark)</span>
+                                    <strong class="font-mono text-nipo-navy">Rs. 4,720.00</strong>
+                                </div>
+                                <div class="flex justify-between py-1 border-b border-slate-200">
+                                    <span>Assignment / Transmission Recordal (Add. Marks)</span>
+                                    <strong class="font-mono text-nipo-navy">Rs. 1,180.00</strong>
+                                </div>
+                                <div class="flex justify-between py-1 border-b border-slate-200">
+                                    <span>Licence / Franchise Agreement Recordal</span>
+                                    <strong class="font-mono text-nipo-navy">Rs. 2,360.00</strong>
+                                </div>
+                                <div class="flex justify-between py-1">
+                                    <span>Clerical Error Correction</span>
+                                    <strong class="font-mono text-nipo-navy">Rs. 826.00</strong>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 space-y-3">
+                            <h4 class="font-bold text-sm text-nipo-navy flex items-center gap-2"><span class="w-6 h-6 rounded-full bg-amber-500 text-slate-950 flex items-center justify-center text-xs">8</span> Document Copying & Inspection</h4>
+                            <div class="space-y-2 text-xs">
+                                <div class="flex justify-between py-1 border-b border-slate-200">
+                                    <span>File / Register Inspection (Per view)</span>
+                                    <strong class="font-mono text-nipo-navy">Rs. 177.00</strong>
+                                </div>
+                                <div class="flex justify-between py-1 border-b border-slate-200">
+                                    <span>A4 Copy (1st Page)</span>
+                                    <strong class="font-mono text-nipo-navy">Rs. 177.00</strong>
+                                </div>
+                                <div class="flex justify-between py-1 border-b border-slate-200">
+                                    <span>A4 Copy (Each Additional Page)</span>
+                                    <strong class="font-mono text-nipo-navy">Rs. 118.00</strong>
+                                </div>
+                                <div class="flex justify-between py-1 border-b border-slate-200">
+                                    <span>Certified Copy (1st Page)</span>
+                                    <strong class="font-mono text-nipo-navy">Rs. 354.00</strong>
+                                </div>
+                                <div class="flex justify-between py-1">
+                                    <span>Certified Copy (Each Additional Page)</span>
+                                    <strong class="font-mono text-nipo-navy">Rs. 177.00</strong>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ================= SECTION 6: COUNTERS & BANK INFO ================= -->
+        <div id="content-hours" class="space-y-6 hidden">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center font-bold">⏰</div>
+                        <h3 class="text-lg font-bold font-serif text-nipo-navy" id="cnt-box-title">Counter Operating Hours</h3>
+                    </div>
+                    <ul class="space-y-3 text-xs text-slate-700">
+                        <li class="flex justify-between pb-2 border-b border-slate-100">
+                            <span id="cnt-l1">Shroff / Cashier Counter Payments:</span>
+                            <strong class="text-nipo-navy">9:00 AM – 3:00 PM</strong>
+                        </li>
+                        <li class="flex justify-between pb-2 border-b border-slate-100">
+                            <span id="cnt-l2">Public Search Desk:</span>
+                            <strong class="text-nipo-navy">9:00 AM – 3:30 PM[cite: 1]</strong>
+                        </li>
+                        <li class="flex justify-between">
+                            <span id="cnt-l3">General Office Hours:</span>
+                            <strong class="text-nipo-navy">8:30 AM – 4:15 PM[cite: 1]</strong>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center font-bold">🏦</div>
+                        <h3 class="text-lg font-bold font-serif text-nipo-navy" id="bank-box-title">Official Bank Deposit Details</h3>
+                    </div>
+                    <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-2 text-xs text-slate-700">
+                        <p><strong id="bk-1">Bank Name:</strong> People's Bank (Union Place Branch)</p>
+                        <p><strong id="bk-2">Account Name:</strong> Director General of Intellectual Property</p>
+                        <p><strong id="bk-3">Account Number:</strong> <code class="bg-amber-100 text-amber-900 px-2 py-0.5 rounded font-mono font-bold">143-1-001-0-3298806</code></p>
+                        <p class="text-[11px] text-amber-700 mt-2" id="bk-note">⚠️ Remind visitors: Hand over original bank deposit slip to Shroff counter before 3:00 PM.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-slate-400 text-xs py-6 border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-1">
+            <p>Copyright © 2026 National Intellectual Property Office of Sri Lanka (Trademark Division). All Rights Reserved.</p>
+            <p class="text-[11px] text-slate-500">Trademark Division Front Desk Visitor Assistance Terminal</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript Application Logic -->
+    <script>
+        // --- Tri-lingual Dictionary ---
+        const tr = {
+            en: {
+                hotline: "Hotline: 1934",
+                mainTitle: "National Intellectual Property Office (Trademark Division)",
+                sinhalaSub: "ජාතික බුද්ධිමය දේපළ කාර්යාලය (වෙළඳ ලකුණු අංශය) • ශ්‍රී ලංකාව",
+                subTag: "Trademark Division Public Kiosk & Inquiry Portal",
+                counterHoursLbl: "Counter Hours: 9:00 AM - 3:00 PM",
+                navDivs: "Main Divisions", navProcess: "Trademark Process Flowchart", navNice: "Nice Classes (1-45) & WIPO MGS",
+                navChk: "Document Checklists", navFees: "Fee Estimator & Structure", navHrs: "Counter & Bank Info",
+                divBannerTitle: "National Intellectual Property Office - Trademark Division Portal",
+                divBannerDesc: "Explore trademark application procedures, official fee calculators, Nice classifications (1-45), and mandatory document checklists.",
+                cardTmBadge: "Primary Focus", cardTmTitle: "Trademarks Division", cardTmDesc: "Protects brand names, logos, slogans, and distinctive signs. Rights are acquired through official registration under IP Act No. 36 of 2003.",
+                cardTmStats: "Protection Highlights", tm1: "Validity: 10 years from filing date", tm2: "Renewal: Every 10 years indefinitely", tm3: "Classification: Nice Classes 1 to 45",
+                btnViewProc: "View Registration Process Flowchart",
+                procBadge: "Official Workflow Diagram", procTitle: "Trademark Registration Basic Process Flowchart", procSub: "Complete visual breakdown of filing, examination, acceptance, gazette publication, refusal hearings, and 10-year renewal cycles.",
+                niceBadge: "Classification Lookup", niceTitle: "Nice Classification (All 45 Classes)", niceSub: "Browse Classes 1 to 34 (Goods) and Classes 35 to 45 (Services). Use keyword search or check official WIPO MGS.",
+                btnWipoMgs: "WIPO Madrid Goods & Services (MGS)",
+                chkBadge: "Filing Preparation", chkTitle: "Mandatory Document Checklists", chkSub: "Review required documents before approaching front desk officers or Shroff.",
+                btnPrintChk: "Print Checklist", chkTab1: "New Trademark Application", chkTab2: "Change Name/Address & Transfers", chkTab3: "Voluntary Work Registration",
+                cntBoxTitle: "Counter Operating Hours", cntL1: "Shroff / Cashier Counter Payments:", cntL2: "Public Search Desk:", cntL3: "General Office Hours:",
+                bankBoxTitle: "Official Bank Deposit Details", bk1: "Bank Name:", bk2: "Account Name:", bk3: "Account Number:", bkNote: "⚠️ Remind visitors: Hand over original bank deposit slip to Shroff counter before 3:00 PM."
+            },
+            si: {
+                hotline: "රැකියා උණුසුම් අංකය: 1934",
+                mainTitle: "ජාතික බුද්ධිමය දේපළ කාර්යාලය (වෙළඳ ලකුණු අංශය)",
+                sinhalaSub: "ජාතික බුද්ධිමය දේපළ කාර්යාලය (වෙළඳ ලකුණු අංශය) • ශ්‍රී ලංකාව",
+                subTag: "වෙළඳ ලකුණු අංශයේ ප්‍රසිද්ධ තොරතුරු කුටිය",
+                counterHoursLbl: "කවුන්ටර වේලාවන්: පෙ.ව. 9:00 - ප.ව. 3:00",
+                navDivs: "ප්‍රධාන අංශ", navProcess: "ලියාපදිංචි ක්‍රියාවලි ප්‍රවාහ සටහන", navNice: "නයිස් කාණ්ඩ (1-45) සහ WIPO MGS",
+                navChk: "ලේඛන ලැයිස්තු", navFees: "ගාස්තු ගණකය සහ ව්‍යුහය", navHrs: "කවුන්ටර සහ බැංකු",
+                divBannerTitle: "ජාතික බුද්ධිමය දේපළ කාර්යාලය - වෙළඳ ලකුණු අංශය",
+                divBannerDesc: "වෙළඳ ලකුණු අයැදුම්පත්‍ර ක්‍රියාපටිපාටිය, ගාස්තු ගණක යන්ත්‍රය, නයිස් කාණ්ඩ සහ ලේඛන ලැයිස්තු පරීක්ෂා කරන්න.",
+                cardTmBadge: "ප්‍රධාන අවධානය", cardTmTitle: "වෙළඳ ලකුණු අංශය", cardTmDesc: "වෙළඳ නාම, ලාංඡන ආරක්ෂා කරයි. 2003 අංක 36 දරන බුද්ධිමය දේපළ පනත යටතේ ලියාපදිංචි කරනු ලැබේ.",
+                cardTmStats: "ආරක්ෂණ විශේෂතා", tm1: "වලංගු කාලය: ඉල්ලුම් කළ දින සිට වසර 10", tm2: "අලුත් කිරීම: සෑම වසර 10 කට වරක්", tm3: "වර්ගීකරණය: නයිස් කාණ්ඩ 1 සිට 45 දක්වා",
+                btnViewProc: "ලියාපදිංචි ක්‍රියාවලි ප්‍රවාහ සටහන බලන්න",
+                procBadge: "නිල ක්‍රියාවලි සටහන", procTitle: "වෙළඳ ලකුණු ලියාපදිංචි කිරීමේ මූලික ක්‍රියාවලි ප්‍රවාහ සටහන", procSub: "පරීක්ෂා කිරීම, ගැසට් කිරීම, විරුද්ධතා කාලය සහ ලියාපදිංචි කිරීම.",
+                niceBadge: "කාණ්ඩ සෙවුම", niceTitle: "නයිස් වර්ගීකරණය (කාණ්ඩ 45 ම)", niceSub: "භාණ්ඩ (1-34) සහ සේවා (35-45) කාණ්ඩ පිරික්සන්න.",
+                btnWipoMgs: "WIPO Madrid MGS වෙත පිවිසෙන්න",
+                chkBadge: "සූදානම් වීම", chkTitle: "අත්‍යවශ්‍ය ලේඛන ලැයිස්තුව", chkSub: "ඉදිරිපත් කිරීමට පෙර අවශ්‍ය ලේඛන පරීක්ෂා කරන්න.",
+                btnPrintChk: "ලැයිස්තුව මුද්‍රණය කරන්න", chkTab1: "නව වෙළඳ ලකුණු අයැදුම්පත", chkTab2: "නම/ලිපිනය වෙනස් කිරීම", chkTab3: "ප්‍රකාශන හිමිකම් තැන්පත් කිරීම",
+                cntBoxTitle: "කවුන්ටර ක්‍රියාකාරී වේලාවන්", cntL1: "මුදල් කවුන්ටරය (Shroff):", cntL2: "මහජන සෙවුම් අංශය:", cntL3: "සාමාන්‍ය කාර්යාල වේලාවන්:",
+                bankBoxTitle: "නිල බැංකු තැන්පතු විස්තර", bk1: "බැංකුව:", bk2: "ගිණුමේ නම:", bk3: "ගිණුම් අංකය:", bkNote: "⚠️ මුල් බැංකු තැන්පතු පත්‍රය ප.ව. 3:00 ට පෙර Shroff කවුන්ටරයට භාර දෙන්න."
+            },
+            ta: {
+                hotline: "உதவி எண்: 1934",
+                mainTitle: "தேசிய அறிவுசார் சொத்து அலுவலகம் (வணிகச்சின்னப் பிரிவு)",
+                sinhalaSub: "தேசிய அறிவுசார் சொத்து அலுவலகம் (வணிகச்சின்னப் பிரிவு) • இலங்கை",
+                subTag: "வணிகச்சின்னப் பிரிவு பொது தகவல் மையம்",
+                counterHoursLbl: "கவுண்டர் நேரம்: மு.ப 9:00 - பி.ப 3:00",
+                navDivs: "முக்கிய பிரிவுகள்", navProcess: "செயல்முறை பாய்வுப்படம்", navNice: "நைஸ் வகுப்புகள் (1-45) & WIPO MGS",
+                navChk: "ஆவணப் பட்டியல்கள்", navFees: "கட்டண மதிப்பீடு & அமைப்பு", navHrs: "கவுண்டர் & வங்கி",
+                divBannerTitle: "தேசிய அறிவுசார் சொத்து அலுவலகம் - வணிகச்சின்னப் பிரிவு",
+                divBannerDesc: "வணிகச்சின்ன விண்ணப்ப நடைமுறைகள், கட்டணக் கணிப்பான்கள் மற்றும் ஆவணப் பட்டியல்களைப் பார்வையிடவும்.",
+                cardTmBadge: "முதன்மை கவனம்", cardTmTitle: "வணிகச்சின்னப் பிரிவு", cardTmDesc: "பிராண்ட் பெயர்கள், லோகோக்களைப் பாதுகாக்கிறது. IP சட்டம் எண் 36 இன் கீழ் பதிவு செய்யப்படுகிறது.",
+                cardTmStats: "பாதுகாப்பு சிறப்பம்சங்கள்", tm1: "செல்லுபடியாகும் காலம்: 10 ஆண்டுகள்", tm2: "புதுப்பித்தல்: ஒவ்வொரு 10 ஆண்டுகளுக்கு ஒருமுறை", tm3: "வகைப்பாடு: நைஸ் வகுப்புகள் 1 முதல் 45 வரை",
+                btnViewProc: "செயல்முறை பாய்வுப்படத்தைக் காண்க",
+                procBadge: "அதிகாரப்பூர்வ பாய்வுப்படம்", procTitle: "வணிகச்சின்ன பதிவு அடிப்படை செயல்முறை பாய்வுப்படம்", procSub: "பரிசீலனை, வெளியீடு, எதிர்ப்பு காலம் மற்றும் பதிவு செயல்முறை.",
+                niceBadge: "வகுப்பு தேடல்", niceTitle: "நைஸ் வகைப்பாடு (அனைத்து 45 வகுப்புகளும்)", niceSub: "சரக்குகள் (1-34) மற்றும் சேவைகள் (35-45) வகுப்புகளைத் தேடுங்கள்.",
+                btnWipoMgs: "WIPO Madrid MGS இணைப்பைப் பார்வையிடவும்",
+                chkBadge: "தயாரிப்பு வழிகாட்டி", chkTitle: "கட்டாய ஆவணப் பட்டியல்கள்", chkSub: "சமர்ப்பிப்பதற்கு முன் தேவையான ஆவணங்களைச் சரிபார்க்கவும்.",
+                btnPrintChk: "சரிபார்ப்புப் பட்டியலை அச்சிடுக", chkTab1: "புதிய வணிகச்சின்ன விண்ணப்பம்", chkTab2: "பெயர்/முகவரி மாற்றம்", chkTab3: "பதிப்புரிமை வைப்பு",
+                cntBoxTitle: "கவுண்டர் வேலை நேரம்", cntL1: "பணம் செலுத்தும் கவுண்டர் (Shroff):", cntL2: "பொது தேடல் பிரிவு:", cntL3: "பொது அலுவலக நேரம்:",
+                bankBoxTitle: "வங்கி வைப்பு விவரங்கள்", bk1: "வங்கி:", bk2: "கணக்கின் பெயர்:", bk3: "கணக்கு எண்:", bkNote: "⚠️ அசல் வங்கிச் சீட்டினை பி.ப 3:00 மணிக்குள் Shroff கவுண்டரிடம் ஒப்படைக்கவும்."
+            }
+        };
+
+        function setLanguage(lang) {
+            ['en', 'si', 'ta'].forEach(l => {
+                const btn = document.getElementById('lang-' + l);
+                if(l === lang) {
+                    btn.className = "px-2.5 py-0.5 rounded text-[11px] font-bold bg-amber-500 text-slate-950 transition";
+                } else {
+                    btn.className = "px-2.5 py-0.5 rounded text-[11px] font-bold text-slate-300 hover:text-white transition";
+                }
+            });
+
+            const t = tr[lang];
+            if(!t) return;
+            document.getElementById('txt-hotline').textContent = t.hotline;
+            document.getElementById('header-main-title').textContent = t.mainTitle;
+            document.getElementById('header-sinhala-sub').textContent = t.sinhalaSub;
+            document.getElementById('header-sub-tag').textContent = t.subTag;
+            document.getElementById('txt-counter-hours-lbl').textContent = t.counterHoursLbl;
+            document.getElementById('nav-lbl-divs').textContent = t.navDivs;
+            document.getElementById('nav-lbl-process').textContent = t.navProcess;
+            document.getElementById('nav-lbl-nice').textContent = t.navNice;
+            document.getElementById('nav-lbl-chk').textContent = t.navChk;
+            document.getElementById('nav-lbl-fees').textContent = t.navFees;
+            document.getElementById('nav-lbl-hrs').textContent = t.navHrs;
+
+            // Divisions & Cards
+            document.getElementById('div-banner-title').textContent = t.divBannerTitle;
+            document.getElementById('div-banner-desc').textContent = t.divBannerDesc;
+            document.getElementById('card-tm-badge').textContent = t.cardTmBadge;
+            document.getElementById('card-tm-title').textContent = t.cardTmTitle;
+            document.getElementById('card-tm-desc').textContent = t.cardTmDesc;
+            document.getElementById('card-tm-stats-title').textContent = t.cardTmStats;
+            document.getElementById('tm-stat-1').textContent = t.tm1;
+            document.getElementById('tm-stat-2').textContent = t.tm2;
+            document.getElementById('tm-stat-3').textContent = t.tm3;
+            document.getElementById('btn-view-process').textContent = t.btnViewProc;
+
+            document.getElementById('card-cr-badge').textContent = lang === 'en' ? 'Secondary Wing' : (lang === 'si' ? 'ද්විතියික අංශය' : 'இரண்டாம் நிலை');
+            document.getElementById('card-cr-title').textContent = lang === 'en' ? 'Copyright & Related Rights' : (lang === 'si' ? 'ප්‍රකාශන හිමිකම් සහ ආශ්‍රිත අයිතිවාසිකම්' : 'பதிப்புரிமை மற்றும் உரிமைகள்');
+            document.getElementById('card-cr-desc').textContent = lang === 'en' ? 'Protects literary, artistic, musical works, and software automatically upon creation without mandatory registration.' : (lang === 'si' ? 'සාහිත්‍ය, කලාත්මක, සංගීත කෘති සහ මෘදුකාංග ආරක්ෂා කරයි.' : 'இலக்கிய, கலை, இசைப் படைப்புகளைப் பாதுகாக்கிறது.');
+            document.getElementById('btn-view-cr-chk').textContent = lang === 'en' ? 'Copyright Deposit Checklist' : (lang === 'si' ? 'ප්‍රකාශන හිමිකම් ලැයිස්තුව' : 'பதிப்புரிமை சரிபார்ப்புප් பட்டியல்');
+
+            document.getElementById('card-gi-badge').textContent = lang === 'en' ? 'Regional Protection' : (lang === 'si' ? 'කලාපීය ආරක්ෂාව' : 'பிராந்திய பாதுகாப்பு');
+            document.getElementById('card-gi-title').textContent = lang === 'en' ? 'Geographical Indications (GIs)' : (lang === 'si' ? 'භූගෝලීය දර්ශක (GIs)' : 'புவியியல் குறிப்புகள் (GIs)');
+            document.getElementById('card-gi-desc').textContent = lang === 'en' ? 'Protects goods originating from specific regions linked to geographical origin (e.g., Ceylon Tea).' : (lang === 'si' ? 'භූගෝලීය ප්‍රදේශවලට ආවේණික නිෂ්පාදන ආරක්ෂා කරයි (උදා: සිeylon තේ).' : 'குறிப்பிட்ட பகுதியிலிருந்து உருவாகும் பொருட்களைப் பாதுகாக்கிறது.');
+            document.getElementById('btn-view-gi-guide').textContent = lang === 'en' ? 'GI Registration Guide' : (lang === 'si' ? 'GI ලියාපදිංචි කිරීමේ මාර්ගෝපදේශය' : 'GI பதிவு வழிகாட்டி');
+
+            // Process Flowchart Labels
+            document.getElementById('proc-badge').textContent = t.procBadge;
+            document.getElementById('proc-main-title').textContent = t.procTitle;
+            document.getElementById('proc-main-sub').textContent = t.procSub;
+
+            // Nice Classes
+            document.getElementById('nice-badge').textContent = t.niceBadge;
+            document.getElementById('nice-main-title').textContent = t.niceTitle;
+            document.getElementById('nice-main-sub').textContent = t.niceSub;
+            document.getElementById('btn-wipo-mgs').textContent = t.btnWipoMgs;
+
+            // Checklists
+            document.getElementById('chk-badge').textContent = t.chkBadge;
+            document.getElementById('chk-main-title').textContent = t.chkTitle;
+            document.getElementById('chk-main-sub').textContent = t.chkSub;
+            document.getElementById('btn-print-chk').textContent = t.btnPrintChk;
+            document.getElementById('chk-tab-1').textContent = t.chkTab1;
+            document.getElementById('chk-tab-2').textContent = t.chkTab2;
+            document.getElementById('chk-tab-3').textContent = t.chkTab3;
+
+            // Counter & Bank
+            document.getElementById('cnt-box-title').textContent = t.cntBoxTitle;
+            document.getElementById('cnt-l1').textContent = t.cntL1;
+            document.getElementById('cnt-l2').textContent = t.cntL2;
+            document.getElementById('cnt-l3').textContent = t.cntL3;
+            document.getElementById('bank-box-title').textContent = t.bankBoxTitle;
+            document.getElementById('bk-1').textContent = t.bk1;
+            document.getElementById('bk-2').textContent = t.bk2;
+            document.getElementById('bk-3').textContent = t.bk3;
+            document.getElementById('bk-note').textContent = t.bkNote;
+        }
+
+        // --- Live Clock ---
+        function updateClock() {
+            const now = new Date();
+            document.getElementById('live-clock').textContent = now.toLocaleTimeString();
+        }
+        setInterval(updateClock, 1000);
+
+        // --- Tab Switching ---
+        function switchTab(tabId) {
+            ['divisions', 'process', 'nice', 'checklists', 'fees', 'hours'].forEach(id => {
+                document.getElementById('content-' + id).classList.add('hidden');
+                document.getElementById('tab-' + id).className = "tab-btn px-4 py-2.5 rounded-lg whitespace-nowrap text-slate-600 hover:bg-slate-100 transition flex items-center gap-2";
+            });
+
+            document.getElementById('content-' + tabId).classList.remove('hidden');
+            const activeBtn = document.getElementById('tab-' + tabId);
+            activeBtn.className = "tab-btn active px-4 py-2.5 rounded-lg whitespace-nowrap transition flex items-center gap-2";
+        }
+
+        // --- All 45 Nice Classes Data ---
+        const niceClassesData = [
+            {num: 1, type: "goods", title: "Chemicals for industry, science, agriculture, horticulture and forestry."},
+            {num: 2, type: "goods", title: "Paints, varnishes, lacquers, preservatives against rust and wood deterioration."},
+            {num: 3, type: "goods", title: "Cosmetics, perfumery, essential oils, non-medicated soaps, cleaning preparations."},
+            {num: 4, type: "goods", title: "Industrial oils and greases, wax, candles and wicks for lighting."},
+            {num: 5, type: "goods", title: "Pharmaceuticals, medical and veterinary preparations, dietetic food."},
+            {num: 6, type: "goods", title: "Common metals and their alloys, ores, metal building materials."},
+            {num: 7, type: "goods", title: "Machines, machine tools, power-operated tools, motors and engines."},
+            {num: 8, type: "goods", title: "Hand tools and implements, cutlery, side arms, razors."},
+            {num: 9, type: "goods", title: "Scientific, research, optical, weighing, measuring, signaling, checking, life-saving apparatus; computers and computer software."},
+            {num: 10, type: "goods", title: "Surgical, medical, dental and veterinary apparatus and instruments."},
+            {num: 11, type: "goods", title: "Apparatus and installations for lighting, heating, cooling, steam generating, cooking."},
+            {num: 12, type: "goods", title: "Vehicles; apparatus for locomotion by land, air or water."},
+            {num: 13, type: "goods", title: "Firearms; ammunition and projectiles; explosives; fireworks."},
+            {num: 14, type: "goods", title: "Precious metals and their alloys; jewellery, precious and semi-precious stones; horological instruments."},
+            {num: 15, type: "goods", title: "Musical instruments."},
+            {num: 16, type: "goods", title: "Paper and cardboard; printed matter; bookbinding material; photographs; stationery and office requisites."},
+            {num: 17, type: "goods", title: "Unprocessed and semi-processed rubber, gutta-percha, gum, asbestos, mica."},
+            {num: 18, type: "goods", title: "Leather and imitations of leather; animal skins and hides; trunks and travelling bags; umbrellas."},
+            {num: 19, type: "goods", title: "Building materials (non-metallic); non-metallic rigid pipes for building; asphalt, pitch."},
+            {num: 20, type: "goods", title: "Furniture, mirrors, picture frames; unworked or semi-worked bone, horn, ivory."},
+            {num: 21, type: "goods", title: "Household or kitchen utensils and containers; cookware and tableware; combs and sponges."},
+            {num: 22, type: "goods", title: "Ropes and string; nets; tents and awnings; sails; sacks and bags."},
+            {num: 23, type: "goods", title: "Yarns and threads for textile use."},
+            {num: 24, type: "goods", title: "Textiles and substitutes for textiles; bed linen; table linen."},
+            {num: 25, type: "goods", title: "Clothing, footwear, headwear."},
+            {num: 26, type: "goods", title: "Lace and embroidery, ribbons and braid; buttons, hooks and eyes, pins."},
+            {num: 27, type: "goods", title: "Carpets, rugs, mats and matting, linoleum and other materials for covering floors."},
+            {num: 28, type: "goods", title: "Games, toys and playthings; video game apparatus; gymnastic and sporting articles."},
+            {num: 29, type: "goods", title: "Meat, fish, poultry and game; meat extracts; preserved, frozen, dried and cooked fruits and vegetables."},
+            {num: 30, type: "goods", title: "Coffee, tea, cocoa and artificial coffee; rice; flour and preparations made from cereals; bread, pastries and confectionery; edible ices; sugar, honey, yeast, salt, mustard, vinegar, sauces, spices."},
+            {num: 31, type: "goods", title: "Raw and unprocessed agricultural, aquacultural, horticultural and forestry products."},
+            {num: 32, type: "goods", title: "Beers; non-alcoholic beverages; mineral and aerated waters; fruit beverages and fruit juices; syrups."},
+            {num: 33, type: "goods", title: "Alcoholic beverages (except beers)."},
+            {num: 34, type: "goods", title: "Tobacco; smokers' articles; matches."},
+            {num: 35, type: "services", title: "Advertising; business management; business administration; office functions."},
+            {num: 36, type: "services", title: "Insurance; financial affairs; monetary affairs; real estate affairs."},
+            {num: 37, type: "services", title: "Building construction; repair; installation services."},
+            {num: 38, type: "services", title: "Telecommunications."},
+            {num: 39, type: "services", title: "Transport; packaging and storage of goods; travel arrangement."},
+            {num: 40, type: "services", title: "Treatment of materials; recycling of waste; air purification and water treatment."},
+            {num: 41, type: "services", title: "Education; providing of training; entertainment; sporting and cultural activities."},
+            {num: 42, type: "services", title: "Scientific and technological services and research; industrial analysis; design and development of computer hardware and software."},
+            {num: 43, type: "services", title: "Services for providing food and drink; temporary accommodation."},
+            {num: 44, type: "services", title: "Medical services; veterinary services; hygienic and beauty care for human beings or animals."},
+            {num: 45, type: "services", title: "Legal services; security services for the physical protection of tangible property and individuals."}
+        ];
+
+        let currentNiceCategory = 'all';
+
+        function renderNiceClasses(filter = '') {
+            const container = document.getElementById('nice-classes-container');
+            container.innerHTML = '';
+
+            const filtered = niceClassesData.filter(c => {
+                const matchesCat = (currentNiceCategory === 'all' || c.type === currentNiceCategory);
+                const matchesKey = c.num.toString().includes(filter) || c.title.toLowerCase().includes(filter.toLowerCase());
+                return matchesCat && matchesKey;
+            });
+
+            if(filtered.length === 0) {
+                container.innerHTML = `<div class="col-span-full text-center py-8 text-slate-400 text-xs">No matching Nice classes found.</div>`;
+                return;
+            }
+
+            filtered.forEach(c => {
+                const card = document.createElement('div');
+                card.className = "bg-slate-50 border border-slate-200 p-4 rounded-xl hover:border-nipo-navy transition flex flex-col justify-between";
+                card.innerHTML = `
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-xs font-extrabold text-amber-600 bg-amber-50 px-2 py-0.5 rounded-md border border-amber-200">Class ${c.num}</span>
+                            <span class="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded ${c.type === 'goods' ? 'bg-blue-50 text-blue-700' : 'bg-emerald-50 text-emerald-700'}">${c.type}</span>
+                        </div>
+                        <p class="text-xs text-slate-700 leading-relaxed">${c.title}</p>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function filterNiceCategory(cat) {
+            currentNiceCategory = cat;
+            ['all', 'goods', 'services'].forEach(c => {
+                const btn = document.getElementById('nice-cat-' + c);
+                if(c === cat) {
+                    btn.className = "nice-cat-btn px-3.5 py-1.5 rounded-lg text-xs font-bold bg-nipo-navy text-white";
+                } else {
+                    btn.className = "nice-cat-btn px-3.5 py-1.5 rounded-lg text-xs font-bold bg-slate-100 text-slate-700 hover:bg-slate-200";
+                }
+            });
+            renderNiceClasses(document.getElementById('nice-keyword-input').value);
+        }
+
+        function filterNiceInteractive() {
+            renderNiceClasses(document.getElementById('nice-keyword-input').value);
+        }
+
+        // --- Document Checklists Data ---
+        const checklistsData = {
+            m01: {
+                title: "Form M 01 - Application for Registration of Trademark",
+                items: [
+                    "Duly filled and signed Form M 01 (Trademark Application Form).",
+                    "6 clear specimens / representations of the trademark (Max size: 10 cm x 10 cm).",
+                    "Power of Attorney (POA) if filed through an authorized IP Agent or Attorney.",
+                    "Certified translation and transliteration if the mark contains non-English, Sinhala, or Tamil characters.",
+                    "Priority document (if claiming priority under Paris Convention within 6 months of foreign filing)."
+                ]
+            },
+            m03: {
+                title: "Form M 03 / Assignments & Change of Name/Address",
+                items: [
+                    "Duly completed Form M 03 request letter.",
+                    "Certified copy of Certificate of Change of Name / Business Registration[cite: 1].",
+                    "Original Trademark Certificate or certified duplicate copy.",
+                    "Assignment deed executed by assignor and assignee (for transfers/transmissions).",
+                    "Applicable NIPO fee receipt[cite: 1]."
+                ]
+            },
+            cr_deposit: {
+                title: "Copyright Voluntary Work Deposit Checklist",
+                items: [
+                    "Completed Copyright Deposit application form.",
+                    "Two identical copies of the work (Manuscript, software CD/source, artwork, or audio recording).",
+                    "Proof of authorship / Declaration of ownership signed by author(s).",
+                    "National Identity Card (NIC) or passport copy of the applicant.",
+                    "Applicable voluntary deposit fee receipt."
+                ]
+            }
+        };
+
+        function showChecklist(formKey) {
+            ['m01', 'm03', 'cr_deposit'].forEach(k => {
+                const btn = document.getElementById('chk-btn-' + k);
+                if(k === formKey) {
+                    btn.className = "chk-tab-btn active p-4 rounded-xl border-2 border-nipo-navy bg-nipo-navy text-white text-left transition";
+                } else {
+                    btn.className = "chk-tab-btn p-4 rounded-xl border-2 border-slate-200 bg-slate-50 text-slate-800 text-left transition";
+                }
+            });
+
+            const data = checklistsData[formKey];
+            const display = document.getElementById('checklist-display');
+            display.innerHTML = `
+                <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200 space-y-4">
+                    <h4 class="font-bold text-nipo-navy text-base font-serif">${data.title}</h4>
+                    <ul class="space-y-3 text-xs text-slate-700">
+                        ${data.items.map(item => `<li class="flex items-start gap-2.5"><i class="fa-solid fa-square-check text-amber-500 mt-0.5 text-sm"></i> <span>${item}</span></li>`).join('')}
+                    </ul>
+                </div>
+            `;
+        }
+
+        // --- Upgraded Fee Estimator Logic ---
+        let currentMode = 'app'; // 'app' or 'pub'
+        let selectedAppType = 'individual';
+        let selectedPubTier = '1a';
+
+        const appFees = {
+            individual: 2360,
+            corporate: 7080,
+            collective: 11800
+        };
+
+        const pubFees = {
+            '1a': 2000,
+            '1b': 2500,
+            '2a': 3000,
+            '2b': 3500,
+            '3a': 4000,
+            '3b': 5500
+        };
+
+        function switchCalcMode(mode) {
+            currentMode = mode;
+            ['app', 'pub'].forEach(m => {
+                const btn = document.getElementById('mode-btn-' + m);
+                const panel = document.getElementById('calc-panel-' + m);
+                if(m === mode) {
+                    btn.className = "calc-subtag active flex-1 py-2 px-4 rounded-lg text-xs font-bold transition text-center";
+                    panel.classList.remove('hidden');
+                } else {
+                    btn.className = "calc-subtag flex-1 py-2 px-4 rounded-lg text-xs font-bold text-slate-300 transition text-center";
+                    panel.classList.add('hidden');
+                }
+            });
+            updateKioskFee();
+        }
+
+        function setAppType(type) {
+            selectedAppType = type;
+            ['individual', 'corporate', 'collective'].forEach(t => {
+                const card = document.getElementById('card-app-' + t);
+                if(t === type) {
+                    card.className = "cursor-pointer bg-slate-950 border-2 border-amber-400 p-4 rounded-xl block transition";
+                } else {
+                    card.className = "cursor-pointer bg-slate-950 border border-slate-700 p-4 rounded-xl block transition";
+                }
+            });
+            updateKioskFee();
+        }
+
+        function setPubTier(tier) {
+            selectedPubTier = tier;
+            ['1a', '1b', '2a', '2b', '3a', '3b'].forEach(t => {
+                const card = document.getElementById('card-pub-' + t);
+                if(t === tier) {
+                    card.className = "cursor-pointer bg-slate-950 border-2 border-amber-400 p-4 rounded-xl block transition";
+                } else {
+                    card.className = "cursor-pointer bg-slate-950 border border-slate-700 p-4 rounded-xl block transition";
+                }
+            });
+            updateKioskFee();
+        }
+
+        function updateKioskFee() {
+            let amount = 0;
+            if (currentMode === 'app') {
+                amount = appFees[selectedAppType] || 2360;
+            } else {
+                amount = pubFees[selectedPubTier] || 2000;
+            }
+
+            document.getElementById('est-total-amount').textContent = 'Rs. ' + amount.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+        }
+
+        // Initialize on page load
+        window.onload = function() {
+            renderNiceClasses();
+            showChecklist('m01');
+            updateKioskFee();
+        };
+    </script>
+</body>
+</html>
