@@ -1,3 +1,4 @@
+Here is the complete, updated code. The Official Bank Deposit Details card in Section 6 has been updated to remove the hardcoded bank account details and replaced with a clean, prominent button linking directly to the official NIPO website page:
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -87,7 +88,7 @@
             <div class="flex items-center space-x-6">
                 <div class="flex items-center text-amber-300 font-bold">
                     <i class="fa-solid fa-phone-volume mr-1.5 text-red-400 animate-pulse"></i>
-                    <span id="txt-hotline">Hotline: 1934</span>[cite: 1]
+                    <span id="txt-hotline">Hotline: 1934</span>
                 </div>
                 <!-- Language Selector -->
                 <div class="flex items-center bg-black/30 rounded-lg p-0.5 border border-white/20">
@@ -187,7 +188,7 @@
                                 <span class="text-xs font-bold text-nipo-navy uppercase block" id="card-tm-stats-title">Protection Highlights</span>
                                 <ul class="text-xs text-slate-700 space-y-1.5">
                                     <li class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-500 text-xs"></i> <span id="tm-stat-1">Validity: 10 years from filing date</span></li>
-                                    <li class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-500 text-xs"></i> <span id="tm-stat-2">Renewal: Every 10 years indefinitely</span>[cite: 1]</li>
+                                    <li class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-500 text-xs"></i> <span id="tm-stat-2">Renewal: Every 10 years indefinitely</span></li>
                                     <li class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-500 text-xs"></i> <span id="tm-stat-3">Classification: Nice Classes 1 to 45</span></li>
                                 </ul>
                             </div>
@@ -339,7 +340,7 @@
                     </button>
                     <button onclick="showChecklist('m03')" id="chk-btn-m03" class="chk-tab-btn p-4 rounded-xl border-2 border-slate-200 bg-slate-50 text-slate-800 text-left transition">
                         <div class="font-bold text-sm">Form M 03 / Assignments</div>
-                        <div class="text-xs opacity-80 mt-1" id="chk-tab-2">Change Name/Address & Transfers[cite: 1]</div>
+                        <div class="text-xs opacity-80 mt-1" id="chk-tab-2">Change Name/Address & Transfers</div>
                     </button>
                     <button onclick="showChecklist('cr_deposit')" id="chk-btn-cr_deposit" class="chk-tab-btn p-4 rounded-xl border-2 border-slate-200 bg-slate-50 text-slate-800 text-left transition">
                         <div class="font-bold text-sm">Copyright Deposit</div>
@@ -685,26 +686,34 @@
                         </li>
                         <li class="flex justify-between pb-2 border-b border-slate-100">
                             <span id="cnt-l2">Public Search Desk:</span>
-                            <strong class="text-nipo-navy">9:00 AM – 3:30 PM[cite: 1]</strong>
+                            <strong class="text-nipo-navy">9:00 AM – 3:30 PM</strong>
                         </li>
                         <li class="flex justify-between">
                             <span id="cnt-l3">General Office Hours:</span>
-                            <strong class="text-nipo-navy">8:30 AM – 4:15 PM[cite: 1]</strong>
+                            <strong class="text-nipo-navy">8:30 AM – 4:15 PM</strong>
                         </li>
                     </ul>
                 </div>
 
-                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
-                    <div class="flex items-center gap-3">
-                        <div class="w-10 h-10 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center font-bold">🏦</div>
-                        <h3 class="text-lg font-bold font-serif text-nipo-navy" id="bank-box-title">Official Bank Deposit Details</h3>
+                <!-- Updated Bank Information Card with External Button -->
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between space-y-4">
+                    <div>
+                        <div class="flex items-center gap-3 mb-3">
+                            <div class="w-10 h-10 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center font-bold">🏦</div>
+                            <h3 class="text-lg font-bold font-serif text-nipo-navy" id="bank-box-title">Official Bank Deposit Details</h3>
+                        </div>
+                        <p class="text-xs text-slate-600 leading-relaxed mb-4">
+                            Access NIPO’s official payment portal to view account numbers, branch instructions, and payment guidelines directly from the NIPO website.
+                        </p>
                     </div>
-                    <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-2 text-xs text-slate-700">
-                        <p><strong id="bk-1">Bank Name:</strong> People's Bank (Union Place Branch)</p>
-                        <p><strong id="bk-2">Account Name:</strong> Director General of Intellectual Property</p>
-                        <p><strong id="bk-3">Account Number:</strong> <code class="bg-amber-100 text-amber-900 px-2 py-0.5 rounded font-mono font-bold">143-1-001-0-3298806</code></p>
-                        <p class="text-[11px] text-amber-700 mt-2" id="bk-note">⚠️ Remind visitors: Hand over original bank deposit slip to Shroff counter before 3:00 PM.</p>
-                    </div>
+                    
+                    <a href="https://www.nipo.gov.lk/web/index.php?option=com_content&view=category&id=14&Itemid=153&lang=en" 
+                       target="_blank" 
+                       rel="noopener noreferrer" 
+                       class="w-full bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold py-3 px-4 rounded-xl text-xs transition flex items-center justify-center gap-2 shadow-sm">
+                        <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                        <span id="btn-official-bank-details">View Official NIPO Bank Details</span>
+                    </a>
                 </div>
             </div>
         </div>
@@ -742,7 +751,7 @@
                 chkBadge: "Filing Preparation", chkTitle: "Mandatory Document Checklists", chkSub: "Review required documents before approaching front desk officers or Shroff.",
                 btnPrintChk: "Print Checklist", chkTab1: "New Trademark Application", chkTab2: "Change Name/Address & Transfers", chkTab3: "Voluntary Work Registration",
                 cntBoxTitle: "Counter Operating Hours", cntL1: "Shroff / Cashier Counter Payments:", cntL2: "Public Search Desk:", cntL3: "General Office Hours:",
-                bankBoxTitle: "Official Bank Deposit Details", bk1: "Bank Name:", bk2: "Account Name:", bk3: "Account Number:", bkNote: "⚠️ Remind visitors: Hand over original bank deposit slip to Shroff counter before 3:00 PM."
+                bankBoxTitle: "Official Bank Deposit Details", btnOfficialBankDetails: "View Official NIPO Bank Details"
             },
             si: {
                 hotline: "රැකියා උණුසුම් අංකය: 1934",
@@ -763,7 +772,7 @@
                 chkBadge: "සූදානම් වීම", chkTitle: "අත්‍යවශ්‍ය ලේඛන ලැයිස්තුව", chkSub: "ඉදිරිපත් කිරීමට පෙර අවශ්‍ය ලේඛන පරීක්ෂා කරන්න.",
                 btnPrintChk: "ලැයිස්තුව මුද්‍රණය කරන්න", chkTab1: "නව වෙළඳ ලකුණු අයැදුම්පත", chkTab2: "නම/ලිපිනය වෙනස් කිරීම", chkTab3: "ප්‍රකාශන හිමිකම් තැන්පත් කිරීම",
                 cntBoxTitle: "කවුන්ටර ක්‍රියාකාරී වේලාවන්", cntL1: "මුදල් කවුන්ටරය (Shroff):", cntL2: "මහජන සෙවුම් අංශය:", cntL3: "සාමාන්‍ය කාර්යාල වේලාවන්:",
-                bankBoxTitle: "නිල බැංකු තැන්පතු විස්තර", bk1: "බැංකුව:", bk2: "ගිණුමේ නම:", bk3: "ගිණුම් අංකය:", bkNote: "⚠️ මුල් බැංකු තැන්පතු පත්‍රය ප.ව. 3:00 ට පෙර Shroff කවුන්ටරයට භාර දෙන්න."
+                bankBoxTitle: "නිල බැංකු තැන්පතු විස්තර", btnOfficialBankDetails: "නිල NIPO බැංකු විස්තර බලන්න"
             },
             ta: {
                 hotline: "உதவி எண்: 1934",
@@ -784,7 +793,7 @@
                 chkBadge: "தயாரிப்பு வழிகாட்டி", chkTitle: "கட்டாய ஆவணப் பட்டியல்கள்", chkSub: "சமர்ப்பிப்பதற்கு முன் தேவையான ஆவணங்களைச் சரிபார்க்கவும்.",
                 btnPrintChk: "சரிபார்ப்புப் பட்டியலை அச்சிடுக", chkTab1: "புதிய வணிகச்சின்ன விண்ணப்பம்", chkTab2: "பெயர்/முகவரி மாற்றம்", chkTab3: "பதிப்புரிமை வைப்பு",
                 cntBoxTitle: "கவுண்டர் வேலை நேரம்", cntL1: "பணம் செலுத்தும் கவுண்டர் (Shroff):", cntL2: "பொது தேடல் பிரிவு:", cntL3: "பொது அலுவலக நேரம்:",
-                bankBoxTitle: "வங்கி வைப்பு விவரங்கள்", bk1: "வங்கி:", bk2: "கணக்கின் பெயர்:", bk3: "கணக்கு எண்:", bkNote: "⚠️ அசல் வங்கிச் சீட்டினை பி.ப 3:00 மணிக்குள் Shroff கவுண்டரிடம் ஒப்படைக்கவும்."
+                bankBoxTitle: "வங்கி வைப்பு விவரங்கள்", btnOfficialBankDetails: "அதிகாரப்பூர்வ வங்கி விவரங்களைப் பார்க்கவும்"
             }
         };
 
@@ -860,10 +869,7 @@
             document.getElementById('cnt-l2').textContent = t.cntL2;
             document.getElementById('cnt-l3').textContent = t.cntL3;
             document.getElementById('bank-box-title').textContent = t.bankBoxTitle;
-            document.getElementById('bk-1').textContent = t.bk1;
-            document.getElementById('bk-2').textContent = t.bk2;
-            document.getElementById('bk-3').textContent = t.bk3;
-            document.getElementById('bk-note').textContent = t.bkNote;
+            document.getElementById('btn-official-bank-details').textContent = t.btnOfficialBankDetails;
         }
 
         // --- Live Clock ---
@@ -1000,10 +1006,10 @@
                 title: "Form M 03 / Assignments & Change of Name/Address",
                 items: [
                     "Duly completed Form M 03 request letter.",
-                    "Certified copy of Certificate of Change of Name / Business Registration[cite: 1].",
+                    "Certified copy of Certificate of Change of Name / Business Registration.",
                     "Original Trademark Certificate or certified duplicate copy.",
                     "Assignment deed executed by assignor and assignee (for transfers/transmissions).",
-                    "Applicable NIPO fee receipt[cite: 1]."
+                    "Applicable NIPO fee receipt."
                 ]
             },
             cr_deposit: {
@@ -1122,3 +1128,4 @@
     </script>
 </body>
 </html>
+
