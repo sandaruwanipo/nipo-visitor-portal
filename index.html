@@ -120,7 +120,7 @@
             </div>
 
             <div class="hidden lg:flex flex-col items-end bg-white/5 border border-white/10 px-4 py-2.5 rounded-xl">
-                <span class="text-xs text-slate-300" id="live-date">Wednesday, Oct 14, 2026</span>
+                <span class="text-xs text-slate-300" id="live-date">Thursday, Oct 15, 2026</span>
                 <span class="text-xl font-mono font-bold text-amber-400" id="live-clock">09:30:00 AM</span>
                 <span class="text-[10px] text-slate-400 mt-0.5"><i class="fa-solid fa-clock text-emerald-400"></i> <span id="txt-counter-hours-lbl">Counter Hours: 9:00 AM - 3:00 PM</span></span>
             </div>
@@ -265,7 +265,7 @@
             </div>
         </div>
 
-        <!-- ================= NEW SECTION: PRE-FILING TRADEMARK SEARCH GUIDE ================= -->
+        <!-- ================= SECTION: PRE-FILING TRADEMARK SEARCH GUIDE ================= -->
         <div id="content-searchguide" class="space-y-6 hidden">
             <div class="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200 shadow-sm space-y-8">
                 
@@ -853,10 +853,42 @@
     </main>
 
     <!-- Footer -->
-    <footer class="bg-slate-900 text-slate-400 text-xs py-6 border-t border-slate-800">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-1">
-            <p>Copyright © 2026 National Intellectual Property Office of Sri Lanka (Trademark Division). All Rights Reserved.</p>
-            <p class="text-[11px] text-slate-500">Trademark Division Front Desk Visitor Assistance Terminal</p>
+    <footer class="bg-slate-900 text-slate-400 text-xs py-8 border-t border-slate-800 space-y-6">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <!-- Quick Links Section in Footer -->
+            <div class="bg-slate-950/80 p-5 rounded-2xl border border-slate-800 mb-6">
+                <span class="text-xs font-bold text-amber-400 uppercase tracking-wider block mb-3 text-center sm:text-left" id="ftr-quick-links-title">
+                    <i class="fa-solid fa-link mr-1.5"></i> Quick Resource Portals
+                </span>
+                <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2.5">
+                    <a href="https://www.nipo.gov.lk/web/index.php?option=com_content&view=article&id=39&catid=11&Itemid=158&lang=en" target="_blank" rel="noopener noreferrer" class="bg-slate-900 hover:bg-slate-800 text-slate-200 hover:text-white border border-slate-800 p-2.5 rounded-xl text-[11px] font-semibold transition text-center flex flex-col items-center justify-center gap-1">
+                        <i class="fa-solid fa-file-signature text-amber-400 text-sm"></i>
+                        <span id="ftr-link-1">NIPO Forms</span>
+                    </a>
+                    <a href="https://nipo.lk.wipo.net/" target="_blank" rel="noopener noreferrer" class="bg-slate-900 hover:bg-slate-800 text-slate-200 hover:text-white border border-slate-800 p-2.5 rounded-xl text-[11px] font-semibold transition text-center flex flex-col items-center justify-center gap-1">
+                        <i class="fa-solid fa-database text-teal-400 text-sm"></i>
+                        <span id="ftr-link-2">NIPO Database</span>
+                    </a>
+                    <a href="https://branddb.wipo.int/" target="_blank" rel="noopener noreferrer" class="bg-slate-900 hover:bg-slate-800 text-slate-200 hover:text-white border border-slate-800 p-2.5 rounded-xl text-[11px] font-semibold transition text-center flex flex-col items-center justify-center gap-1">
+                        <i class="fa-solid fa-globe text-blue-400 text-sm"></i>
+                        <span id="ftr-link-3">WIPO Database</span>
+                    </a>
+                    <a href="https://webaccess.wipo.int/mgs/" target="_blank" rel="noopener noreferrer" class="bg-slate-900 hover:bg-slate-800 text-slate-200 hover:text-white border border-slate-800 p-2.5 rounded-xl text-[11px] font-semibold transition text-center flex flex-col items-center justify-center gap-1">
+                        <i class="fa-solid fa-list-check text-emerald-400 text-sm"></i>
+                        <span id="ftr-link-4">MGS Goods List</span>
+                    </a>
+                    <a href="https://documents.gov.lk/web/gazettes" target="_blank" rel="noopener noreferrer" class="bg-slate-900 hover:bg-slate-800 text-slate-200 hover:text-white border border-slate-800 p-2.5 rounded-xl text-[11px] font-semibold transition text-center flex flex-col items-center justify-center gap-1 col-span-2 sm:col-span-1">
+                        <i class="fa-solid fa-newspaper text-purple-400 text-sm"></i>
+                        <span id="ftr-link-5">Gov. Gazette</span>
+                    </a>
+                </div>
+            </div>
+
+            <div class="text-center space-y-1">
+                <p>Copyright © 2026 National Intellectual Property Office of Sri Lanka (Trademark Division). All Rights Reserved.</p>
+                <p class="text-[11px] text-slate-500">Trademark Division Front Desk Visitor Assistance Terminal</p>
+            </div>
         </div>
     </footer>
 
@@ -886,7 +918,8 @@
                 chkBadge: "Filing Preparation", chkTitle: "Mandatory Document Checklists", chkSub: "Review required documents before approaching front desk officers or Shroff.",
                 btnPrintChk: "Print Checklist", chkTab1: "New Trademark Application", chkTab2: "Change Name/Address & Transfers", chkTab3: "Voluntary Work Registration",
                 cntBoxTitle: "Counter Operating Hours", cntL1: "Shroff / Cashier Counter Payments:", cntL2: "Public Search Desk:", cntL3: "General Office Hours:",
-                bankBoxTitle: "Official Bank Deposit Details", btnOfficialBankDetails: "View Official NIPO Bank Details"
+                bankBoxTitle: "Official Bank Deposit Details", btnOfficialBankDetails: "View Official NIPO Bank Details",
+                ftrQuickLinksTitle: "Quick Resource Portals", ftrLink1: "NIPO Forms", ftrLink2: "NIPO Database", ftrLink3: "WIPO Database", ftrLink4: "MGS Goods List", ftrLink5: "Gov. Gazette"
             },
             si: {
                 hotline: "රැකියා උණුසුම් අංකය: 1934",
@@ -910,7 +943,8 @@
                 chkBadge: "සූදානම් වීම", chkTitle: "අත්‍යවශ්‍ය ලේඛන ලැයිස්තුව", chkSub: "ඉදිරිපත් කිරීමට පෙර අවශ්‍ය ලේඛන පරීක්ෂා කරන්න.",
                 btnPrintChk: "ලැයිස්තුව මුද්‍රණය කරන්න", chkTab1: "නව වෙළඳ ලකුණු අයැදුම්පත", chkTab2: "නම/ලිපිනය වෙනස් කිරීම", chkTab3: "ප්‍රකාශන හිමිකම් තැන්පත් කිරීම",
                 cntBoxTitle: "කවුන්ටර ක්‍රියාකාරී වේලාවන්", cntL1: "මුදල් කවුන්ටරය (Shroff):", cntL2: "මහජන සෙවුම් අංශය:", cntL3: "සාමාන්‍ය කාර්යාල වේලාවන්:",
-                bankBoxTitle: "නිල බැංකු තැන්පතු විස්තර", btnOfficialBankDetails: "නිල NIPO බැංකු විස්තර බලන්න"
+                bankBoxTitle: "නිල බැංකු තැන්පතු විස්තර", btnOfficialBankDetails: "නිල NIPO බැංකු විස්තර බලන්න",
+                ftrQuickLinksTitle: "ඉක්මන් පිවිසුම්", ftrLink1: "NIPO අයැදුම්පත්", ftrLink2: "NIPO දත්ත පද්ධතිය", ftrLink3: "WIPO දත්ත පද්ධතිය", ftrLink4: "MGS භාණ්ඩ ලැයිස්තුව", ftrLink5: "රජයේ ගැසට් පත්‍රය"
             },
             ta: {
                 hotline: "உதவி எண்: 1934",
@@ -934,7 +968,8 @@
                 chkBadge: "தயாரிப்பு வழிகாட்டி", chkTitle: "கட்டாய ஆவணப் பட்டியல்கள்", chkSub: "சமர்ப்பிப்பதற்கு முன் தேவையான ஆவணங்களைச் சரிபார்க்கவும்.",
                 btnPrintChk: "சரிபார்ப்புப் பட்டியலை அச்சிடுக", chkTab1: "புதிய வணிகச்சின்ன விண்ணப்பம்", chkTab2: "பெயர்/முகவரி மாற்றம்", chkTab3: "பதிப்புரிமை வைப்பு",
                 cntBoxTitle: "கவுண்டர் வேலை நேரம்", cntL1: "பணம் செலுத்தும் கவுண்டர் (Shroff):", cntL2: "பொது தேடல் பிரிவு:", cntL3: "பொது அலுவலக நேரம்:",
-                bankBoxTitle: "வங்கி வைப்பு விவரங்கள்", btnOfficialBankDetails: "அதிகாரப்பூர்வ வங்கி விவரங்களைப் பார்க்கவும்"
+                bankBoxTitle: "வங்கி வைப்பு விவரங்கள்", btnOfficialBankDetails: "அதிகாரப்பூர்வ வங்கி விவரங்களைப் பார்க்கவும்",
+                ftrQuickLinksTitle: "விரைவு இணைப்புகள்", ftrLink1: "NIPO படிவங்கள்", ftrLink2: "NIPO தரவுத்தளம்", ftrLink3: "WIPO தரவுத்தளம்", ftrLink4: "MGS பொருட்கள் பட்டியல்", ftrLink5: "அரச கெஜட்"
             }
         };
 
@@ -986,11 +1021,11 @@
             document.getElementById('btn-ip-act').textContent = t.btnIpAct;
 
             document.getElementById('card-cr-badge').textContent = lang === 'en' ? 'Secondary Wing' : (lang === 'si' ? 'ද්විතියික අංශය' : 'இரண்டாம் நிலை');
-            document.getElementById('card-cr-title').textContent = lang === 'en' ? 'Copyright & Related Rights' : (lang === 'si' ? 'ප්‍රකාශන හිමිකම් සහ ආශ්‍රිත අයිතිවාසිකම්' : 'பதிப்புරිமை மற்றும் உரிமைகள்');
-            document.getElementById('card-cr-desc').textContent = lang === 'en' ? 'Protects literary, artistic, musical works, and software automatically upon creation without mandatory registration.' : (lang === 'si' ? 'සාහිත්‍ය, කලාත්මක, සංගීත කෘති සහ මෘදුකාංග ආරක්ෂා කරයි.' : 'இலக்கிய, கலை, இசைப் படைப்புகளைப் பாதுகாக்கிறது.');
-            document.getElementById('btn-view-cr-chk').textContent = lang === 'en' ? 'Copyright Deposit Checklist' : (lang === 'si' ? 'ප්‍රකාශන හිමිකම් ලැයිස්තුව' : 'பதிப்புරිமை சரிபார்ப்புප් பட்டியல்');
+            document.getElementById('card-cr-title').textContent = lang === 'en' ? 'Copyright & Related Rights' : (lang === 'si' ? 'ප්‍රකාශන හිමිකම් සහ ආශ්‍රිත අයිතිවාසිකම්' : 'பதிப்புரிமை மற்றும் உரிமைகள்');
+            document.getElementById('card-cr-desc').textContent = lang === 'en' ? 'Protects literary, artistic, musical works, and software automatically upon creation without mandatory registration.' : (lang === 'si' ? 'සාහිත්‍ය, කලාත්මක, සංගීත කෘති සහ මෘදුකාංග ආරක්ෂා කරයි.' : 'இலக்கிய, கலை, இசைப் படைப்புகளைප් பாதுகாக்கிறது.');
+            document.getElementById('btn-view-cr-chk').textContent = lang === 'en' ? 'Copyright Deposit Checklist' : (lang === 'si' ? 'ප්‍රකාශන හිමිකම් ලැයිස්තුව' : 'பதிப்புரிமை சரிபார்ப்புප් பட்டியல்');
 
-            document.getElementById('card-gi-badge').textContent = lang === 'en' ? 'Regional Protection' : (lang === 'si' ? 'කලාපීය ආරක්ෂාව' : 'பிரාந்திய பாதுகாப்பு');
+            document.getElementById('card-gi-badge').textContent = lang === 'en' ? 'Regional Protection' : (lang === 'si' ? 'කලාපීය ආරක්ෂාව' : 'பிராந்திய பாதுகாப்பு');
             document.getElementById('card-gi-title').textContent = lang === 'en' ? 'Geographical Indications (GIs)' : (lang === 'si' ? 'භූගෝලීය දර්ශක (GIs)' : 'புவியியல் குறிப்புகள் (GIs)');
             document.getElementById('card-gi-desc').textContent = lang === 'en' ? 'Protects goods originating from specific regions linked to geographical origin (e.g., Ceylon Tea).' : (lang === 'si' ? 'භූගෝලීය ප්‍රදේශවලට ආවේණික නිෂ්පාදන ආරක්ෂා කරයි (උදා: සිeylon තේ).' : 'குறிப்பிட்ட பகுதியிலிருந்து உருவாகும் பொருட்களைப் பாதுகாக்கிறது.');
             document.getElementById('btn-view-gi-guide').textContent = lang === 'en' ? 'GI Registration Guide' : (lang === 'si' ? 'GI ලියාපදිංචි කිරීමේ මාර්ගෝපදේශය' : 'GI பதிவு வழிகாட்டி');
@@ -1022,6 +1057,14 @@
             document.getElementById('cnt-l3').textContent = t.cntL3;
             document.getElementById('bank-box-title').textContent = t.bankBoxTitle;
             document.getElementById('btn-official-bank-details').textContent = t.btnOfficialBankDetails;
+
+            // Footer Quick Links
+            document.getElementById('ftr-quick-links-title').textContent = t.ftrQuickLinksTitle;
+            document.getElementById('ftr-link-1').textContent = t.ftrLink1;
+            document.getElementById('ftr-link-2').textContent = t.ftrLink2;
+            document.getElementById('ftr-link-3').textContent = t.ftrLink3;
+            document.getElementById('ftr-link-4').textContent = t.ftrLink4;
+            document.getElementById('ftr-link-5').textContent = t.ftrLink5;
         }
 
         // --- Live Clock ---
