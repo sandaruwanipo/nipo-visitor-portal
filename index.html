@@ -1,4 +1,14 @@
-Here is the complete, updated code. The Official Bank Deposit Details card in Section 6 has been updated to remove the hardcoded bank account details and replaced with a clean, prominent button linking directly to the official NIPO website page:
+Here is the updated full source code for the National Intellectual Property Office (Trademark Division) Visitor Portal, including a dedicated "Pre-Filing Trademark Clearance Search" tab equipped with outbound action buttons.
+Key Additions Included:
+ * New Tab in Header Bar: Added "Basic Search Guide" tab.
+ * Comprehensive Pre-Filing Search Guide: Contains all 6 steps detailing Word Marks, Visual Marks, Nice Classificiation, Phonetic/Partial matches, Common Law/Digital searches, and risk evaluation.
+ * Outbound Quick Action Buttons:
+   * 🌐 WIPO Global Brand Database ([https://branddb.wipo.int/](https://branddb.wipo.int/))
+   * 🏛️ NIPO Online Search Portal ([https://nipo.lk.wipo.net/](https://nipo.lk.wipo.net/))
+   * 📋 WIPO MGS Class Checker ([https://webaccess.wipo.int/mgs/](https://webaccess.wipo.int/mgs/))
+   * 📜 Sri Lanka IP Act No. 36 of 2003 Document ([https://www.nipo.gov.lk/web/images/pdf_downloads/Intellectual_Property_Act_No_36_of_2003.pdf](https://www.nipo.gov.lk/web/images/pdf_downloads/Intellectual_Property_Act_No_36_of_2003.pdf))
+ * Tri-lingual UI Integration: Fully translated tab titles and buttons into English, Sinhala, and Tamil.
+Complete Code:
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -135,6 +145,9 @@ Here is the complete, updated code. The Official Bank Deposit Details card in Se
                 <button onclick="switchTab('divisions')" id="tab-divisions" class="tab-btn active px-4 py-2.5 rounded-lg whitespace-nowrap transition flex items-center gap-2">
                     <i class="fa-solid fa-shapes text-amber-500"></i> <span id="nav-lbl-divs">Main Divisions</span>
                 </button>
+                <button onclick="switchTab('searchguide')" id="tab-searchguide" class="tab-btn px-4 py-2.5 rounded-lg whitespace-nowrap text-slate-600 hover:bg-slate-100 transition flex items-center gap-2">
+                    <i class="fa-solid fa-magnifying-glass-location text-teal-500"></i> <span id="nav-lbl-searchguide">Basic Search Guide</span>
+                </button>
                 <button onclick="switchTab('process')" id="tab-process" class="tab-btn px-4 py-2.5 rounded-lg whitespace-nowrap text-slate-600 hover:bg-slate-100 transition flex items-center gap-2">
                     <i class="fa-solid fa-diagram-project text-blue-500"></i> <span id="nav-lbl-process">Trademark Process Flowchart</span>
                 </button>
@@ -260,6 +273,136 @@ Here is the complete, updated code. The Official Bank Deposit Details card in Se
                         </button>
                     </div>
                 </div>
+            </div>
+        </div>
+
+        <!-- ================= NEW SECTION: PRE-FILING TRADEMARK SEARCH GUIDE ================= -->
+        <div id="content-searchguide" class="space-y-6 hidden">
+            <div class="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200 shadow-sm space-y-8">
+                
+                <!-- Section Title Banner -->
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-slate-200 pb-6">
+                    <div>
+                        <span class="text-xs font-bold uppercase tracking-wider text-teal-600" id="sg-badge">Client Advisory Guide</span>
+                        <h3 class="text-2xl font-bold text-nipo-navy font-serif mt-1" id="sg-main-title">Basic Trademark Clearance Search</h3>
+                        <p class="text-xs text-slate-600 mt-1 max-w-3xl leading-relaxed" id="sg-main-desc">
+                            Conducting a trademark clearance search before submitting your application is a crucial step. It helps you avoid costly rejections, legal disputes, and the hassle of having to rebrand later.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Quick External Action Buttons Bar -->
+                <div class="bg-slate-900 p-5 rounded-2xl border border-slate-800 text-white space-y-3">
+                    <span class="text-xs font-bold text-amber-400 uppercase tracking-wider block" id="sg-links-title"><i class="fa-solid fa-arrow-up-right-from-square mr-1"></i> Quick Portals & Databases</span>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+                        <a href="https://nipo.lk.wipo.net/" target="_blank" rel="noopener" class="bg-teal-600 hover:bg-teal-500 text-white font-bold py-2.5 px-3 rounded-xl text-xs transition flex items-center justify-center gap-2 shadow-sm">
+                            <i class="fa-solid fa-building-columns"></i> <span id="btn-nipo-search">NIPO Online Search</span>
+                        </a>
+                        <a href="https://branddb.wipo.int/" target="_blank" rel="noopener" class="bg-blue-600 hover:bg-blue-500 text-white font-bold py-2.5 px-3 rounded-xl text-xs transition flex items-center justify-center gap-2 shadow-sm">
+                            <i class="fa-solid fa-globe"></i> <span id="btn-wipo-db">WIPO Brand Database</span>
+                        </a>
+                        <a href="https://webaccess.wipo.int/mgs/" target="_blank" rel="noopener" class="bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold py-2.5 px-3 rounded-xl text-xs transition flex items-center justify-center gap-2 shadow-sm">
+                            <i class="fa-solid fa-list-check"></i> <span id="btn-mgs-checker">MGS Goods List Checker</span>
+                        </a>
+                        <a href="https://www.nipo.gov.lk/web/images/pdf_downloads/Intellectual_Property_Act_No_36_of_2003.pdf" target="_blank" rel="noopener" class="bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold py-2.5 px-3 rounded-xl text-xs transition flex items-center justify-center gap-2 border border-slate-700">
+                            <i class="fa-solid fa-file-pdf text-red-400"></i> <span id="btn-ip-act">NIPO IP Act No. 36</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- 6 Step Guide Layout -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    
+                    <!-- Step 1 -->
+                    <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 space-y-2">
+                        <div class="flex items-center gap-2.5">
+                            <span class="w-7 h-7 rounded-lg bg-teal-600 text-white font-bold flex items-center justify-center text-xs">1</span>
+                            <h4 class="font-bold text-sm text-nipo-navy">Define Your Mark and All Components</h4>
+                        </div>
+                        <p class="text-xs text-slate-600 leading-relaxed pl-9">Identify every element of your proposed brand identity:</p>
+                        <ul class="text-xs text-slate-700 space-y-1 pl-9 list-disc list-inside">
+                            <li><strong>Word Mark:</strong> The brand name, slogan, or tagline.</li>
+                            <li><strong>Visual/Logo Mark:</strong> Graphic logos, stylized typography, colors, or symbols.</li>
+                            <li><strong>Combinations:</strong> Both text and logo together.</li>
+                        </ul>
+                    </div>
+
+                    <!-- Step 2 -->
+                    <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 space-y-2">
+                        <div class="flex items-center gap-2.5">
+                            <span class="w-7 h-7 rounded-lg bg-teal-600 text-white font-bold flex items-center justify-center text-xs">2</span>
+                            <h4 class="font-bold text-sm text-nipo-navy">Determine Your Trademark Class (Nice Classification)</h4>
+                        </div>
+                        <p class="text-xs text-slate-600 leading-relaxed pl-9">
+                            Trademarks are registered under specific categories (Classes 1–34 for goods and Classes 35–45 for services). Use class databases to search your exact goods/services (e.g., Software = Class 9, Clothing = Class 25, Restaurant = Class 43).
+                        </p>
+                    </div>
+
+                    <!-- Step 3 -->
+                    <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 space-y-2">
+                        <div class="flex items-center gap-2.5">
+                            <span class="w-7 h-7 rounded-lg bg-teal-600 text-white font-bold flex items-center justify-center text-xs">3</span>
+                            <h4 class="font-bold text-sm text-nipo-navy">Search Official National & International Registries</h4>
+                        </div>
+                        <p class="text-xs text-slate-600 leading-relaxed pl-9">Check IP databases for target operating regions:</p>
+                        <ul class="text-xs text-slate-700 space-y-1 pl-9 list-disc list-inside">
+                            <li><strong>Sri Lanka (NIPO):</strong> Visit the NIPO portal or request a preliminary search at the front desk.</li>
+                            <li><strong>WIPO Global Brand DB:</strong> Useful for checking international registrations across multiple countries.</li>
+                            <li><strong>Foreign Offices:</strong> USPTO (USA), CGPDTM (India), UKIPO / EUIPO.</li>
+                        </ul>
+                    </div>
+
+                    <!-- Step 4 -->
+                    <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 space-y-2">
+                        <div class="flex items-center gap-2.5">
+                            <span class="w-7 h-7 rounded-lg bg-teal-600 text-white font-bold flex items-center justify-center text-xs">4</span>
+                            <h4 class="font-bold text-sm text-nipo-navy">Search Beyond Exact Matches ("Likelihood of Confusion")</h4>
+                        </div>
+                        <p class="text-xs text-slate-600 leading-relaxed pl-9">Trademarks can be rejected if confusingly similar. Always check:</p>
+                        <ul class="text-xs text-slate-700 space-y-1 pl-9 list-disc list-inside">
+                            <li><strong>Phonetic Similarities:</strong> Sound-alike names (e.g., <em>Kwik vs. Quick</em>).</li>
+                            <li><strong>Spelling & Typos:</strong> (e.g., <em>Supa vs. Super</em>).</li>
+                            <li><strong>Wildcards:</strong> Use operators like <code class="bg-slate-200 px-1 rounded text-[11px]">*</code> or <code class="bg-slate-200 px-1 rounded text-[11px]">$</code> to find partial matches.</li>
+                        </ul>
+                    </div>
+
+                    <!-- Step 5 -->
+                    <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 space-y-2">
+                        <div class="flex items-center gap-2.5">
+                            <span class="w-7 h-7 rounded-lg bg-teal-600 text-white font-bold flex items-center justify-center text-xs">5</span>
+                            <h4 class="font-bold text-sm text-nipo-navy">Perform a Common Law & Digital Search</h4>
+                        </div>
+                        <p class="text-xs text-slate-600 leading-relaxed pl-9">Prior unregistered active business use can still pose legal challenges. Search:</p>
+                        <ul class="text-xs text-slate-700 space-y-1 pl-9 list-disc list-inside">
+                            <li>Google Web Search & Domain Name WHOIS Registrars.</li>
+                            <li>Local Business & Company Registries (e.g., eROC portal).</li>
+                            <li>Social Media Handles (Instagram, LinkedIn, Facebook, X).</li>
+                        </ul>
+                    </div>
+
+                    <!-- Step 6 -->
+                    <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 space-y-2">
+                        <div class="flex items-center gap-2.5">
+                            <span class="w-7 h-7 rounded-lg bg-teal-600 text-white font-bold flex items-center justify-center text-xs">6</span>
+                            <h4 class="font-bold text-sm text-nipo-navy">Evaluate Your Findings</h4>
+                        </div>
+                        <div class="pl-9 space-y-1 text-xs">
+                            <p><span class="font-bold text-rose-600">High Conflict:</span> Identical/similar mark in same class &rarr; High risk; modify mark.</p>
+                            <p><span class="font-bold text-amber-600">Low Conflict:</span> Similar mark in completely unrelated class &rarr; Generally permissible.</p>
+                            <p><span class="font-bold text-emerald-600">Clear:</span> No confusingly similar marks found &rarr; Safe to proceed with filing.</p>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Pro Tip Footer Note -->
+                <div class="bg-amber-50 border border-amber-300 p-4 rounded-2xl text-xs text-amber-950 flex items-start gap-3">
+                    <i class="fa-solid fa-circle-info text-amber-600 text-base mt-0.5"></i>
+                    <div>
+                        <strong>Pro Tip Before Filing:</strong> If you uncover borderline similarities, pairing a word mark with a unique logo or distinctive visual layout can sometimes help differentiate it during official examination. For complex or high-stakes filings, consulting an IP attorney or registered agent is recommended.
+                    </div>
+                </div>
+
             </div>
         </div>
 
@@ -695,7 +838,7 @@ Here is the complete, updated code. The Official Bank Deposit Details card in Se
                     </ul>
                 </div>
 
-                <!-- Updated Bank Information Card with External Button -->
+                <!-- Bank Information Card with External Button -->
                 <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between space-y-4">
                     <div>
                         <div class="flex items-center gap-3 mb-3">
@@ -738,13 +881,16 @@ Here is the complete, updated code. The Official Bank Deposit Details card in Se
                 sinhalaSub: "ජාතික බුද්ධිමය දේපළ කාර්යාලය (වෙළඳ ලකුණු අංශය) • ශ්‍රී ලංකාව",
                 subTag: "Trademark Division Public Kiosk & Inquiry Portal",
                 counterHoursLbl: "Counter Hours: 9:00 AM - 3:00 PM",
-                navDivs: "Main Divisions", navProcess: "Trademark Process Flowchart", navNice: "Nice Classes (1-45) & WIPO MGS",
+                navDivs: "Main Divisions", navSearchGuide: "Basic Search Guide", navProcess: "Trademark Process Flowchart", navNice: "Nice Classes (1-45) & WIPO MGS",
                 navChk: "Document Checklists", navFees: "Fee Estimator & Structure", navHrs: "Counter & Bank Info",
                 divBannerTitle: "National Intellectual Property Office - Trademark Division Portal",
                 divBannerDesc: "Explore trademark application procedures, official fee calculators, Nice classifications (1-45), and mandatory document checklists.",
                 cardTmBadge: "Primary Focus", cardTmTitle: "Trademarks Division", cardTmDesc: "Protects brand names, logos, slogans, and distinctive signs. Rights are acquired through official registration under IP Act No. 36 of 2003.",
                 cardTmStats: "Protection Highlights", tm1: "Validity: 10 years from filing date", tm2: "Renewal: Every 10 years indefinitely", tm3: "Classification: Nice Classes 1 to 45",
                 btnViewProc: "View Registration Process Flowchart",
+                sgBadge: "Client Advisory Guide", sgMainTitle: "Basic Trademark Clearance Search",
+                sgMainDesc: "Conducting a trademark clearance search before submitting your application is a crucial step. It helps you avoid costly rejections, legal disputes, and the hassle of having to rebrand later.",
+                sgLinksTitle: "Quick Portals & Databases", btnNipoSearch: "NIPO Online Search", btnWipoDb: "WIPO Brand Database", btnMgsChecker: "MGS Goods List Checker", btnIpAct: "NIPO IP Act No. 36",
                 procBadge: "Official Workflow Diagram", procTitle: "Trademark Registration Basic Process Flowchart", procSub: "Complete visual breakdown of filing, examination, acceptance, gazette publication, refusal hearings, and 10-year renewal cycles.",
                 niceBadge: "Classification Lookup", niceTitle: "Nice Classification (All 45 Classes)", niceSub: "Browse Classes 1 to 34 (Goods) and Classes 35 to 45 (Services). Use keyword search or check official WIPO MGS.",
                 btnWipoMgs: "WIPO Madrid Goods & Services (MGS)",
@@ -759,13 +905,16 @@ Here is the complete, updated code. The Official Bank Deposit Details card in Se
                 sinhalaSub: "ජාතික බුද්ධිමය දේපළ කාර්යාලය (වෙළඳ ලකුණු අංශය) • ශ්‍රී ලංකාව",
                 subTag: "වෙළඳ ලකුණු අංශයේ ප්‍රසිද්ධ තොරතුරු කුටිය",
                 counterHoursLbl: "කවුන්ටර වේලාවන්: පෙ.ව. 9:00 - ප.ව. 3:00",
-                navDivs: "ප්‍රධාන අංශ", navProcess: "ලියාපදිංචි ක්‍රියාවලි ප්‍රවාහ සටහන", navNice: "නයිස් කාණ්ඩ (1-45) සහ WIPO MGS",
+                navDivs: "ප්‍රධාන අංශ", navSearchGuide: "මූලික සෙවුම් මාර්ගෝපදේශය", navProcess: "ලියාපදිංචි ක්‍රියාවලි ප්‍රවාහ සටහන", navNice: "නයිස් කාණ්ඩ (1-45) සහ WIPO MGS",
                 navChk: "ලේඛන ලැයිස්තු", navFees: "ගාස්තු ගණකය සහ ව්‍යුහය", navHrs: "කවුන්ටර සහ බැංකු",
                 divBannerTitle: "ජාතික බුද්ධිමය දේපළ කාර්යාලය - වෙළඳ ලකුණු අංශය",
                 divBannerDesc: "වෙළඳ ලකුණු අයැදුම්පත්‍ර ක්‍රියාපටිපාටිය, ගාස්තු ගණක යන්ත්‍රය, නයිස් කාණ්ඩ සහ ලේඛන ලැයිස්තු පරීක්ෂා කරන්න.",
                 cardTmBadge: "ප්‍රධාන අවධානය", cardTmTitle: "වෙළඳ ලකුණු අංශය", cardTmDesc: "වෙළඳ නාම, ලාංඡන ආරක්ෂා කරයි. 2003 අංක 36 දරන බුද්ධිමය දේපළ පනත යටතේ ලියාපදිංචි කරනු ලැබේ.",
                 cardTmStats: "ආරක්ෂණ විශේෂතා", tm1: "වලංගු කාලය: ඉල්ලුම් කළ දින සිට වසර 10", tm2: "අලුත් කිරීම: සෑම වසර 10 කට වරක්", tm3: "වර්ගීකරණය: නයිස් කාණ්ඩ 1 සිට 45 දක්වා",
                 btnViewProc: "ලියාපදිංචි ක්‍රියාවලි ප්‍රවාහ සටහන බලන්න",
+                sgBadge: "සේවාදායක උපදේශන මාර්ගෝපදේශය", sgMainTitle: "මූලික වෙළඳ ලකුණු සෙවීම",
+                sgMainDesc: "අයදුම්පතක් ඉදිරිපත් කිරීමට පෙර වෙළඳ ලකුණු සෙවීමක් සිදු කිරීම අත්‍යවශ්‍ය පියවරකි. එය අනවශ්‍ය ප්‍රතික්ෂේප කිරීම් සහ නීතිමය ගැටලු මඟහරවා ගැනීමට උපකාරී වේ.",
+                sgLinksTitle: "ඉක්මන් පෝටල සහ දත්ත සමුදායන්", btnNipoSearch: "NIPO සෙවුම් පෝටලය", btnWipoDb: "WIPO ජාත්‍යන්තර දත්ත පද්ධතිය", btnMgsChecker: "MGS භාණ්ඩ ලැයිස්තු පරීක්ෂකය", btnIpAct: "NIPO බුද්ධිමය දේපළ පනත",
                 procBadge: "නිල ක්‍රියාවලි සටහන", procTitle: "වෙළඳ ලකුණු ලියාපදිංචි කිරීමේ මූලික ක්‍රියාවලි ප්‍රවාහ සටහන", procSub: "පරීක්ෂා කිරීම, ගැසට් කිරීම, විරුද්ධතා කාලය සහ ලියාපදිංචි කිරීම.",
                 niceBadge: "කාණ්ඩ සෙවුම", niceTitle: "නයිස් වර්ගීකරණය (කාණ්ඩ 45 ම)", niceSub: "භාණ්ඩ (1-34) සහ සේවා (35-45) කාණ්ඩ පිරික්සන්න.",
                 btnWipoMgs: "WIPO Madrid MGS වෙත පිවිසෙන්න",
@@ -780,13 +929,16 @@ Here is the complete, updated code. The Official Bank Deposit Details card in Se
                 sinhalaSub: "தேசிய அறிவுசார் சொத்து அலுவலகம் (வணிகச்சின்னப் பிரிவு) • இலங்கை",
                 subTag: "வணிகச்சின்னப் பிரிவு பொது தகவல் மையம்",
                 counterHoursLbl: "கவுண்டர் நேரம்: மு.ப 9:00 - பி.ப 3:00",
-                navDivs: "முக்கிய பிரிவுகள்", navProcess: "செயல்முறை பாய்வுப்படம்", navNice: "நைஸ் வகுப்புகள் (1-45) & WIPO MGS",
+                navDivs: "முக்கிய பிரிவுகள்", navSearchGuide: "அடிப்படை தேடல் வழிகாட்டி", navProcess: "செயல்முறை பாய்வுப்படம்", navNice: "நைஸ் வகுப்புகள் (1-45) & WIPO MGS",
                 navChk: "ஆவணப் பட்டியல்கள்", navFees: "கட்டண மதிப்பீடு & அமைப்பு", navHrs: "கவுண்டர் & வங்கி",
                 divBannerTitle: "தேசிய அறிவுசார் சொத்து அலுவலகம் - வணிகச்சின்னப் பிரிவு",
                 divBannerDesc: "வணிகச்சின்ன விண்ணப்ப நடைமுறைகள், கட்டணக் கணிப்பான்கள் மற்றும் ஆவணப் பட்டியல்களைப் பார்வையிடவும்.",
                 cardTmBadge: "முதன்மை கவனம்", cardTmTitle: "வணிகச்சின்னப் பிரிவு", cardTmDesc: "பிராண்ட் பெயர்கள், லோகோக்களைப் பாதுகாக்கிறது. IP சட்டம் எண் 36 இன் கீழ் பதிவு செய்யப்படுகிறது.",
                 cardTmStats: "பாதுகாப்பு சிறப்பம்சங்கள்", tm1: "செல்லுபடியாகும் காலம்: 10 ஆண்டுகள்", tm2: "புதுப்பித்தல்: ஒவ்வொரு 10 ஆண்டுகளுக்கு ஒருமுறை", tm3: "வகைப்பாடு: நைஸ் வகுப்புகள் 1 முதல் 45 வரை",
                 btnViewProc: "செயல்முறை பாய்வுப்படத்தைக் காண்க",
+                sgBadge: "வாடிக்கையாளர் வழிகாட்டி", sgMainTitle: "அடிப்படை வணிகச்சின்ன தேடல்",
+                sgMainDesc: "விண்ணப்பத்தைச் சமர்ப்பிப்பதற்கு முன் வணிகச்சின்னத் தேடலை நடத்துவது ஒரு முக்கியமான படியாகும். இது நிராகரிப்புகள் மற்றும் சட்ட சிக்கல்களைத் தவிர்க்க உதவுகிறது.",
+                sgLinksTitle: "விரைவு இணைப்புகள்", btnNipoSearch: "NIPO ஆன்லைன் தேடல்", btnWipoDb: "WIPO பிராண்ட் தரவுத்தளம்", btnMgsChecker: "MGS பொருட்கள் சரிபார்ப்பு", btnIpAct: "NIPO IP சட்டம் எண் 36",
                 procBadge: "அதிகாரப்பூர்வ பாய்வுப்படம்", procTitle: "வணிகச்சின்ன பதிவு அடிப்படை செயல்முறை பாய்வுப்படம்", procSub: "பரிசீலனை, வெளியீடு, எதிர்ப்பு காலம் மற்றும் பதிவு செயல்முறை.",
                 niceBadge: "வகுப்பு தேடல்", niceTitle: "நைஸ் வகைப்பாடு (அனைத்து 45 வகுப்புகளும்)", niceSub: "சரக்குகள் (1-34) மற்றும் சேவைகள் (35-45) வகுப்புகளைத் தேடுங்கள்.",
                 btnWipoMgs: "WIPO Madrid MGS இணைப்பைப் பார்வையிடவும்",
@@ -815,6 +967,7 @@ Here is the complete, updated code. The Official Bank Deposit Details card in Se
             document.getElementById('header-sub-tag').textContent = t.subTag;
             document.getElementById('txt-counter-hours-lbl').textContent = t.counterHoursLbl;
             document.getElementById('nav-lbl-divs').textContent = t.navDivs;
+            document.getElementById('nav-lbl-searchguide').textContent = t.navSearchGuide;
             document.getElementById('nav-lbl-process').textContent = t.navProcess;
             document.getElementById('nav-lbl-nice').textContent = t.navNice;
             document.getElementById('nav-lbl-chk').textContent = t.navChk;
@@ -833,12 +986,22 @@ Here is the complete, updated code. The Official Bank Deposit Details card in Se
             document.getElementById('tm-stat-3').textContent = t.tm3;
             document.getElementById('btn-view-process').textContent = t.btnViewProc;
 
-            document.getElementById('card-cr-badge').textContent = lang === 'en' ? 'Secondary Wing' : (lang === 'si' ? 'ද්විතියික අංශය' : 'இரண்டாம் நிலை');
-            document.getElementById('card-cr-title').textContent = lang === 'en' ? 'Copyright & Related Rights' : (lang === 'si' ? 'ප්‍රකාශන හිමිකම් සහ ආශ්‍රිත අයිතිවාසිකම්' : 'பதிப்புரிமை மற்றும் உரிமைகள்');
-            document.getElementById('card-cr-desc').textContent = lang === 'en' ? 'Protects literary, artistic, musical works, and software automatically upon creation without mandatory registration.' : (lang === 'si' ? 'සාහිත්‍ය, කලාත්මක, සංගීත කෘති සහ මෘදුකාංග ආරක්ෂා කරයි.' : 'இலக்கிய, கலை, இசைப் படைப்புகளைப் பாதுகாக்கிறது.');
-            document.getElementById('btn-view-cr-chk').textContent = lang === 'en' ? 'Copyright Deposit Checklist' : (lang === 'si' ? 'ප්‍රකාශන හිමිකම් ලැයිස්තුව' : 'பதிப்புரிமை சரிபார்ப்புප් பட்டியல்');
+            // Search Guide Tab Labels
+            document.getElementById('sg-badge').textContent = t.sgBadge;
+            document.getElementById('sg-main-title').textContent = t.sgMainTitle;
+            document.getElementById('sg-main-desc').textContent = t.sgMainDesc;
+            document.getElementById('sg-links-title').textContent = t.sgLinksTitle;
+            document.getElementById('btn-nipo-search').textContent = t.btnNipoSearch;
+            document.getElementById('btn-wipo-db').textContent = t.btnWipoDb;
+            document.getElementById('btn-mgs-checker').textContent = t.btnMgsChecker;
+            document.getElementById('btn-ip-act').textContent = t.btnIpAct;
 
-            document.getElementById('card-gi-badge').textContent = lang === 'en' ? 'Regional Protection' : (lang === 'si' ? 'කලාපීය ආරක්ෂාව' : 'பிராந்திய பாதுகாப்பு');
+            document.getElementById('card-cr-badge').textContent = lang === 'en' ? 'Secondary Wing' : (lang === 'si' ? 'ද්විතියික අංශය' : 'இரண்டாம் நிலை');
+            document.getElementById('card-cr-title').textContent = lang === 'en' ? 'Copyright & Related Rights' : (lang === 'si' ? 'ප්‍රකාශන හිමිකම් සහ ආශ්‍රිත අයිතිවාසිකම්' : 'பதிப்புරිமை மற்றும் உரிமைகள்');
+            document.getElementById('card-cr-desc').textContent = lang === 'en' ? 'Protects literary, artistic, musical works, and software automatically upon creation without mandatory registration.' : (lang === 'si' ? 'සාහිත්‍ය, කලාත්මක, සංගීත කෘති සහ මෘදුකාංග ආරක්ෂා කරයි.' : 'இலக்கிய, கலை, இசைப் படைப்புகளைப் பாதுகாக்கிறது.');
+            document.getElementById('btn-view-cr-chk').textContent = lang === 'en' ? 'Copyright Deposit Checklist' : (lang === 'si' ? 'ප්‍රකාශන හිමිකම් ලැයිස්තුව' : 'பதிப்புරිமை சரிபார்ப்புප් பட்டியல்');
+
+            document.getElementById('card-gi-badge').textContent = lang === 'en' ? 'Regional Protection' : (lang === 'si' ? 'කලාපීය ආරක්ෂාව' : 'பிரාந்திய பாதுகாப்பு');
             document.getElementById('card-gi-title').textContent = lang === 'en' ? 'Geographical Indications (GIs)' : (lang === 'si' ? 'භූගෝලීය දර්ශක (GIs)' : 'புவியியல் குறிப்புகள் (GIs)');
             document.getElementById('card-gi-desc').textContent = lang === 'en' ? 'Protects goods originating from specific regions linked to geographical origin (e.g., Ceylon Tea).' : (lang === 'si' ? 'භූගෝලීය ප්‍රදේශවලට ආවේණික නිෂ්පාදන ආරක්ෂා කරයි (උදා: සිeylon තේ).' : 'குறிப்பிட்ட பகுதியிலிருந்து உருவாகும் பொருட்களைப் பாதுகாக்கிறது.');
             document.getElementById('btn-view-gi-guide').textContent = lang === 'en' ? 'GI Registration Guide' : (lang === 'si' ? 'GI ලියාපදිංචි කිරීමේ මාර්ගෝපදේශය' : 'GI பதிவு வழிகாட்டி');
@@ -881,7 +1044,7 @@ Here is the complete, updated code. The Official Bank Deposit Details card in Se
 
         // --- Tab Switching ---
         function switchTab(tabId) {
-            ['divisions', 'process', 'nice', 'checklists', 'fees', 'hours'].forEach(id => {
+            ['divisions', 'searchguide', 'process', 'nice', 'checklists', 'fees', 'hours'].forEach(id => {
                 document.getElementById('content-' + id).classList.add('hidden');
                 document.getElementById('tab-' + id).className = "tab-btn px-4 py-2.5 rounded-lg whitespace-nowrap text-slate-600 hover:bg-slate-100 transition flex items-center gap-2";
             });
