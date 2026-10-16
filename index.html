@@ -6,6 +6,8 @@
     <title>National Intellectual Property Office (Trademark Division) | Visitor Portal</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- PapaParse Library for CSV Parsing -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
     <script>
         tailwind.config = {
             theme: {
@@ -120,8 +122,8 @@
             </div>
 
             <div class="hidden lg:flex flex-col items-end bg-white/5 border border-white/10 px-4 py-2.5 rounded-xl">
-                <span class="text-xs text-slate-300" id="live-date">Thursday, Oct 15, 2026</span>
-                <span class="text-xl font-mono font-bold text-amber-400" id="live-clock">09:30:00 AM</span>
+                <span class="text-xs text-slate-300" id="live-date">Friday, Oct 16, 2026</span>
+                <span class="text-xl font-mono font-bold text-amber-400" id="live-clock">07:33:00 AM</span>
                 <span class="text-[10px] text-slate-400 mt-0.5"><i class="fa-solid fa-clock text-emerald-400"></i> <span id="txt-counter-hours-lbl">Counter Hours: 9:00 AM - 3:00 PM</span></span>
             </div>
         </div>
@@ -133,6 +135,9 @@
             <nav class="flex space-x-1 overflow-x-auto py-2 custom-scrollbar text-sm font-semibold">
                 <button onclick="switchTab('divisions')" id="tab-divisions" class="tab-btn active px-4 py-2.5 rounded-lg whitespace-nowrap transition flex items-center gap-2">
                     <i class="fa-solid fa-shapes text-amber-500"></i> <span id="nav-lbl-divs">Main Divisions</span>
+                </button>
+                <button onclick="switchTab('scancheck')" id="tab-scancheck" class="tab-btn px-4 py-2.5 rounded-lg whitespace-nowrap text-slate-600 hover:bg-slate-100 transition flex items-center gap-2">
+                    <i class="fa-solid fa-scanner-image text-amber-600"></i> <span id="nav-lbl-scancheck">Scanned File Check</span>
                 </button>
                 <button onclick="switchTab('searchguide')" id="tab-searchguide" class="tab-btn px-4 py-2.5 rounded-lg whitespace-nowrap text-slate-600 hover:bg-slate-100 transition flex items-center gap-2">
                     <i class="fa-solid fa-magnifying-glass-location text-teal-500"></i> <span id="nav-lbl-searchguide">Basic Search Guide</span>
@@ -261,6 +266,47 @@
                             <i class="fa-solid fa-file-contract text-amber-400"></i> <span id="btn-view-gi-guide">GI Registration Guide</span>
                         </button>
                     </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= NEW SECTION: SCANNED FILE CHECK (GITHUB CSV) ================= -->
+        <div id="content-scancheck" class="space-y-6 hidden">
+            <div class="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200 shadow-sm space-y-6">
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 pb-6 border-b border-slate-200">
+                    <div>
+                        <span class="text-xs font-bold uppercase tracking-wider text-amber-600" id="sc-badge">Internal Staff & Agent Verification Tool</span>
+                        <h3 class="text-2xl font-bold text-nipo-navy font-serif mt-1" id="sc-main-title">Old / Active File Digital Scan Status Checker</h3>
+                        <p class="text-xs text-slate-600 mt-1 max-w-3xl leading-relaxed" id="sc-main-desc">
+                            Enter a trademark application or file number below. The system checks against your live <code class="bg-slate-100 px-1.5 py-0.5 rounded font-mono font-bold text-nipo-navy">TM.csv</code> file (Column A) hosted on GitHub.
+                        </p>
+                    </div>
+                    <div id="csv-status-badge" class="bg-amber-50 text-amber-800 border border-amber-300 text-[11px] font-bold px-3 py-1.5 rounded-xl flex items-center gap-2">
+                        <i class="fa-solid fa-spinner fa-spin text-amber-600"></i> Loading TM.csv from GitHub...
+                    </div>
+                </div>
+
+                <!-- Input & Search Form -->
+                <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200 space-y-4 max-w-2xl mx-auto">
+                    <label class="block text-xs font-bold text-nipo-navy uppercase tracking-wider" id="sc-lbl-input">Enter File / Application Number</label>
+                    <div class="flex gap-3">
+                        <div class="relative flex-1">
+                            <i class="fa-solid fa-folder-open absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                            <input type="text" id="scan-file-input" placeholder="e.g. TM/2023/5842 or 154200" class="w-full pl-10 pr-4 py-3 bg-white border border-slate-300 rounded-xl text-sm font-mono focus:outline-none focus:border-nipo-navy">
+                        </div>
+                        <button onclick="checkFileScanStatus()" class="bg-nipo-navy hover:bg-nipo-navyLight text-white font-bold px-6 py-3 rounded-xl text-xs transition flex items-center gap-2 shadow-sm whitespace-nowrap">
+                            <i class="fa-solid fa-magnifying-glass text-amber-400"></i> <span id="btn-check-scan">Check Status</span>
+                        </button>
+                    </div>
+                    <div class="text-[11px] text-slate-500 flex items-center gap-2">
+                        <i class="fa-solid fa-circle-info text-amber-500"></i> 
+                        <span id="sc-hint">Data sourced directly from Column A of your GitHub TM.csv file.</span>
+                    </div>
+                </div>
+
+                <!-- Results Display Area -->
+                <div id="scan-result-container" class="max-w-2xl mx-auto hidden">
+                    <!-- Dynamic result card injected via JavaScript -->
                 </div>
             </div>
         </div>
@@ -894,6 +940,107 @@
 
     <!-- JavaScript Application Logic -->
     <script>
+        // --- GitHub CSV Data Loader ---
+        // REPLACE THIS URL with your actual GitHub raw file URL after uploading TM.csv
+        // Example: "https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO_NAME/main/TM.csv"
+        const csvUrl = "https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO/main/TM.csv";
+        
+        let scannedFilesSet = new Set(); // Stores Column A file numbers for instant lookup
+
+        function loadScannedCsvFromGitHub() {
+            const badge = document.getElementById('csv-status-badge');
+            
+            Papa.parse(csvUrl, {
+                download: true,
+                header: false, // Reads rows directly (Column A is index 0)
+                skipEmptyLines: true,
+                complete: function(results) {
+                    scannedFilesSet.clear();
+                    
+                    results.data.forEach(row => {
+                        // Extract value from Column A (index 0)
+                        if (row[0]) {
+                            const cleanNum = row[0].toString().trim().toLowerCase();
+                            if(cleanNum) {
+                                scannedFilesSet.add(cleanNum);
+                            }
+                        }
+                    });
+
+                    badge.className = "bg-emerald-50 text-emerald-800 border border-emerald-300 text-[11px] font-bold px-3 py-1.5 rounded-xl flex items-center gap-2";
+                    badge.innerHTML = `<i class="fa-solid fa-circle-check text-emerald-600"></i> Loaded ${scannedFilesSet.size} File Numbers from TM.csv`;
+                },
+                error: function(err) {
+                    badge.className = "bg-rose-50 text-rose-800 border border-rose-300 text-[11px] font-bold px-3 py-1.5 rounded-xl flex items-center gap-2";
+                    badge.innerHTML = `<i class="fa-solid fa-triangle-exclamation text-rose-600"></i> CSV Load Failed (Check GitHub URL)`;
+                    console.error("Error loading CSV:", err);
+                }
+            });
+        }
+
+        function checkFileScanStatus() {
+            const rawInput = document.getElementById('scan-file-input').value.trim();
+            const container = document.getElementById('scan-result-container');
+            container.classList.remove('hidden');
+
+            if (!rawInput) {
+                container.innerHTML = `
+                    <div class="bg-amber-50 border border-amber-300 p-4 rounded-2xl text-xs text-amber-900 flex items-center gap-3">
+                        <i class="fa-solid fa-triangle-exclamation text-amber-600 text-base"></i>
+                        <span>Please enter a valid file number to check.</span>
+                    </div>
+                `;
+                return;
+            }
+
+            const searchVal = rawInput.toLowerCase();
+            const isScanned = scannedFilesSet.has(searchVal);
+
+            if (isScanned) {
+                container.innerHTML = `
+                    <div class="bg-emerald-50 border-2 border-emerald-500 p-6 rounded-2xl shadow-sm space-y-4">
+                        <div class="flex items-center justify-between border-b border-emerald-200 pb-3">
+                            <div class="flex items-center gap-2">
+                                <span class="w-8 h-8 rounded-full bg-emerald-500 text-white flex items-center justify-center font-bold"><i class="fa-solid fa-check"></i></span>
+                                <div>
+                                    <span class="text-xs font-bold uppercase tracking-wider text-emerald-700 block">File Status: Digitized & Available</span>
+                                    <h4 class="text-lg font-bold text-slate-900 font-mono">${rawInput}</h4>
+                                </div>
+                            </div>
+                            <span class="bg-emerald-100 text-emerald-800 text-[11px] font-bold px-3 py-1 rounded-full border border-emerald-300">Scanned & Verified</span>
+                        </div>
+                        <p class="text-xs text-slate-700 leading-relaxed">
+                            This file number was successfully found in Column A of your live <code class="font-mono font-bold">TM.csv</code> GitHub dataset.
+                        </p>
+                        <div class="bg-white p-3 rounded-xl border border-emerald-200 text-[11px] text-slate-600">
+                            <i class="fa-solid fa-circle-info text-emerald-600 mr-1"></i> File is scanned and ready for agent review or retrieval.
+                        </div>
+                    </div>
+                `;
+            } else {
+                container.innerHTML = `
+                    <div class="bg-rose-50 border-2 border-rose-400 p-6 rounded-2xl shadow-sm space-y-4">
+                        <div class="flex items-center justify-between border-b border-rose-200 pb-3">
+                            <div class="flex items-center gap-2">
+                                <span class="w-8 h-8 rounded-full bg-rose-500 text-white flex items-center justify-center font-bold"><i class="fa-solid fa-xmark"></i></span>
+                                <div>
+                                    <span class="text-xs font-bold uppercase tracking-wider text-rose-700 block">File Status: Not Scanned / Record Not Found</span>
+                                    <h4 class="text-lg font-bold text-slate-900 font-mono">${rawInput}</h4>
+                                </div>
+                            </div>
+                            <span class="bg-rose-100 text-rose-800 text-[11px] font-bold px-3 py-1 rounded-full border border-rose-300">Pending Scan</span>
+                        </div>
+                        <p class="text-xs text-slate-700 leading-relaxed">
+                            This file number is missing from Column A of the scanned CSV list. It may require physical paper file retrieval from the record room archives.
+                        </p>
+                        <div class="bg-white p-3 rounded-xl border border-rose-200 text-[11px] text-slate-600">
+                            <i class="fa-solid fa-triangle-exclamation text-rose-600 mr-1"></i> Please check physical record keeper archives.
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
         // --- Tri-lingual Dictionary ---
         const tr = {
             en: {
@@ -902,13 +1049,17 @@
                 sinhalaSub: "ජාතික බුද්ධිමය දේපළ කාර්යාලය (වෙළඳ ලකුණු අංශය) • ශ්‍රී ලංකාව",
                 subTag: "Trademark Division Public Kiosk & Inquiry Portal",
                 counterHoursLbl: "Counter Hours: 9:00 AM - 3:00 PM",
-                navDivs: "Main Divisions", navSearchGuide: "Basic Search Guide", navProcess: "Trademark Process Flowchart", navNice: "Nice Classes (1-45) & WIPO MGS",
+                navDivs: "Main Divisions", navScanCheck: "Scanned File Check", navSearchGuide: "Basic Search Guide", navProcess: "Trademark Process Flowchart", navNice: "Nice Classes (1-45) & WIPO MGS",
                 navChk: "Document Checklists", navFees: "Fee Estimator & Structure", navHrs: "Counter & Bank Info",
                 divBannerTitle: "National Intellectual Property Office - Trademark Division Portal",
                 divBannerDesc: "Explore trademark application procedures, official fee calculators, Nice classifications (1-45), and mandatory document checklists.",
                 cardTmBadge: "Primary Focus", cardTmTitle: "Trademarks Division", cardTmDesc: "Protects brand names, logos, slogans, and distinctive signs. Rights are acquired through official registration under IP Act No. 36 of 2003.",
                 cardTmStats: "Protection Highlights", tm1: "Validity: 10 years from filing date", tm2: "Renewal: Every 10 years indefinitely", tm3: "Classification: Nice Classes 1 to 45",
                 btnViewProc: "View Registration Process Flowchart",
+                scBadge: "Internal Staff & Agent Verification Tool", scMainTitle: "Old / Active File Digital Scan Status Checker",
+                scMainDesc: "Enter a trademark application or file number below. The system checks against your live TM.csv file (Column A) hosted on GitHub.",
+                scLblInput: "Enter File / Application Number", btnCheckScan: "Check Status",
+                scHint: "Data sourced directly from Column A of your GitHub TM.csv file.",
                 sgBadge: "Client Advisory Guide", sgMainTitle: "Basic Trademark Clearance Search",
                 sgMainDesc: "Conducting a trademark clearance search before submitting your application is a crucial step. It helps you avoid costly rejections, legal disputes, and the hassle of having to rebrand later.",
                 sgLinksTitle: "Quick Portals & Databases", btnNipoSearch: "NIPO Online Search", btnWipoDb: "WIPO Brand Database", btnMgsChecker: "MGS Goods List Checker", btnIpAct: "NIPO IP Act No. 36",
@@ -927,17 +1078,21 @@
                 sinhalaSub: "ජාතික බුද්ධිමය දේපළ කාර්යාලය (වෙළඳ ලකුණු අංශය) • ශ්‍රී ලංකාව",
                 subTag: "වෙළඳ ලකුණු අංශයේ ප්‍රසිද්ධ තොරතුරු කුටිය",
                 counterHoursLbl: "කවුන්ටර වේලාවන්: පෙ.ව. 9:00 - ප.ව. 3:00",
-                navDivs: "ප්‍රධාන අංශ", navSearchGuide: "මූලික සෙවුම් මාර්ගෝපදේශය", navProcess: "ලියාපදිංචි ක්‍රියාවලි ප්‍රවාහ සටහන", navNice: "නයිස් කාණ්ඩ (1-45) සහ WIPO MGS",
+                navDivs: "ප්‍රධාන අංශ", navScanCheck: "ස්කෑන් කළ ගොනු පරීක්ෂාව", navSearchGuide: "මූලික සෙවුම් මාර්ගෝපදේශය", navProcess: "ලියාපදිංචි ක්‍රියාවලි ප්‍රවාහ සටහන", navNice: "නයිස් කාණ්ඩ (1-45) සහ WIPO MGS",
                 navChk: "ලේඛන ලැයිස්තු", navFees: "ගාස්තු ගණකය සහ ව්‍යුහය", navHrs: "කවුන්ටර සහ බැංකු",
                 divBannerTitle: "ජාතික බුද්ධිමය දේපළ කාර්යාලය - වෙළඳ ලකුණු අංශය",
                 divBannerDesc: "වෙළඳ ලකුණු අයැදුම්පත්‍ර ක්‍රියාපටිපාටිය, ගාස්තු ගණක යන්ත්‍රය, නයිස් කාණ්ඩ සහ ලේඛන ලැයිස්තු පරීක්ෂා කරන්න.",
                 cardTmBadge: "ප්‍රධාන අවධානය", cardTmTitle: "වෙළඳ ලකුණු අංශය", cardTmDesc: "වෙළඳ නාම, ලාංඡන ආරක්ෂා කරයි. 2003 අංක 36 දරන බුද්ධිමය දේපළ පනත යටතේ ලියාපදිංචි කරනු ලැබේ.",
                 cardTmStats: "ආරක්ෂණ විශේෂතා", tm1: "වලංගු කාලය: ඉල්ලුම් කළ දින සිට වසර 10", tm2: "අලුත් කිරීම: සෑම වසර 10 කට වරක්", tm3: "වර්ගීකරණය: නයිස් කාණ්ඩ 1 සිට 45 දක්වා",
                 btnViewProc: "ලියාපදිංචි ක්‍රියාවලි ප්‍රවාහ සටහන බලන්න",
+                scBadge: "කාර්ය මණ්ඩල සත්‍යාපන මෙවලම", scMainTitle: "පැරණි / සක්‍රීය ගොනු ඩිජිටල් ස්කෑන් තත්ත්ව පරීක්ෂකය",
+                scMainDesc: "GitHub හි ඇති TM.csv ගොනුවේ 'A' තීරුව පදනම් කර ගනිමින් ගොනු ස්කෑන් තත්ත්වය පරීක්ෂා කරන්න.",
+                scLblInput: "ගොනු / අයැදුම්පත්‍ර අංකය ඇතුළත් කරන්න", btnCheckScan: "තත්ත්වය පරීක්ෂා කරන්න",
+                scHint: "ඔබගේ GitHub CSV ගොනුවේ A තීරුවෙන් දත්ත ලබා ගනී.",
                 sgBadge: "සේවාදායක උපදේශන මාර්ගෝපදේශය", sgMainTitle: "මූලික වෙළඳ ලකුණු සෙවීම",
-                sgMainDesc: "අයදුම්පතක් ඉදිරිපත් කිරීමට පෙර වෙළඳ ලකුණු සෙවීමක් සිදු කිරීම අත්‍යවශ්‍ය පියවරකි. එය අනවශ්‍ය ප්‍රතික්ෂේප කිරීම් සහ නීතිමය ගැටලු මඟහරවා ගැනීමට උපකාරී වේ.",
+                sgMainDesc: "අයදුම්පතක් ඉදිරිපත් කිරීමට පෙර වෙළඳ ලකුණු සෙවීමක් සිදු කිරීම අත්‍යවශ්‍ය පියවරකි.",
                 sgLinksTitle: "ඉක්මන් පෝටල සහ දත්ත සමුදායන්", btnNipoSearch: "NIPO සෙවුම් පෝටලය", btnWipoDb: "WIPO ජාත්‍යන්තර දත්ත පද්ධතිය", btnMgsChecker: "MGS භාණ්ඩ ලැයිස්තු පරීක්ෂකය", btnIpAct: "NIPO බුද්ධිමය දේපළ පනත",
-                procBadge: "නිල ක්‍රියාවලි සටහන", procTitle: "වෙළඳ ලකුණු ලියාපදිංචි කිරීමේ මූලික ක්‍රියාවලි ප්‍රවාහ සටහන", procSub: "පරීක්ෂා කිරීම, ගැසට් කිරීම, විරුද්ධතා කාලය සහ ලියාපදිංචි කිරීම.",
+                procBadge: "නිල ක්‍රියාවලි සටහන", procTitle: "වෙළඳ ලකුණු ලියාපදිංචි කිරීමේ මූලික ක්‍රියාවලි ප්‍රවාහ සටහන", procSub: "පරීක්ෂා කිරීම, ගැසට් කිරීම සහ ලියාපදිංචි කිරීම.",
                 niceBadge: "කාණ්ඩ සෙවුම", niceTitle: "නයිස් වර්ගීකරණය (කාණ්ඩ 45 ම)", niceSub: "භාණ්ඩ (1-34) සහ සේවා (35-45) කාණ්ඩ පිරික්සන්න.",
                 btnWipoMgs: "WIPO Madrid MGS වෙත පිවිසෙන්න",
                 chkBadge: "සූදානම් වීම", chkTitle: "අත්‍යවශ්‍ය ලේඛන ලැයිස්තුව", chkSub: "ඉදිරිපත් කිරීමට පෙර අවශ්‍ය ලේඛන පරීක්ෂා කරන්න.",
@@ -952,17 +1107,21 @@
                 sinhalaSub: "தேசிய அறிவுசார் சொத்து அலுவலகம் (வணிகச்சின்னப் பிரிவு) • இலங்கை",
                 subTag: "வணிகச்சின்னப் பிரிவு பொது தகவல் மையம்",
                 counterHoursLbl: "கவுண்டர் நேரம்: மு.ப 9:00 - பி.ப 3:00",
-                navDivs: "முக்கிய பிரிவுகள்", navSearchGuide: "அடிப்படை தேடல் வழிகாட்டி", navProcess: "செயல்முறை பாய்வுப்படம்", navNice: "நைஸ் வகுப்புகள் (1-45) & WIPO MGS",
+                navDivs: "முக்கிய பிரிவுகள்", navScanCheck: "ஸ்கேன் செய்யப்பட்ட கோப்பு", navSearchGuide: "அடிப்படை தேடல் வழிகாட்டி", navProcess: "செயல்முறை பாய்வுப்படம்", navNice: "நைஸ் வகுப்புகள் (1-45) & WIPO MGS",
                 navChk: "ஆவணப் பட்டியல்கள்", navFees: "கட்டண மதிப்பீடு & அமைப்பு", navHrs: "கவுண்டர் & வங்கி",
                 divBannerTitle: "தேசிய அறிவுசார் சொத்து அலுவலகம் - வணிகச்சின்னப் பிரிவு",
-                divBannerDesc: "வணிகச்சின்ன விண்ணப்ப நடைமுறைகள், கட்டணக் கணிப்பான்கள் மற்றும் ஆவணப் பட்டியல்களைப் பார்வையிடவும்.",
-                cardTmBadge: "முதன்மை கவனம்", cardTmTitle: "வணிகச்சின்னப் பிரிவு", cardTmDesc: "பிராண்ட் பெயர்கள், லோகோக்களைப் பாதுகாக்கிறது. IP சட்டம் எண் 36 இன் கீழ் பதிவு செய்யப்படுகிறது.",
+                divBannerDesc: "வணிகச்சின்ன விண்ணப்ப நடைமுறைகள் மற்றும் ஆவணப் பட்டியல்களைப் பார்வையிடவும்.",
+                cardTmBadge: "முதன்மை கவனம்", cardTmTitle: "வணிகச்சின்னப் பிரிவு", cardTmDesc: "பிராண்ட் பெயர்கள், லோகோக்களைப் பாதுகாக்கிறது.",
                 cardTmStats: "பாதுகாப்பு சிறப்பம்சங்கள்", tm1: "செல்லுபடியாகும் காலம்: 10 ஆண்டுகள்", tm2: "புதுப்பித்தல்: ஒவ்வொரு 10 ஆண்டுகளுக்கு ஒருமுறை", tm3: "வகைப்பாடு: நைஸ் வகுப்புகள் 1 முதல் 45 வரை",
                 btnViewProc: "செயல்முறை பாய்வுப்படத்தைக் காண்க",
+                scBadge: "உள்ளக சரிபார்ப்பு கருவி", scMainTitle: "கோப்பு டிஜிட்டல் ஸ்கேன் நிலை சரிபார்ப்பு",
+                scMainDesc: "GitHub-ல் உள்ள TM.csv கோப்பின் 'A' நெடுவரிசையைப் பயன்படுத்தி கோப்பு நிலையைச் சரிபார்க்கவும்.",
+                scLblInput: "கோப்பு / விண்ணப்ப எண்ணை உள்ளிடவும்", btnCheckScan: "நிலையைச் சரிபார்க்கவும்",
+                scHint: "உங்கள் GitHub TM.csv கோப்பின் A நெடுவரிசையிலிருந்து தரவு பெறப்படுகிறது.",
                 sgBadge: "வாடிக்கையாளர் வழிகாட்டி", sgMainTitle: "அடிப்படை வணிகச்சின்ன தேடல்",
-                sgMainDesc: "விண்ணப்பத்தைச் சமர்ப்பிப்பதற்கு முன் வணிகச்சின்னத் தேடலை நடத்துவது ஒரு முக்கியமான படியாகும். இது நிராகரிப்புகள் மற்றும் சட்ட சிக்கல்களைத் தவிர்க்க உதவுகிறது.",
+                sgMainDesc: "விண்ணப்பத்தைச் சமர்ப்பிப்பதற்கு முன் வணிகச்சின்னத் தேடலை நடத்துவது ஒரு முக்கியமான படியாகும்.",
                 sgLinksTitle: "விரைவு இணைப்புகள்", btnNipoSearch: "NIPO ஆன்லைன் தேடல்", btnWipoDb: "WIPO பிராண்ட் தரவுத்தளம்", btnMgsChecker: "MGS பொருட்கள் சரிபார்ப்பு", btnIpAct: "NIPO IP சட்டம் எண் 36",
-                procBadge: "அதிகாரப்பூர்வ பாய்வுப்படம்", procTitle: "வணிகச்சின்ன பதிவு அடிப்படை செயல்முறை பாய்வுப்படம்", procSub: "பரிசீலனை, வெளியீடு, எதிர்ப்பு காலம் மற்றும் பதிவு செயல்முறை.",
+                procBadge: "அதிகாரப்பூர்வ பாய்வுப்படம்", procTitle: "வணிகச்சின்ன பதிவு அடிப்படை செயல்முறை பாய்வுப்படம்", procSub: "பரிசீலனை மற்றும் பதிவு செயல்முறை.",
                 niceBadge: "வகுப்பு தேடல்", niceTitle: "நைஸ் வகைப்பாடு (அனைத்து 45 வகுப்புகளும்)", niceSub: "சரக்குகள் (1-34) மற்றும் சேவைகள் (35-45) வகுப்புகளைத் தேடுங்கள்.",
                 btnWipoMgs: "WIPO Madrid MGS இணைப்பைப் பார்வையிடவும்",
                 chkBadge: "தயாரிப்பு வழிகாட்டி", chkTitle: "கட்டாய ஆவணப் பட்டியல்கள்", chkSub: "சமர்ப்பிப்பதற்கு முன் தேவையான ஆவணங்களைச் சரிபார்க்கவும்.",
@@ -991,6 +1150,7 @@
             document.getElementById('header-sub-tag').textContent = t.subTag;
             document.getElementById('txt-counter-hours-lbl').textContent = t.counterHoursLbl;
             document.getElementById('nav-lbl-divs').textContent = t.navDivs;
+            document.getElementById('nav-lbl-scancheck').textContent = t.navScanCheck;
             document.getElementById('nav-lbl-searchguide').textContent = t.navSearchGuide;
             document.getElementById('nav-lbl-process').textContent = t.navProcess;
             document.getElementById('nav-lbl-nice').textContent = t.navNice;
@@ -1010,6 +1170,14 @@
             document.getElementById('tm-stat-3').textContent = t.tm3;
             document.getElementById('btn-view-process').textContent = t.btnViewProc;
 
+            // Scan Check Tab Labels
+            document.getElementById('sc-badge').textContent = t.scBadge;
+            document.getElementById('sc-main-title').textContent = t.scMainTitle;
+            document.getElementById('sc-main-desc').textContent = t.scMainDesc;
+            document.getElementById('sc-lbl-input').textContent = t.scLblInput;
+            document.getElementById('btn-check-scan').textContent = t.btnCheckScan;
+            document.getElementById('sc-hint').textContent = t.scHint;
+
             // Search Guide Tab Labels
             document.getElementById('sg-badge').textContent = t.sgBadge;
             document.getElementById('sg-main-title').textContent = t.sgMainTitle;
@@ -1022,7 +1190,7 @@
 
             document.getElementById('card-cr-badge').textContent = lang === 'en' ? 'Secondary Wing' : (lang === 'si' ? 'ද්විතියික අංශය' : 'இரண்டாம் நிலை');
             document.getElementById('card-cr-title').textContent = lang === 'en' ? 'Copyright & Related Rights' : (lang === 'si' ? 'ප්‍රකාශන හිමිකම් සහ ආශ්‍රිත අයිතිවාසිකම්' : 'பதிப்புரிமை மற்றும் உரிமைகள்');
-            document.getElementById('card-cr-desc').textContent = lang === 'en' ? 'Protects literary, artistic, musical works, and software automatically upon creation without mandatory registration.' : (lang === 'si' ? 'සාහිත්‍ය, කලාත්මක, සංගීත කෘති සහ මෘදුකාංග ආරක්ෂා කරයි.' : 'இலக்கிய, கலை, இசைப் படைப்புகளைප් பாதுகாக்கிறது.');
+            document.getElementById('card-cr-desc').textContent = lang === 'en' ? 'Protects literary, artistic, musical works, and software automatically upon creation without mandatory registration.' : (lang === 'si' ? 'සාහිත්‍ය, කලාත්මක, සංගීත කෘති සහ මෘදුකාංග ආරක්ෂා කරයි.' : 'இலக்கிய, கலை, இசைப் படைப்புகளைப் பாதுகாக்கிறது.');
             document.getElementById('btn-view-cr-chk').textContent = lang === 'en' ? 'Copyright Deposit Checklist' : (lang === 'si' ? 'ප්‍රකාශන හිමිකම් ලැයිස්තුව' : 'பதிப்புரிமை சரிபார்ப்புප් பட்டியல்');
 
             document.getElementById('card-gi-badge').textContent = lang === 'en' ? 'Regional Protection' : (lang === 'si' ? 'කලාපීය ආරක්ෂාව' : 'பிராந்திய பாதுகாப்பு');
@@ -1076,7 +1244,7 @@
 
         // --- Tab Switching ---
         function switchTab(tabId) {
-            ['divisions', 'searchguide', 'process', 'nice', 'checklists', 'fees', 'hours'].forEach(id => {
+            ['divisions', 'scancheck', 'searchguide', 'process', 'nice', 'checklists', 'fees', 'hours'].forEach(id => {
                 document.getElementById('content-' + id).classList.add('hidden');
                 document.getElementById('tab-' + id).className = "tab-btn px-4 py-2.5 rounded-lg whitespace-nowrap text-slate-600 hover:bg-slate-100 transition flex items-center gap-2";
             });
@@ -1319,6 +1487,7 @@
             renderNiceClasses();
             showChecklist('m01');
             updateKioskFee();
+            loadScannedCsvFromGitHub(); // Fetch and load Column A CSV on startup
         };
     </script>
 </body>
