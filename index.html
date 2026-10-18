@@ -123,7 +123,7 @@
 
             <div class="hidden lg:flex flex-col items-end bg-white/5 border border-white/10 px-4 py-2.5 rounded-xl">
                 <span class="text-xs text-slate-300" id="live-date">Sunday, Oct 18, 2026</span>
-                <span class="text-xl font-mono font-bold text-amber-400" id="live-clock">12:19:00 PM</span>
+                <span class="text-xl font-mono font-bold text-amber-400" id="live-clock">01:24:00 PM</span>
                 <span class="text-[10px] text-slate-400 mt-0.5"><i class="fa-solid fa-clock text-emerald-400"></i> <span id="txt-counter-hours-lbl">Counter Hours: 9:00 AM - 3:00 PM</span></span>
             </div>
         </div>
@@ -928,7 +928,7 @@
                         </div>
                         <div class="flex items-center gap-2.5">
                             <i class="fa-solid fa-envelope text-teal-400"></i>
-                            <span>Email: <a href="mailto:niposl@nipo.gov.lk" class="text-amber-300 hover:underline">niposl@nipo.gov.lk</a> | <a href="mailto:info@nipo.gov.lk" class="text-amber-300 hover:underline">info@nipo.gov.lk</a> | <a href="mailto:tradmark@nipo.gov.lk" class="text-amber-300 hover:underline">trademark@nipo.gov.lk</a></span>
+                            <span>Email: <a href="mailto:niposl@nipo.gov.lk" class="text-amber-300 hover:underline">niposl@nipo.gov.lk</a> / <a href="mailto:info@nipo.gov.lk" class="text-amber-300 hover:underline">info@nipo.gov.lk</a></span>
                         </div>
                     </div>
                 </div>
@@ -1189,4 +1189,392 @@
                 sinhalaSub: "தேசிய அறிவுசார் சொத்து அலுவலகம் (வணிகச்சின்னப் பிரிவு) • இலங்கை",
                 subTag: "வணிகச்சின்னப் பிரிவு பொது தகவல் மையம்",
                 counterHoursLbl: "கவுண்டர் நேரம்: மு.ப 9:00 - பி.ப 3:00",
-                navDivs: "முக்கிய பிரிவுகள்", navScanCheck: "ஸ்கேன் செய்யப்பட்ட கோப்பு", navSearchGuide: "அடிப்படை தேடல் வழிகாட்டி", navProcess: "செயல்முறை பாய்வுப்படம்", navNice: "நைஸ் வகுப்புகள் (1-
+                navDivs: "முக்கிய பிரிவுகள்", navScanCheck: "ஸ்கேன் செய்யப்பட்ட கோப்பு", navSearchGuide: "அடிப்படை தேடல் வழிகாட்டி", navProcess: "செயல்முறை பாய்வுப்படம்", navNice: "நைஸ் வகுப்புகள் (1-45) & WIPO MGS",
+                navChk: "ஆவணப் பட்டியல்கள்", navFees: "கட்டண மதிப்பீடு & அமைப்பு", navHrs: "கவுண்டர் & வங்கி",
+                divBannerTitle: "தேசிய அறிவுசார் சொத்து அலுவலகம் - வணிகச்சின்னப் பிரிவு",
+                divBannerDesc: "வணிகச்சின்ன விண்ணப்ப நடைமுறைகள் மற்றும் ஆவணப் பட்டியல்களைப் பார்வையிடவும்.",
+                cardTmBadge: "முதன்மை கவனம்", cardTmTitle: "வணிகச்சின்னப் பிரிவு", cardTmDesc: "பிராண்ட் பெயர்கள், லோகோக்களைப் பாதுகாக்கிறது.",
+                cardTmStats: "பாதுகாப்பு சிறப்பம்சங்கள்", tm1: "செல்லுபடியாகும் காலம்: 10 ஆண்டுகள்", tm2: "புதுப்பித்தல்: ஒவ்வொரு 10 ஆண்டுகளுக்கு ஒருமுறை", tm3: "வகைப்பாடு: நைஸ் வகுப்புகள் 1 முதல் 45 வரை",
+                btnViewProc: "செயல்முறை பாய்வுப்படத்தைக் காண்க",
+                scBadge: "உள்ளக சரிபார்ப்பு கருவி", scMainTitle: "கோப்பு டிஜிட்டல் ஸ்கேன் நிலை சரிபார்ப்பு",
+                scMainDesc: "GitHub-ல் உள்ள TM.csv கோப்பின் 'A' நெடுவரிசையைப் பயன்படுத்தி கோப்பு நிலையைச் சரிபார்க்கவும்.",
+                scLblInput: "கோப்பு / விண்ணப்ப எண்ணை உள்ளிடவும்", btnCheckScan: "நிலையைச் சரிபார்க்கவும்",
+                scHint: "உங்கள் GitHub TM.csv கோப்பின் A நெடுவரிசையிலிருந்து தரவு பெறப்படுகிறது.",
+                sgBadge: "வாடிக்கையாளர் வழிகாட்டி", sgMainTitle: "அடிப்படை வணிகச்சின்ன தேடல்",
+                sgMainDesc: "விண்ணப்பத்தைச் சமர்ப்பிப்பதற்கு முன் வணிகச்சின்னத் தேடலை நடத்துவது ஒரு முக்கியமான படியாகும்.",
+                sgLinksTitle: "விரைவு இணைப்புகள்", btnNipoSearch: "NIPO ஆன்லைன் தேடல்", btnWipoDb: "WIPO பிராண்ட் தரவுத்தளம்", btnMgsChecker: "MGS பொருட்கள் சரிபார்ப்பு", btnIpAct: "NIPO IP சட்டம் எண் 36",
+                procBadge: "அதிகாரப்பூர்வ பாய்வுப்படம்", procTitle: "வணிகச்சின்ன பதிவு அடிப்படை செயல்முறை பாய்வுப்படம்", procSub: "பரிசீலனை மற்றும் பதிவு செயல்முறை.",
+                niceBadge: "வகுப்பு தேடல்", niceTitle: "நைஸ் வகைப்பாடு (அனைத்து 45 வகுப்புகளும்)", niceSub: "சரக்குகள் (1-34) மற்றும் சேவைகள் (35-45) வகுப்புகளைத் தேடுங்கள்.",
+                btnWipoMgs: "WIPO Madrid MGS இணைப்பைப் பார்வையிடவும்",
+                chkBadge: "தயாரிப்பு வழிகாட்டி", chkTitle: "கட்டாய ஆவணப் பட்டியல்கள்", chkSub: "சமர்ப்பிப்பதற்கு முன் தேவையான ஆவணங்களைச் சரிபார்க்கவும்.",
+                btnPrintChk: "சரிபார்ப்புப் பட்டியலை அச்சிடுக", chkTab1: "புதிய வணிகச்சின்ன விண்ணப்பம்", chkTab2: "பெயர்/முகவரி மாற்றம்", chkTab3: "பதிப்புரிமை வைப்பு",
+                cntBoxTitle: "கவுண்டர் வேலை நேரம்", cntL1: "பணம் செலுத்தும் கவுண்டர் (Shroff):", cntL2: "பொது தேடல் பிரிவு:", cntL3: "பொது அலுவலக நேரம்:",
+                bankBoxTitle: "வங்கி வைப்பு விவரங்கள்", btnOfficialBankDetails: "அதிகாரப்பூர்வ வங்கி விவரங்களைப் பார்க்கவும்",
+                ftrContactTitle: "தேசிய அறிவுசார் சொத்து அலுவலகம்", ftrPhonesTitle: "தொடர்பு எண்கள்", ftrHrsTitle: "கவுண்டர் நேர அட்டவணை",
+                ftrQuickLinksTitle: "விரைவு இணைப்புகள்", ftrLink1: "NIPO படிவங்கள்", ftrLink2: "NIPO தரவுத்தளம்", ftrLink3: "WIPO தரவுத்தளம்", ftrLink4: "MGS பொருட்கள் பட்டியல்", ftrLink5: "அரச கெஜட்"
+            }
+        };
+
+        function setLanguage(lang) {
+            ['en', 'si', 'ta'].forEach(l => {
+                const btn = document.getElementById('lang-' + l);
+                if(l === lang) {
+                    btn.className = "px-2.5 py-0.5 rounded text-[11px] font-bold bg-amber-500 text-slate-950 transition";
+                } else {
+                    btn.className = "px-2.5 py-0.5 rounded text-[11px] font-bold text-slate-300 hover:text-white transition";
+                }
+            });
+
+            const t = tr[lang];
+            if(!t) return;
+            document.getElementById('txt-hotline').textContent = t.hotline;
+            document.getElementById('header-main-title').textContent = t.mainTitle;
+            document.getElementById('header-sinhala-sub').textContent = t.sinhalaSub;
+            document.getElementById('header-sub-tag').textContent = t.subTag;
+            document.getElementById('txt-counter-hours-lbl').textContent = t.counterHoursLbl;
+            document.getElementById('nav-lbl-divs').textContent = t.navDivs;
+            document.getElementById('nav-lbl-scancheck').textContent = t.navScanCheck;
+            document.getElementById('nav-lbl-searchguide').textContent = t.navSearchGuide;
+            document.getElementById('nav-lbl-process').textContent = t.navProcess;
+            document.getElementById('nav-lbl-nice').textContent = t.navNice;
+            document.getElementById('nav-lbl-chk').textContent = t.navChk;
+            document.getElementById('nav-lbl-fees').textContent = t.navFees;
+            document.getElementById('nav-lbl-hrs').textContent = t.navHrs;
+
+            // Divisions & Cards
+            document.getElementById('div-banner-title').textContent = t.divBannerTitle;
+            document.getElementById('div-banner-desc').textContent = t.divBannerDesc;
+            document.getElementById('card-tm-badge').textContent = t.cardTmBadge;
+            document.getElementById('card-tm-title').textContent = t.cardTmTitle;
+            document.getElementById('card-tm-desc').textContent = t.cardTmDesc;
+            document.getElementById('card-tm-stats-title').textContent = t.cardTmStats;
+            document.getElementById('tm-stat-1').textContent = t.tm1;
+            document.getElementById('tm-stat-2').textContent = t.tm2;
+            document.getElementById('tm-stat-3').textContent = t.tm3;
+            document.getElementById('btn-view-process').textContent = t.btnViewProc;
+
+            // Scan Check Tab Labels
+            document.getElementById('sc-badge').textContent = t.scBadge;
+            document.getElementById('sc-main-title').textContent = t.scMainTitle;
+            document.getElementById('sc-main-desc').textContent = t.scMainDesc;
+            document.getElementById('sc-lbl-input').textContent = t.scLblInput;
+            document.getElementById('btn-check-scan').textContent = t.btnCheckScan;
+            document.getElementById('sc-hint').textContent = t.scHint;
+
+            // Search Guide Tab Labels
+            document.getElementById('sg-badge').textContent = t.sgBadge;
+            document.getElementById('sg-main-title').textContent = t.sgMainTitle;
+            document.getElementById('sg-main-desc').textContent = t.sgMainDesc;
+            document.getElementById('sg-links-title').textContent = t.sgLinksTitle;
+            document.getElementById('btn-nipo-search').textContent = t.btnNipoSearch;
+            document.getElementById('btn-wipo-db').textContent = t.btnWipoDb;
+            document.getElementById('btn-mgs-checker').textContent = t.btnMgsChecker;
+            document.getElementById('btn-ip-act').textContent = t.btnIpAct;
+
+            document.getElementById('card-cr-badge').textContent = lang === 'en' ? 'Secondary Wing' : (lang === 'si' ? 'ද්විතියික අංශය' : 'இரண்டாம் நிலை');
+            document.getElementById('card-cr-title').textContent = lang === 'en' ? 'Copyright & Related Rights' : (lang === 'si' ? 'ප්‍රකාශන හිමිකම් සහ ආශ්‍රිත අයිතිවාසිකම්' : 'பதிப்புரிமை மற்றும் உரிமைகள்');
+            document.getElementById('card-cr-desc').textContent = lang === 'en' ? 'Protects literary, artistic, musical works, and software automatically upon creation without mandatory registration.' : (lang === 'si' ? 'සාහිත්‍ය, කලාත්මක, සංගීත කෘති සහ මෘදුකාංග ආරක්ෂා කරයි.' : 'இலக்கிய, கலை, இசைப் படைப்புகளைப் பாதுகாக்கிறது.');
+            document.getElementById('btn-view-cr-chk').textContent = lang === 'en' ? 'Copyright Deposit Checklist' : (lang === 'si' ? 'ප්‍රකාශන හිමිකම් ලැයිස්තුව' : 'பதிப்புரிமை சரிபார்ப்புப் பட்டியல்');
+
+            document.getElementById('card-gi-badge').textContent = lang === 'en' ? 'Regional Protection' : (lang === 'si' ? 'කලාපීය ආරක්ෂාව' : 'பிராந்திய பாதுகாப்பு');
+            document.getElementById('card-gi-title').textContent = lang === 'en' ? 'Geographical Indications (GIs)' : (lang === 'si' ? 'භූගෝලීය දර්ශක (GIs)' : 'புவியியல் குறிப்புகள் (GIs)');
+            document.getElementById('card-gi-desc').textContent = lang === 'en' ? 'Protects goods originating from specific regions linked to geographical origin (e.g., Ceylon Tea).' : (lang === 'si' ? 'භූගෝලීය ප්‍රදේශවලට ආවේණික නිෂ්පාදන ආරක්ෂා කරයි (උදා: සිeylon තේ).' : 'குறிப்பிட்ட பகுதியிலிருந்து உருவாகும் பொருட்களைப் பாதுகாக்கிறது.');
+            document.getElementById('btn-view-gi-guide').textContent = lang === 'en' ? 'GI Registration Guide' : (lang === 'si' ? 'GI ලියාපදිංචි කිරීමේ මාර්ගෝපදේශය' : 'GI பதிவு வழிகாட்டி');
+
+            // Process Flowchart Labels
+            document.getElementById('proc-badge').textContent = t.procBadge;
+            document.getElementById('proc-main-title').textContent = t.procTitle;
+            document.getElementById('proc-main-sub').textContent = t.procSub;
+
+            // Nice Classes
+            document.getElementById('nice-badge').textContent = t.niceBadge;
+            document.getElementById('nice-main-title').textContent = t.niceTitle;
+            document.getElementById('nice-main-sub').textContent = t.niceSub;
+            document.getElementById('btn-wipo-mgs').textContent = t.btnWipoMgs;
+
+            // Checklists
+            document.getElementById('chk-badge').textContent = t.chkBadge;
+            document.getElementById('chk-main-title').textContent = t.chkTitle;
+            document.getElementById('chk-main-sub').textContent = t.chkSub;
+            document.getElementById('btn-print-chk').textContent = t.btnPrintChk;
+            document.getElementById('chk-tab-1').textContent = t.chkTab1;
+            document.getElementById('chk-tab-2').textContent = t.chkTab2;
+            document.getElementById('chk-tab-3').textContent = t.chkTab3;
+
+            // Counter & Bank
+            document.getElementById('cnt-box-title').textContent = t.cntBoxTitle;
+            document.getElementById('cnt-l1').textContent = t.cntL1;
+            document.getElementById('cnt-l2').textContent = t.cntL2;
+            document.getElementById('cnt-l3').textContent = t.cntL3;
+            document.getElementById('bank-box-title').textContent = t.bankBoxTitle;
+            document.getElementById('btn-official-bank-details').textContent = t.btnOfficialBankDetails;
+
+            // Footer Section Titles
+            document.getElementById('ftr-contact-title').textContent = t.ftrContactTitle;
+            document.getElementById('ftr-phones-title').textContent = t.ftrPhonesTitle;
+            document.getElementById('ftr-hrs-title').textContent = t.ftrHrsTitle;
+            document.getElementById('ftr-quick-links-title').textContent = t.ftrQuickLinksTitle;
+            document.getElementById('ftr-link-1').textContent = t.ftrLink1;
+            document.getElementById('ftr-link-2').textContent = t.ftrLink2;
+            document.getElementById('ftr-link-3').textContent = t.ftrLink3;
+            document.getElementById('ftr-link-4').textContent = t.ftrLink4;
+            document.getElementById('ftr-link-5').textContent = t.ftrLink5;
+        }
+
+        // --- Live Clock ---
+        function updateClock() {
+            const now = new Date();
+            document.getElementById('live-clock').textContent = now.toLocaleTimeString();
+        }
+        setInterval(updateClock, 1000);
+
+        // --- Tab Switching ---
+        function switchTab(tabId) {
+            ['divisions', 'scancheck', 'searchguide', 'process', 'nice', 'checklists', 'fees', 'hours'].forEach(id => {
+                document.getElementById('content-' + id).classList.add('hidden');
+                document.getElementById('tab-' + id).className = "tab-btn px-4 py-2.5 rounded-lg whitespace-nowrap text-slate-600 hover:bg-slate-100 transition flex items-center gap-2";
+            });
+
+            document.getElementById('content-' + tabId).classList.remove('hidden');
+            const activeBtn = document.getElementById('tab-' + tabId);
+            activeBtn.className = "tab-btn active px-4 py-2.5 rounded-lg whitespace-nowrap transition flex items-center gap-2";
+        }
+
+        // --- All 45 Nice Classes Data ---
+        const niceClassesData = [
+            {num: 1, type: "goods", title: "Chemicals for industry, science, agriculture, horticulture and forestry."},
+            {num: 2, type: "goods", title: "Paints, varnishes, lacquers, preservatives against rust and wood deterioration."},
+            {num: 3, type: "goods", title: "Cosmetics, perfumery, essential oils, non-medicated soaps, cleaning preparations."},
+            {num: 4, type: "goods", title: "Industrial oils and greases, wax, candles and wicks for lighting."},
+            {num: 5, type: "goods", title: "Pharmaceuticals, medical and veterinary preparations, dietetic food."},
+            {num: 6, type: "goods", title: "Common metals and their alloys, ores, metal building materials."},
+            {num: 7, type: "goods", title: "Machines, machine tools, power-operated tools, motors and engines."},
+            {num: 8, type: "goods", title: "Hand tools and implements, cutlery, side arms, razors."},
+            {num: 9, type: "goods", title: "Scientific, research, optical, weighing, measuring, signaling, checking, life-saving apparatus; computers and computer software."},
+            {num: 10, type: "goods", title: "Surgical, medical, dental and veterinary apparatus and instruments."},
+            {num: 11, type: "goods", title: "Apparatus and installations for lighting, heating, cooling, steam generating, cooking."},
+            {num: 12, type: "goods", title: "Vehicles; apparatus for locomotion by land, air or water."},
+            {num: 13, type: "goods", title: "Firearms; ammunition and projectiles; explosives; fireworks."},
+            {num: 14, type: "goods", title: "Precious metals and their alloys; jewellery, precious and semi-precious stones; horological instruments."},
+            {num: 15, type: "goods", title: "Musical instruments."},
+            {num: 16, type: "goods", title: "Paper and cardboard; printed matter; bookbinding material; photographs; stationery and office requisites."},
+            {num: 17, type: "goods", title: "Unprocessed and semi-processed rubber, gutta-percha, gum, asbestos, mica."},
+            {num: 18, type: "goods", title: "Leather and imitations of leather; animal skins and hides; trunks and travelling bags; umbrellas."},
+            {num: 19, type: "goods", title: "Building materials (non-metallic); non-metallic rigid pipes for building; asphalt, pitch."},
+            {num: 20, type: "goods", title: "Furniture, mirrors, picture frames; unworked or semi-worked bone, horn, ivory."},
+            {num: 21, type: "goods", title: "Household or kitchen utensils and containers; cookware and tableware; combs and sponges."},
+            {num: 22, type: "goods", title: "Ropes and string; nets; tents and awnings; sails; sacks and bags."},
+            {num: 23, type: "goods", title: "Yarns and threads for textile use."},
+            {num: 24, type: "goods", title: "Textiles and substitutes for textiles; bed linen; table linen."},
+            {num: 25, type: "goods", title: "Clothing, footwear, headwear."},
+            {num: 26, type: "goods", title: "Lace and embroidery, ribbons and braid; buttons, hooks and eyes, pins."},
+            {num: 27, type: "goods", title: "Carpets, rugs, mats and matting, linoleum and other materials for covering floors."},
+            {num: 28, type: "goods", title: "Games, toys and playthings; video game apparatus; gymnastic and sporting articles."},
+            {num: 29, type: "goods", title: "Meat, fish, poultry and game; meat extracts; preserved, frozen, dried and cooked fruits and vegetables."},
+            {num: 30, type: "goods", title: "Coffee, tea, cocoa and artificial coffee; rice; flour and preparations made from cereals; bread, pastries and confectionery; edible ices; sugar, honey, yeast, salt, mustard, vinegar, sauces, spices."},
+            {num: 31, type: "goods", title: "Raw and unprocessed agricultural, aquacultural, horticultural and forestry products."},
+            {num: 32, type: "goods", title: "Beers; non-alcoholic beverages; mineral and aerated waters; fruit beverages and fruit juices; syrups."},
+            {num: 33, type: "goods", title: "Alcoholic beverages (except beers)."},
+            {num: 34, type: "goods", title: "Tobacco; smokers' articles; matches."},
+            {num: 35, type: "services", title: "Advertising; business management; business administration; office functions."},
+            {num: 36, type: "services", title: "Insurance; financial affairs; monetary affairs; real estate affairs."},
+            {num: 37, type: "services", title: "Building construction; repair; installation services."},
+            {num: 38, type: "services", title: "Telecommunications."},
+            {num: 39, type: "services", title: "Transport; packaging and storage of goods; travel arrangement."},
+            {num: 40, type: "services", title: "Treatment of materials; recycling of waste; air purification and water treatment."},
+            {num: 41, type: "services", title: "Education; providing of training; entertainment; sporting and cultural activities."},
+            {num: 42, type: "services", title: "Scientific and technological services and research; industrial analysis; design and development of computer hardware and software."},
+            {num: 43, type: "services", title: "Services for providing food and drink; temporary accommodation."},
+            {num: 44, type: "services", title: "Medical services; veterinary services; hygienic and beauty care for human beings or animals."},
+            {num: 45, type: "services", title: "Legal services; security services for the physical protection of tangible property and individuals."}
+        ];
+
+        let currentNiceCategory = 'all';
+
+        function renderNiceClasses(filter = '') {
+            const container = document.getElementById('nice-classes-container');
+            container.innerHTML = '';
+
+            const filtered = niceClassesData.filter(c => {
+                const matchesCat = (currentNiceCategory === 'all' || c.type === currentNiceCategory);
+                const matchesKey = c.num.toString().includes(filter) || c.title.toLowerCase().includes(filter.toLowerCase());
+                return matchesCat && matchesKey;
+            });
+
+            if(filtered.length === 0) {
+                container.innerHTML = `<div class="col-span-full text-center py-8 text-slate-400 text-xs">No matching Nice classes found.</div>`;
+                return;
+            }
+
+            filtered.forEach(c => {
+                const card = document.createElement('div');
+                card.className = "bg-slate-50 border border-slate-200 p-4 rounded-xl hover:border-nipo-navy transition flex flex-col justify-between";
+                card.innerHTML = `
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-xs font-extrabold text-amber-600 bg-amber-50 px-2 py-0.5 rounded-md border border-amber-200">Class ${c.num}</span>
+                            <span class="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded ${c.type === 'goods' ? 'bg-blue-50 text-blue-700' : 'bg-emerald-50 text-emerald-700'}">${c.type}</span>
+                        </div>
+                        <p class="text-xs text-slate-700 leading-relaxed">${c.title}</p>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function filterNiceCategory(cat) {
+            currentNiceCategory = cat;
+            ['all', 'goods', 'services'].forEach(c => {
+                const btn = document.getElementById('nice-cat-' + c);
+                if(c === cat) {
+                    btn.className = "nice-cat-btn px-3.5 py-1.5 rounded-lg text-xs font-bold bg-nipo-navy text-white";
+                } else {
+                    btn.className = "nice-cat-btn px-3.5 py-1.5 rounded-lg text-xs font-bold bg-slate-100 text-slate-700 hover:bg-slate-200";
+                }
+            });
+            renderNiceClasses(document.getElementById('nice-keyword-input').value);
+        }
+
+        function filterNiceInteractive() {
+            renderNiceClasses(document.getElementById('nice-keyword-input').value);
+        }
+
+        // --- Document Checklists Data ---
+        const checklistsData = {
+            m01: {
+                title: "Form M 01 - Application for Registration of Trademark",
+                items: [
+                    "Duly filled and signed Form M 01 (Trademark Application Form).",
+                    "6 clear specimens / representations of the trademark (Max size: 10 cm x 10 cm).",
+                    "Power of Attorney (POA) if filed through an authorized IP Agent or Attorney.",
+                    "Certified translation and transliteration if the mark contains non-English, Sinhala, or Tamil characters.",
+                    "Priority document (if claiming priority under Paris Convention within 6 months of foreign filing)."
+                ]
+            },
+            m03: {
+                title: "Form M 03 / Assignments & Change of Name/Address",
+                items: [
+                    "Duly completed Form M 03 request letter.",
+                    "Certified copy of Certificate of Change of Name / Business Registration.",
+                    "Original Trademark Certificate or certified duplicate copy.",
+                    "Assignment deed executed by assignor and assignee (for transfers/transmissions).",
+                    "Applicable NIPO fee receipt."
+                ]
+            },
+            cr_deposit: {
+                title: "Copyright Voluntary Work Deposit Checklist",
+                items: [
+                    "Completed Copyright Deposit application form.",
+                    "Two identical copies of the work (Manuscript, software CD/source, artwork, or audio recording).",
+                    "Proof of authorship / Declaration of ownership signed by author(s).",
+                    "National Identity Card (NIC) or passport copy of the applicant.",
+                    "Applicable voluntary deposit fee receipt."
+                ]
+            }
+        };
+
+        function showChecklist(formKey) {
+            ['m01', 'm03', 'cr_deposit'].forEach(k => {
+                const btn = document.getElementById('chk-btn-' + k);
+                if(k === formKey) {
+                    btn.className = "chk-tab-btn active p-4 rounded-xl border-2 border-nipo-navy bg-nipo-navy text-white text-left transition";
+                } else {
+                    btn.className = "chk-tab-btn p-4 rounded-xl border-2 border-slate-200 bg-slate-50 text-slate-800 text-left transition";
+                }
+            });
+
+            const data = checklistsData[formKey];
+            const display = document.getElementById('checklist-display');
+            display.innerHTML = `
+                <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200 space-y-4">
+                    <h4 class="font-bold text-nipo-navy text-base font-serif">${data.title}</h4>
+                    <ul class="space-y-3 text-xs text-slate-700">
+                        ${data.items.map(item => `<li class="flex items-start gap-2.5"><i class="fa-solid fa-square-check text-amber-500 mt-0.5 text-sm"></i> <span>${item}</span></li>`).join('')}
+                    </ul>
+                </div>
+            `;
+        }
+
+        // --- Upgraded Fee Estimator Logic ---
+        let currentMode = 'app'; // 'app' or 'pub'
+        let selectedAppType = 'individual';
+        let selectedPubTier = '1a';
+
+        const appFees = {
+            individual: 2360,
+            corporate: 7080,
+            collective: 11800
+        };
+
+        const pubFees = {
+            '1a': 2000,
+            '1b': 2500,
+            '2a': 3000,
+            '2b': 3500,
+            '3a': 4000,
+            '3b': 5500
+        };
+
+        function switchCalcMode(mode) {
+            currentMode = mode;
+            ['app', 'pub'].forEach(m => {
+                const btn = document.getElementById('mode-btn-' + m);
+                const panel = document.getElementById('calc-panel-' + m);
+                if(m === mode) {
+                    btn.className = "calc-subtag active flex-1 py-2 px-4 rounded-lg text-xs font-bold transition text-center";
+                    panel.classList.remove('hidden');
+                } else {
+                    btn.className = "calc-subtag flex-1 py-2 px-4 rounded-lg text-xs font-bold text-slate-300 transition text-center";
+                    panel.classList.add('hidden');
+                }
+            });
+            updateKioskFee();
+        }
+
+        function setAppType(type) {
+            selectedAppType = type;
+            ['individual', 'corporate', 'collective'].forEach(t => {
+                const card = document.getElementById('card-app-' + t);
+                if(t === type) {
+                    card.className = "cursor-pointer bg-slate-950 border-2 border-amber-400 p-4 rounded-xl block transition";
+                } else {
+                    card.className = "cursor-pointer bg-slate-950 border border-slate-700 p-4 rounded-xl block transition";
+                }
+            });
+            updateKioskFee();
+        }
+
+        function setPubTier(tier) {
+            selectedPubTier = tier;
+            ['1a', '1b', '2a', '2b', '3a', '3b'].forEach(t => {
+                const card = document.getElementById('card-pub-' + t);
+                if(t === tier) {
+                    card.className = "cursor-pointer bg-slate-950 border-2 border-amber-400 p-4 rounded-xl block transition";
+                } else {
+                    card.className = "cursor-pointer bg-slate-950 border border-slate-700 p-4 rounded-xl block transition";
+                }
+            });
+            updateKioskFee();
+        }
+
+        function updateKioskFee() {
+            let amount = 0;
+            if (currentMode === 'app') {
+                amount = appFees[selectedAppType] || 2360;
+            } else {
+                amount = pubFees[selectedPubTier] || 2000;
+            }
+
+            document.getElementById('est-total-amount').textContent = 'Rs. ' + amount.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+        }
+
+        // Initialize on page load
+        window.onload = function() {
+            renderNiceClasses();
+            showChecklist('m01');
+            updateKioskFee();
+            loadScannedCsvFromGitHub(); // Fetch and load Column A CSV on startup
+        };
+    </script>
+</body>
+</html>
