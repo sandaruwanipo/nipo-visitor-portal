@@ -23,7 +23,7 @@
 }
 </style>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>NIPO Roster - ADMIN LOCKED FINAL</title>
+<title>NIPO Roster - Single Pool - Admin Locked</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <script type="importmap">{"imports":{"react":"https://esm.sh/react@18.2.0","react-dom":"https://esm.sh/react-dom@18.2.0","react-dom/client":"https://esm.sh/react-dom@18.2.0/client"}}</script>
 <style>
@@ -47,8 +47,9 @@ async function initFB(){try{const{initializeApp}=await import("https://www.gstat
 const DEFAULT_NI=["THILINA PRABA.","THILINA SANDA.","THUSHARI","UPEKHA","ACHINI","AJITH","IROSHI","ISURI","JAYANTHA","KAVITH","NAYOMI","RAVIMINI"];
 function App(){
  const [dark,setDark]=useState(()=>localStorage.getItem('nipo_dark')==='1');
- const [infoPool,setInfoPool]=useState([...DEFAULT_NI]);const [lunchPool,setLunchPool]=useState([...DEFAULT_NI]);
- const [newInfoName,setNewInfoName]=useState('');const [newLunchName,setNewLunchName]=useState('');
+ const [officerPool,setOfficerPool]=useState([...DEFAULT_NI]);
+ const [newOfficerName,setNewOfficerName]=useState('');
+ const infoPool=officerPool; const lunchPool=officerPool;
  const [year,setYear]=useState(2026);const [month,setMonth]=useState(9);
  const [starters,setStarters]=useState({});const [swaps,setSwaps]=useState([]);const [lastUpdated,setLastUpdated]=useState(null);
  const [isAdmin,setIsAdmin]=useState(false);const [showLogin,setShowLogin]=useState(false);const [cred,setCred]=useState({u:'',p:''});
@@ -56,9 +57,9 @@ function App(){
  const [fbReady,setFbReady]=useState(false);const [toast,setToast]=useState(null);const [now,setNow]=useState(new Date());
  useEffect(()=>{const i=setInterval(()=>setNow(new Date()),1000);return()=>clearInterval(i)},[]);
  useEffect(()=>{document.documentElement.classList.toggle('dark',dark);localStorage.setItem('nipo_dark',dark?'1':'0')},[dark]);
- useEffect(()=>{const saved=localStorage.getItem('nipo_admin_locked_final');if(saved){try{const d=JSON.parse(saved);if(d.infoPool)setInfoPool(d.infoPool);if(d.lunchPool)setLunchPool(d.lunchPool);if(d.swaps)setSwaps(d.swaps);if(d.starters)setStarters(d.starters);if(d.lastUpdated)setLastUpdated(d.lastUpdated);}catch{}}},[]);
- useEffect(()=>{(async()=>{const ok=await initFB();if(ok){setFbReady(true);const r=fb.doc(db,"nipoRoster","live");fb.onSnapshot(r,(snap)=>{const v=snap.exists()?snap.data():null;if(v){if(v.infoPool)setInfoPool(v.infoPool);if(v.lunchPool)setLunchPool(v.lunchPool);if(v.swaps)setSwaps(v.swaps);if(v.starters)setStarters(v.starters);if(v.lastUpdated)setLastUpdated(v.lastUpdated);}});}})()},[]);
- const saveAll=async(o)=>{const data={infoPool:o.infoPool??infoPool,lunchPool:o.lunchPool??lunchPool,swaps:o.swaps??swaps,starters:o.starters??starters,lastUpdated:o.lastUpdated??new Date().toISOString()};localStorage.setItem('nipo_admin_locked_final',JSON.stringify(data));if(fbReady&&db){try{await fb.setDoc(fb.doc(db,"nipoRoster","live"),data,{merge:true});}catch{}}};
+ useEffect(()=>{const saved=localStorage.getItem('nipo_single_pool_final');if(saved){try{const d=JSON.parse(saved);if(d.officerPool)setOfficerPool(d.officerPool);else if(d.infoPool)setOfficerPool(d.infoPool);if(d.swaps)setSwaps(d.swaps);if(d.starters)setStarters(d.starters);if(d.lastUpdated)setLastUpdated(d.lastUpdated);}catch{}}},[]);
+ useEffect(()=>{(async()=>{const ok=await initFB();if(ok){setFbReady(true);const r=fb.doc(db,"nipoRoster","live");fb.onSnapshot(r,(snap)=>{const v=snap.exists()?snap.data():null;if(v){if(v.officerPool)setOfficerPool(v.officerPool);else if(v.infoPool)setOfficerPool(v.infoPool);if(v.swaps)setSwaps(v.swaps);if(v.starters)setStarters(v.starters);if(v.lastUpdated)setLastUpdated(v.lastUpdated);}});}})()},[]);
+ const saveAll=async(o)=>{const pool=o.officerPool??officerPool;const data={officerPool:pool,infoPool:pool,lunchPool:pool,swaps:o.swaps??swaps,starters:o.starters??starters,lastUpdated:o.lastUpdated??new Date().toISOString()};localStorage.setItem('nipo_single_pool_final',JSON.stringify(data));if(fbReady&&db){try{await fb.setDoc(fb.doc(db,"nipoRoster","live"),data,{merge:true});}catch{}}};
  const monthKey=`${year}-${String(month+1).padStart(2,'0')}`;const curStarter=starters[monthKey]||{info:infoPool[0],lunch:lunchPool[0]};
  const getRotated=(pool,starter)=>{if(!starter)return pool;const idx=pool.indexOf(starter);if(idx<=0)return pool;return[...pool.slice(idx),...pool.slice(0,idx)];};
  const rotInfo=getRotated(infoPool,curStarter.info);const rotLunch=getRotated(lunchPool,curStarter.lunch);
@@ -72,9 +73,9 @@ function App(){
  const filtered=filter==='ALL'?workingDays:workingDays.filter(dt=>{const ds=localDateStr(dt);if(swappedDates.has(ds))return true;const f=fin[ds];return f&&(f.info===filter||f.lunch===filter);});
  const hm=now.getHours()*60+now.getMinutes();const infoLive=hm>=8*60+45&&hm<=16*60;const lunchLive=hm>=12*60+30&&hm<=13*60;
  const doSwap=()=>{if(!isAdmin){setToast('🔒 Admin only - Login first');setTimeout(()=>setToast(null),2500);return;}if(!selA||!selB||selA===selB){setToast('Select 2 different dates');setTimeout(()=>setToast(null),2500);return;}const offA=poolType==='info'?fin[selA]?.info:fin[selA]?.lunch;const offB=poolType==='info'?fin[selB]?.info:fin[selB]?.lunch;if(!offA||!offB){setToast('Must be working days');setTimeout(()=>setToast(null),2500);return;}const newS={id:`${Date.now()}`,dateA:selA,dateB:selB,type:poolType,officerA_before:offA,officerB_before:offB,monthKey,createdAt:new Date().toISOString()};const up=[...swaps,newS];setSwaps(up);saveAll({swaps:up,lastUpdated:new Date().toISOString()});setSelA('');setSelB('');setFilter('ALL');setToast(`✅ Swapped ${selA.slice(8)} ↔ ${selB.slice(8)} (${poolType})`);setTimeout(()=>setToast(null),3500);};
- const movePerson=(type,idx,dir)=>{if(!isAdmin){setToast('🔒 Admin only');setTimeout(()=>setToast(null),2000);return;}const pool=type==='info'?[...infoPool]:[...lunchPool];const newIdx=idx+dir;if(newIdx<0||newIdx>=pool.length)return;const[moved]=pool.splice(idx,1);pool.splice(newIdx,0,moved);if(type==='info'){setInfoPool(pool);saveAll({infoPool:pool});}else{setLunchPool(pool);saveAll({lunchPool:pool});}};
- const removePerson=(type,name)=>{if(!isAdmin){setToast('🔒 Admin only');setTimeout(()=>setToast(null),2000);return;}if(type==='info'){const up=infoPool.filter(n=>n!==name);setInfoPool(up);saveAll({infoPool:up});}else{const up=lunchPool.filter(n=>n!==name);setLunchPool(up);saveAll({lunchPool:up});}setToast(`Removed ${name}`);setTimeout(()=>setToast(null),2000);};
- const addPerson=(type)=>{if(!isAdmin){setToast('🔒 Admin only');setTimeout(()=>setToast(null),2000);return;}const name=(type==='info'?newInfoName:newLunchName).trim().toUpperCase();if(!name){setToast('Enter name');setTimeout(()=>setToast(null),2000);return;}if(type==='info'){if(infoPool.includes(name)){setToast('Exists');setTimeout(()=>setToast(null),2000);return;}const up=[...infoPool,name];setInfoPool(up);saveAll({infoPool:up});setNewInfoName('');}else{if(lunchPool.includes(name)){setToast('Exists');setTimeout(()=>setToast(null),2000);return;}const up=[...lunchPool,name];setLunchPool(up);saveAll({lunchPool:up});setNewLunchName('');}setToast(`Added ${name}`);setTimeout(()=>setToast(null),2000);};
+ const movePerson=(idx,dir)=>{if(!isAdmin){setToast('🔒 Admin only');setTimeout(()=>setToast(null),2000);return;}const pool=[...officerPool];const newIdx=idx+dir;if(newIdx<0||newIdx>=pool.length)return;const[moved]=pool.splice(idx,1);pool.splice(newIdx,0,moved);setOfficerPool(pool);saveAll({officerPool:pool});setToast(`Moved ${moved} ${dir>0?'down':'up'}`);setTimeout(()=>setToast(null),1500);};
+ const removePerson=(name)=>{if(!isAdmin){setToast('🔒 Admin only');setTimeout(()=>setToast(null),2000);return;}const up=officerPool.filter(n=>n!==name);setOfficerPool(up);saveAll({officerPool:up});setToast(`Removed ${name}`);setTimeout(()=>setToast(null),2000);};
+ const addPerson=()=>{if(!isAdmin){setToast('🔒 Admin only');setTimeout(()=>setToast(null),2000);return;}const name=newOfficerName.trim().toUpperCase();if(!name){setToast('Enter name');setTimeout(()=>setToast(null),2000);return;}if(officerPool.includes(name)){setToast('Exists');setTimeout(()=>setToast(null),2000);return;}const up=[...officerPool,name];setOfficerPool(up);saveAll({officerPool:up});setNewOfficerName('');setToast(`Added ${name}`);setTimeout(()=>setToast(null),2000);};
  const months=["JANUARY","FEBRUARY","MARCH","APRIL","MAY","JUNE","JULY","AUGUST","SEPTEMBER","OCTOBER","NOVEMBER","DECEMBER"];
  return React.createElement('div',{className:`min-h-screen bg-[var(--bg)] text-[var(--ink)] ${dark?'dark':''}`},
   React.createElement('div',{className:`sticky top-0 z-40 border-b ${fbReady?'bg-emerald-500 text-white':'bg-amber-200 text-black'} px-4 py-2 flex justify-between mono text-[12px]`},
@@ -112,18 +113,33 @@ function App(){
      !isAdmin&&React.createElement('div',{className:'mt-2 mono text-[10px] opacity-50'},'🔒 Admin only can change starters'),
      holidaysThisMonth.length>0&&React.createElement('div',{className:'mt-3 bg-amber-50 border border-amber-200 p-2 mono text-[10px]'},holidaysThisMonth.map(h=>React.createElement('div',{key:localDateStr(h.date)},`${localDateStr(h.date)} - ${h.name}`)))
     ),
-    // Pools
-    [{label:'Information Pool',type:'info',pool:infoPool,newName:newInfoName,setNew:setNewInfoName},{label:'Lunch Pool',type:'lunch',pool:lunchPool,newName:newLunchName,setNew:setNewLunchName}].map(cfg=>
-      React.createElement('div',{key:cfg.type,className:'bg-[var(--surface)] border border-[var(--border)] p-4'},
-       React.createElement('div',{className:'flex justify-between'},React.createElement('h4',{className:'mono text-[11px] uppercase opacity-60'},`${cfg.label} • ${cfg.pool.length}`),React.createElement('span',{className:'mono text-[9px] px-2 py-0.5 bg-[var(--surface-2)] border rounded-full'},isAdmin?'Add/Remove/Move':'🔒 View only')),
-       isAdmin&&React.createElement('div',{className:'mt-3 flex gap-2'},React.createElement('input',{value:cfg.newName,onChange:e=>cfg.setNew(e.target.value),placeholder:'Add NAME',className:'flex-1 bg-[var(--surface-2)] border px-2 py-2 mono text-[12px] uppercase'}),React.createElement('button',{onClick:()=>addPerson(cfg.type),className:'px-4 bg-[var(--accent)] text-[var(--bg)] mono text-[11px] uppercase font-bold'},'Add')),
-       React.createElement('div',{className:'mt-3 max-h-[200px] overflow-auto space-y-1'},
-        cfg.pool.map((name,idx)=>React.createElement('div',{key:name,className:'flex justify-between items-center px-2 py-1.5 border border-transparent hover:bg-[var(--surface-2)]'},
-         React.createElement('div',{className:'flex items-center gap-2'},React.createElement('span',{className:'mono text-[10px] opacity-40 w-5'},String(idx+1).padStart(2,'0')),React.createElement('span',{className:'mono text-[12px]'},name)),
-         isAdmin?React.createElement('div',{className:'flex gap-1'},React.createElement('button',{onClick:()=>movePerson(cfg.type,idx,-1),className:'h-5 w-5 border grid place-items-center mono text-[10px]'},'↑'),React.createElement('button',{onClick:()=>movePerson(cfg.type,idx,1),className:'h-5 w-5 border grid place-items-center mono text-[10px]'},'↓'),React.createElement('button',{onClick:()=>removePerson(cfg.type,name),className:'h-5 w-5 bg-red-50 text-red-600 border mono text-[10px]'},'✕')):null
-        ))
-       )
-      )
+    // Single Pool - Officer Pool used for both Information and Lunch
+    React.createElement('div',{className:'bg-[var(--surface)] border border-[var(--border)] p-4'},
+     React.createElement('div',{className:'flex justify-between items-center'},
+      React.createElement('h4',{className:'mono text-[11px] uppercase tracking-[0.2em] opacity-60'},`Officer Pool • ${officerPool.length} officers • Used for both Info & Lunch`),
+      React.createElement('span',{className:'mono text-[9px] px-2 py-0.5 bg-[var(--surface-2)] border rounded-full'},isAdmin?'Single Pool - Add/Move/Remove':'🔒 View only')
+     ),
+     React.createElement('p',{className:'mt-2 mono text-[10px] opacity-50'},'One pool controls both Information and Lunch rosters. Starters can be different for each.'),
+     isAdmin&&React.createElement('div',{className:'mt-3 flex gap-2'},
+      React.createElement('input',{value:newOfficerName,onChange:e=>setNewOfficerName(e.target.value),placeholder:'Add officer NAME',className:'flex-1 bg-[var(--surface-2)] border border-[var(--border)] px-2 py-2 mono text-[12px] uppercase',onKeyDown:e=>{if(e.key==='Enter')addPerson();}}),
+      React.createElement('button',{onClick:()=>addPerson(),className:'px-4 bg-[var(--accent)] text-[var(--bg)] mono text-[11px] uppercase font-bold'},'Add')
+     ),
+     !isAdmin&&React.createElement('div',{className:'mt-2 mono text-[10px] opacity-50'},'🔒 Admin only can edit pool'),
+     React.createElement('div',{className:'mt-3 max-h-[260px] overflow-auto space-y-1 pr-1'},
+      officerPool.map((name,idx)=>React.createElement('div',{key:name,className:'group flex justify-between items-center px-2 py-1.5 border border-transparent hover:border-[var(--border)] hover:bg-[var(--surface-2)]'},
+       React.createElement('div',{className:'flex items-center gap-2'},
+        React.createElement('span',{className:'mono text-[10px] opacity-40 w-6 text-center'},String(idx+1).padStart(2,'0')),
+        React.createElement('span',{className:'mono text-[12px] font-medium'},name),
+        curStarter.info===name&&React.createElement('span',{className:'mono text-[8px] px-1 py-0.5 bg-[#0f2a1f] text-white rounded'},'INFO START'),
+        curStarter.lunch===name&&React.createElement('span',{className:'mono text-[8px] px-1 py-0.5 bg-amber-200 text-black rounded'},'LUNCH START')
+       ),
+       isAdmin?React.createElement('div',{className:'flex gap-1 opacity-0 group-hover:opacity-100 transition'},
+        React.createElement('button',{onClick:()=>movePerson(idx,-1),disabled:idx===0,className:'h-6 w-6 border grid place-items-center bg-[var(--surface)] mono text-[10px] disabled:opacity-30'},'↑'),
+        React.createElement('button',{onClick:()=>movePerson(idx,1),disabled:idx===officerPool.length-1,className:'h-6 w-6 border grid place-items-center bg-[var(--surface)] mono text-[10px] disabled:opacity-30'},'↓'),
+        React.createElement('button',{onClick:()=>removePerson(name),className:'h-6 w-6 bg-red-50 text-red-600 border border-red-200 mono text-[10px] grid place-items-center'},'✕')
+       ):null
+      ))
+     )
     ),
     // SWAP - ADMIN ONLY
     isAdmin?React.createElement('div',{className:'bg-[var(--accent)] text-[var(--bg)] p-4'},
