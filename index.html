@@ -1,1580 +1,368 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>National Intellectual Property Office (Trademark Division) | Visitor Portal</title>
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- PapaParse Library for CSV Parsing -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        nipo: {
-                            navy: '#0B1E3D',
-                            navyLight: '#1B365D',
-                            gold: '#D4AF37',
-                            goldHover: '#B59226',
-                            goldLight: '#FFF8E7',
-                            accent: '#10B981',
-                            bg: '#F8FAFC',
-                            card: '#FFFFFF'
-                        }
-                    },
-                    fontFamily: {
-                        sans: ['Plus Jakarta Sans', 'Inter', 'sans-serif'],
-                        serif: ['Merriweather', 'serif']
-                    }
-                }
-            }
-        }
-    </script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-    <style>
-        body {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            background-color: #F8FAFC;
-            color: #0F172A;
-        }
-
-        .hero-gradient {
-            background: linear-gradient(135deg, #0B1E3D 0%, #1B365D 60%, #0F2942 100%);
-        }
-
-        .tab-btn.active {
-            background-color: #0B1E3D;
-            color: #ffffff;
-            border-bottom: 3px solid #D4AF37;
-        }
-
-        .calc-subtag.active {
-            background-color: #D4AF37;
-            color: #0B1E3D;
-            font-weight: 800;
-        }
-
-        @media print {
-            body * { visibility: hidden; }
-            #printable-area, #printable-area * { visibility: visible; }
-            #printable-area { position: absolute; left: 0; top: 0; width: 100%; color: #000; background: #fff; }
-            .no-print { display: none !important; }
-        }
-
-        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
-        .custom-scrollbar::-webkit-scrollbar-track { background: #F1F5F9; }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 4px; }
-        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #0B1E3D; }
-    </style>
+<head><style>
+@font-face {
+  font-family: "Optimistic";
+  font-style: normal;
+  font-weight: 400 600;
+  font-display: swap;
+  src: url("/fonts/OptimisticAI_VF_Optimized.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Optimistic Mono";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/OptimisticMono_W_TextRegular.woff2") format("woff2");
+}
+:where(html) {
+  font-family: "Optimistic", system-ui, sans-serif;
+}
+:where(code, pre, kbd, samp) {
+  font-family: "Optimistic Mono", ui-monospace, monospace;
+}
+</style>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NIPO Roster - Firestore LIVE - Fixed</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script type="importmap">{"imports":{"react":"https://esm.sh/react@18.2.0","react-dom":"https://esm.sh/react-dom@18.2.0","react-dom/client":"https://esm.sh/react-dom@18.2.0/client"}}</script>
+<style>
+:root{--bg:#f7f5f0;--surface:#ffffff;--surface-2:#efebe4;--ink:#151515;--border:#e6ddd1;--accent:#0f2a1f;--live-info:#ff3b30;--live-lunch:#ff9500;}
+*{font-family:"Space Grotesk",system-ui,sans-serif}
+.mono{font-family:"JetBrains Mono",monospace}
+.live-blink{animation:blink 1.2s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0.6}}
+</style>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
 </head>
-<body class="min-h-screen flex flex-col justify-between selection:bg-amber-100 selection:text-nipo-navy">
-
-    <!-- Top Header -->
-    <header class="hero-gradient text-white shadow-xl relative z-20 border-b-4 border-amber-500">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2 flex flex-wrap justify-between items-center text-xs border-b border-white/10">
-            <div class="flex items-center space-x-4">
-                <span class="flex items-center text-amber-400 font-semibold">
-                    <i class="fa-solid fa-building-columns mr-1.5"></i> Democratic Socialist Republic of Sri Lanka
-                </span>
-                <span class="hidden md:inline text-slate-300">|</span>
-                <span class="hidden md:inline text-slate-300">Intellectual Property Act No. 36 of 2003</span>
-            </div>
-            
-            <div class="flex items-center space-x-6">
-                <div class="flex items-center text-amber-300 font-bold">
-                    <i class="fa-solid fa-phone-volume mr-1.5 text-red-400 animate-pulse"></i>
-                    <span id="txt-hotline">Hotline: 1934</span>
-                </div>
-                <!-- Language Selector -->
-                <div class="flex items-center bg-black/30 rounded-lg p-0.5 border border-white/20">
-                    <button onclick="setLanguage('en')" id="lang-en" class="px-2.5 py-0.5 rounded text-[11px] font-bold bg-amber-500 text-slate-950 transition">EN</button>
-                    <button onclick="setLanguage('si')" id="lang-si" class="px-2.5 py-0.5 rounded text-[11px] font-bold text-slate-300 hover:text-white transition">සිං</button>
-                    <button onclick="setLanguage('ta')" id="lang-ta" class="px-2.5 py-0.5 rounded text-[11px] font-bold text-slate-300 hover:text-white transition">தமி</button>
-                </div>
-            </div>
-        </div>
-
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col md:flex-row items-center justify-between gap-4">
-            <div class="flex items-center gap-4 text-center md:text-left">
-                <div class="w-16 h-16 sm:w-20 sm:h-20 bg-white/10 rounded-2xl p-2 flex items-center justify-center border border-amber-400/40 shadow-inner flex-shrink-0">
-                    <div class="w-full h-full rounded-xl border-2 border-amber-400/80 flex flex-col items-center justify-center text-amber-400 font-serif font-bold">
-                        <span class="text-xl sm:text-2xl tracking-widest">NIPO</span>
-                        <span class="text-[9px] uppercase tracking-tighter">Sri Lanka</span>
-                    </div>
-                </div>
-                <div>
-                    <h1 class="text-xl sm:text-2xl md:text-3xl font-extrabold tracking-tight text-white font-serif" id="header-main-title">
-                        National Intellectual Property Office (Trademark Division)
-                    </h1>
-                    <p class="text-xs sm:text-sm text-amber-300 font-medium tracking-wide mt-0.5" id="header-sinhala-sub">
-                        ජාතික බුද්ධිමය දේපළ කාර්යාලය (වෙළඳ ලකුණු අංශය) • ශ්‍රී ලංකාව
-                    </p>
-                    <p class="text-[11px] text-slate-300 mt-1 flex items-center gap-2 justify-center md:justify-start">
-                        <span class="inline-block w-2 h-2 rounded-full bg-emerald-400"></span> <span id="header-sub-tag">Trademark Division Public Kiosk & Inquiry Portal</span>
-                    </p>
-                </div>
-            </div>
-
-            <div class="hidden lg:flex flex-col items-end bg-white/5 border border-white/10 px-4 py-2.5 rounded-xl">
-                <span class="text-xs text-slate-300" id="live-date">Sunday, Oct 18, 2026</span>
-                <span class="text-xl font-mono font-bold text-amber-400" id="live-clock">01:24:00 PM</span>
-                <span class="text-[10px] text-slate-400 mt-0.5"><i class="fa-solid fa-clock text-emerald-400"></i> <span id="txt-counter-hours-lbl">Counter Hours: 9:00 AM - 3:00 PM</span></span>
-            </div>
-        </div>
-    </header>
-
-    <!-- Navigation Tabs Bar -->
-    <div class="bg-white border-b border-slate-200 sticky top-0 z-30 shadow-sm">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <nav class="flex space-x-1 overflow-x-auto py-2 custom-scrollbar text-sm font-semibold">
-                <button onclick="switchTab('divisions')" id="tab-divisions" class="tab-btn active px-4 py-2.5 rounded-lg whitespace-nowrap transition flex items-center gap-2">
-                    <i class="fa-solid fa-shapes text-amber-500"></i> <span id="nav-lbl-divs">Main Divisions</span>
-                </button>
-                <button onclick="switchTab('scancheck')" id="tab-scancheck" class="tab-btn px-4 py-2.5 rounded-lg whitespace-nowrap text-slate-600 hover:bg-slate-100 transition flex items-center gap-2">
-                    <i class="fa-solid fa-scanner-image text-amber-600"></i> <span id="nav-lbl-scancheck">Scanned File Check</span>
-                </button>
-                <button onclick="switchTab('searchguide')" id="tab-searchguide" class="tab-btn px-4 py-2.5 rounded-lg whitespace-nowrap text-slate-600 hover:bg-slate-100 transition flex items-center gap-2">
-                    <i class="fa-solid fa-magnifying-glass-location text-teal-500"></i> <span id="nav-lbl-searchguide">Basic Search Guide</span>
-                </button>
-                <button onclick="switchTab('process')" id="tab-process" class="tab-btn px-4 py-2.5 rounded-lg whitespace-nowrap text-slate-600 hover:bg-slate-100 transition flex items-center gap-2">
-                    <i class="fa-solid fa-diagram-project text-blue-500"></i> <span id="nav-lbl-process">Trademark Process Flowchart</span>
-                </button>
-                <button onclick="switchTab('nice')" id="tab-nice" class="tab-btn px-4 py-2.5 rounded-lg whitespace-nowrap text-slate-600 hover:bg-slate-100 transition flex items-center gap-2">
-                    <i class="fa-solid fa-magnifying-glass text-indigo-500"></i> <span id="nav-lbl-nice">Nice Classes (1-45) & WIPO MGS</span>
-                </button>
-                <button onclick="switchTab('checklists')" id="tab-checklists" class="tab-btn px-4 py-2.5 rounded-lg whitespace-nowrap text-slate-600 hover:bg-slate-100 transition flex items-center gap-2">
-                    <i class="fa-solid fa-list-check text-emerald-500"></i> <span id="nav-lbl-chk">Document Checklists</span>
-                </button>
-                <button onclick="switchTab('fees')" id="tab-fees" class="tab-btn px-4 py-2.5 rounded-lg whitespace-nowrap text-slate-600 hover:bg-slate-100 transition flex items-center gap-2">
-                    <i class="fa-solid fa-calculator text-amber-600"></i> <span id="nav-lbl-fees">Fee Estimator & Structure</span>
-                </button>
-                <button onclick="switchTab('hours')" id="tab-hours" class="tab-btn px-4 py-2.5 rounded-lg whitespace-nowrap text-slate-600 hover:bg-slate-100 transition flex items-center gap-2">
-                    <i class="fa-solid fa-building-columns text-purple-500"></i> <span id="nav-lbl-hrs">Counter & Bank Info</span>
-                </button>
-            </nav>
-        </div>
-    </div>
-
-    <!-- Main Dynamic Content Area -->
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-1 w-full space-y-10">
-
-        <!-- ================= SECTION 1: MAIN DIVISIONS ================= -->
-        <div id="content-divisions" class="space-y-8">
-            <div class="bg-amber-50 border-l-4 border-amber-500 p-4 rounded-r-xl shadow-sm flex items-start gap-3">
-                <i class="fa-solid fa-lightbulb text-amber-600 text-xl mt-0.5"></i>
-                <div>
-                    <h4 class="font-bold text-slate-900 text-sm" id="div-banner-title">National Intellectual Property Office - Trademark Division Portal</h4>
-                    <p class="text-xs text-slate-600 mt-0.5" id="div-banner-desc">
-                        Explore trademark application procedures, official fee calculators, Nice classifications (1-45), and mandatory document checklists.
-                    </p>
-                </div>
-            </div>
-
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                <!-- Trademarks Division (Primary) -->
-                <div class="bg-white rounded-2xl border-2 border-nipo-navy shadow-sm overflow-hidden flex flex-col justify-between">
-                    <div>
-                        <div class="bg-nipo-navy text-white p-5 border-b border-amber-500/30 flex items-center justify-between">
-                            <div>
-                                <span class="text-xs text-amber-400 font-bold uppercase tracking-wider block" id="card-tm-badge">Primary Focus</span>
-                                <h3 class="text-xl font-bold font-serif" id="card-tm-title">Trademarks Division</h3>
-                            </div>
-                            <span class="text-3xl">🏷️</span>
-                        </div>
-                        <div class="p-6 space-y-4">
-                            <p class="text-xs text-slate-600 leading-relaxed" id="card-tm-desc">
-                                Protects brand names, logos, slogans, and distinctive signs. Rights are acquired through official registration under IP Act No. 36 of 2003.
-                            </p>
-                            <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-2">
-                                <span class="text-xs font-bold text-nipo-navy uppercase block" id="card-tm-stats-title">Protection Highlights</span>
-                                <ul class="text-xs text-slate-700 space-y-1.5">
-                                    <li class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-500 text-xs"></i> <span id="tm-stat-1">Validity: 10 years from filing date</span></li>
-                                    <li class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-500 text-xs"></i> <span id="tm-stat-2">Renewal: Every 10 years indefinitely</span></li>
-                                    <li class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-500 text-xs"></i> <span id="tm-stat-3">Classification: Nice Classes 1 to 45</span></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="p-6 pt-0">
-                        <button onclick="switchTab('process')" class="w-full bg-nipo-navy hover:bg-nipo-navyLight text-white font-bold py-2.5 rounded-xl text-xs transition flex items-center justify-center gap-2">
-                            <i class="fa-solid fa-diagram-project text-amber-400"></i> <span id="btn-view-process">View Registration Process Flowchart</span>
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Copyright -->
-                <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex flex-col justify-between">
-                    <div>
-                        <div class="bg-slate-900 text-white p-5 border-b border-emerald-500/30 flex items-center justify-between">
-                            <div>
-                                <span class="text-xs text-emerald-400 font-bold uppercase tracking-wider block" id="card-cr-badge">Secondary Wing</span>
-                                <h3 class="text-xl font-bold font-serif" id="card-cr-title">Copyright & Related Rights</h3>
-                            </div>
-                            <span class="text-3xl">📜</span>
-                        </div>
-                        <div class="p-6 space-y-4">
-                            <p class="text-xs text-slate-600 leading-relaxed" id="card-cr-desc">
-                                Protects literary, artistic, musical works, and software automatically upon creation without mandatory registration. Voluntary deposits available.
-                            </p>
-                            <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-2">
-                                <span class="text-xs font-bold text-nipo-navy uppercase block" id="card-cr-stats-title">Protection Rules</span>
-                                <ul class="text-xs text-slate-700 space-y-1.5">
-                                    <li class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-500 text-xs"></i> <span id="cr-stat-1">Duration: Author's Lifetime + 70 Years</span></li>
-                                    <li class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-500 text-xs"></i> <span id="cr-stat-2">Deposit: Voluntary proof of ownership</span></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="p-6 pt-0">
-                        <button onclick="switchTab('checklists')" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold py-2.5 rounded-xl text-xs transition flex items-center justify-center gap-2">
-                            <i class="fa-solid fa-box-archive text-emerald-400"></i> <span id="btn-view-cr-chk">Copyright Deposit Checklist</span>
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Geographical Indications -->
-                <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex flex-col justify-between">
-                    <div>
-                        <div class="bg-nipo-navy text-white p-5 border-b border-amber-500/30 flex items-center justify-between">
-                            <div>
-                                <span class="text-xs text-amber-400 font-bold uppercase tracking-wider block" id="card-gi-badge">Regional Protection</span>
-                                <h3 class="text-xl font-bold font-serif" id="card-gi-title">Geographical Indications (GIs)</h3>
-                            </div>
-                            <span class="text-3xl">🌍</span>
-                        </div>
-                        <div class="p-6 space-y-4">
-                            <p class="text-xs text-slate-600 leading-relaxed" id="card-gi-desc">
-                                Protects goods originating from specific regions where quality is linked to geographical origin (e.g., Ceylon Tea, Ceylon Cinnamon).
-                            </p>
-                            <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-2">
-                                <span class="text-xs font-bold text-nipo-navy uppercase block" id="card-gi-stats-title">National GIs</span>
-                                <ul class="text-xs text-slate-700 space-y-1.5">
-                                    <li class="flex items-center gap-2"><i class="fa-solid fa-star text-amber-500 text-xs"></i> <span id="gi-stat-1">Ceylon Tea & Ceylon Cinnamon</span></li>
-                                    <li class="flex items-center gap-2"><i class="fa-solid fa-star text-amber-500 text-xs"></i> <span id="gi-stat-2">Managed via Producer Associations</span></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="p-6 pt-0">
-                        <button onclick="switchTab('checklists')" class="w-full bg-nipo-navy hover:bg-nipo-navyLight text-white font-bold py-2.5 rounded-xl text-xs transition flex items-center justify-center gap-2">
-                            <i class="fa-solid fa-file-contract text-amber-400"></i> <span id="btn-view-gi-guide">GI Registration Guide</span>
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- ================= NEW SECTION: SCANNED FILE CHECK (GITHUB CSV) ================= -->
-        <div id="content-scancheck" class="space-y-6 hidden">
-            <div class="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200 shadow-sm space-y-6">
-                <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 pb-6 border-b border-slate-200">
-                    <div>
-                        <span class="text-xs font-bold uppercase tracking-wider text-amber-600" id="sc-badge">Internal Staff & Agent Verification Tool</span>
-                        <h3 class="text-2xl font-bold text-nipo-navy font-serif mt-1" id="sc-main-title">Old / Active File Digital Scan Status Checker</h3>
-                        <p class="text-xs text-slate-600 mt-1 max-w-3xl leading-relaxed" id="sc-main-desc">
-                            Enter a trademark application or file number below. The system checks against your live <code class="bg-slate-100 px-1.5 py-0.5 rounded font-mono font-bold text-nipo-navy">TM.csv</code> file (Column A) hosted on GitHub.
-                        </p>
-                    </div>
-                    <div id="csv-status-badge" class="bg-amber-50 text-amber-800 border border-amber-300 text-[11px] font-bold px-3 py-1.5 rounded-xl flex items-center gap-2">
-                        <i class="fa-solid fa-spinner fa-spin text-amber-600"></i> Loading TM.csv from GitHub...
-                    </div>
-                </div>
-
-                <!-- Input & Search Form -->
-                <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200 space-y-4 max-w-2xl mx-auto">
-                    <label class="block text-xs font-bold text-nipo-navy uppercase tracking-wider" id="sc-lbl-input">Enter File / Application Number</label>
-                    <div class="flex gap-3">
-                        <div class="relative flex-1">
-                            <i class="fa-solid fa-folder-open absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400"></i>
-                            <input type="text" id="scan-file-input" placeholder="e.g. TM/2023/5842 or 154200" class="w-full pl-10 pr-4 py-3 bg-white border border-slate-300 rounded-xl text-sm font-mono focus:outline-none focus:border-nipo-navy">
-                        </div>
-                        <button onclick="checkFileScanStatus()" class="bg-nipo-navy hover:bg-nipo-navyLight text-white font-bold px-6 py-3 rounded-xl text-xs transition flex items-center gap-2 shadow-sm whitespace-nowrap">
-                            <i class="fa-solid fa-magnifying-glass text-amber-400"></i> <span id="btn-check-scan">Check Status</span>
-                        </button>
-                    </div>
-                    <div class="text-[11px] text-slate-500 flex items-center gap-2">
-                        <i class="fa-solid fa-circle-info text-amber-500"></i> 
-                        <span id="sc-hint">Data sourced directly from Column A of your GitHub TM.csv file.</span>
-                    </div>
-                </div>
-
-                <!-- Results Display Area -->
-                <div id="scan-result-container" class="max-w-2xl mx-auto hidden">
-                    <!-- Dynamic result card injected via JavaScript -->
-                </div>
-            </div>
-        </div>
-
-        <!-- ================= SECTION: PRE-FILING TRADEMARK SEARCH GUIDE ================= -->
-        <div id="content-searchguide" class="space-y-6 hidden">
-            <div class="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200 shadow-sm space-y-8">
-                
-                <!-- Section Title Banner -->
-                <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-slate-200 pb-6">
-                    <div>
-                        <span class="text-xs font-bold uppercase tracking-wider text-teal-600" id="sg-badge">Client Advisory Guide</span>
-                        <h3 class="text-2xl font-bold text-nipo-navy font-serif mt-1" id="sg-main-title">Basic Trademark Clearance Search</h3>
-                        <p class="text-xs text-slate-600 mt-1 max-w-3xl leading-relaxed" id="sg-main-desc">
-                            Conducting a trademark clearance search before submitting your application is a crucial step. It helps you avoid costly rejections, legal disputes, and the hassle of having to rebrand later.
-                        </p>
-                    </div>
-                </div>
-
-                <!-- Quick External Action Buttons Bar -->
-                <div class="bg-slate-900 p-5 rounded-2xl border border-slate-800 text-white space-y-3">
-                    <span class="text-xs font-bold text-amber-400 uppercase tracking-wider block" id="sg-links-title"><i class="fa-solid fa-arrow-up-right-from-square mr-1"></i> Quick Portals & Databases</span>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-                        <a href="https://nipo.lk.wipo.net/" target="_blank" rel="noopener" class="bg-teal-600 hover:bg-teal-500 text-white font-bold py-2.5 px-3 rounded-xl text-xs transition flex items-center justify-center gap-2 shadow-sm">
-                            <i class="fa-solid fa-building-columns"></i> <span id="btn-nipo-search">NIPO Online Search</span>
-                        </a>
-                        <a href="https://branddb.wipo.int/" target="_blank" rel="noopener" class="bg-blue-600 hover:bg-blue-500 text-white font-bold py-2.5 px-3 rounded-xl text-xs transition flex items-center justify-center gap-2 shadow-sm">
-                            <i class="fa-solid fa-globe"></i> <span id="btn-wipo-db">WIPO Brand Database</span>
-                        </a>
-                        <a href="https://webaccess.wipo.int/mgs/" target="_blank" rel="noopener" class="bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold py-2.5 px-3 rounded-xl text-xs transition flex items-center justify-center gap-2 shadow-sm">
-                            <i class="fa-solid fa-list-check"></i> <span id="btn-mgs-checker">MGS Goods List Checker</span>
-                        </a>
-                        <a href="https://www.nipo.gov.lk/web/images/pdf_downloads/Intellectual_Property_Act_No_36_of_2003.pdf" target="_blank" rel="noopener" class="bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold py-2.5 px-3 rounded-xl text-xs transition flex items-center justify-center gap-2 border border-slate-700">
-                            <i class="fa-solid fa-file-pdf text-red-400"></i> <span id="btn-ip-act">NIPO IP Act No. 36</span>
-                        </a>
-                    </div>
-                </div>
-
-                <!-- 6 Step Guide Layout -->
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    
-                    <!-- Step 1 -->
-                    <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 space-y-2">
-                        <div class="flex items-center gap-2.5">
-                            <span class="w-7 h-7 rounded-lg bg-teal-600 text-white font-bold flex items-center justify-center text-xs">1</span>
-                            <h4 class="font-bold text-sm text-nipo-navy">Define Your Mark and All Components</h4>
-                        </div>
-                        <p class="text-xs text-slate-600 leading-relaxed pl-9">Identify every element of your proposed brand identity:</p>
-                        <ul class="text-xs text-slate-700 space-y-1 pl-9 list-disc list-inside">
-                            <li><strong>Word Mark:</strong> The brand name, slogan, or tagline.</li>
-                            <li><strong>Visual/Logo Mark:</strong> Graphic logos, stylized typography, colors, or symbols.</li>
-                            <li><strong>Combinations:</strong> Both text and logo together.</li>
-                        </ul>
-                    </div>
-
-                    <!-- Step 2 -->
-                    <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 space-y-2">
-                        <div class="flex items-center gap-2.5">
-                            <span class="w-7 h-7 rounded-lg bg-teal-600 text-white font-bold flex items-center justify-center text-xs">2</span>
-                            <h4 class="font-bold text-sm text-nipo-navy">Determine Your Trademark Class (Nice Classification)</h4>
-                        </div>
-                        <p class="text-xs text-slate-600 leading-relaxed pl-9">
-                            Trademarks are registered under specific categories (Classes 1–34 for goods and Classes 35–45 for services). Use class databases to search your exact goods/services (e.g., Software = Class 9, Clothing = Class 25, Restaurant = Class 43).
-                        </p>
-                    </div>
-
-                    <!-- Step 3 -->
-                    <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 space-y-2">
-                        <div class="flex items-center gap-2.5">
-                            <span class="w-7 h-7 rounded-lg bg-teal-600 text-white font-bold flex items-center justify-center text-xs">3</span>
-                            <h4 class="font-bold text-sm text-nipo-navy">Search Official National & International Registries</h4>
-                        </div>
-                        <p class="text-xs text-slate-600 leading-relaxed pl-9">Check IP databases for target operating regions:</p>
-                        <ul class="text-xs text-slate-700 space-y-1 pl-9 list-disc list-inside">
-                            <li><strong>Sri Lanka (NIPO):</strong> Visit the NIPO portal or request a preliminary search at the front desk.</li>
-                            <li><strong>WIPO Global Brand DB:</strong> Useful for checking international registrations across multiple countries.</li>
-                            <li><strong>Foreign Offices:</strong> USPTO (USA), CGPDTM (India), UKIPO / EUIPO.</li>
-                        </ul>
-                    </div>
-
-                    <!-- Step 4 -->
-                    <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 space-y-2">
-                        <div class="flex items-center gap-2.5">
-                            <span class="w-7 h-7 rounded-lg bg-teal-600 text-white font-bold flex items-center justify-center text-xs">4</span>
-                            <h4 class="font-bold text-sm text-nipo-navy">Search Beyond Exact Matches ("Likelihood of Confusion")</h4>
-                        </div>
-                        <p class="text-xs text-slate-600 leading-relaxed pl-9">Trademarks can be rejected if confusingly similar. Always check:</p>
-                        <ul class="text-xs text-slate-700 space-y-1 pl-9 list-disc list-inside">
-                            <li><strong>Phonetic Similarities:</strong> Sound-alike names (e.g., <em>Kwik vs. Quick</em>).</li>
-                            <li><strong>Spelling & Typos:</strong> (e.g., <em>Supa vs. Super</em>).</li>
-                            <li><strong>Wildcards:</strong> Use operators like <code class="bg-slate-200 px-1 rounded text-[11px]">*</code> or <code class="bg-slate-200 px-1 rounded text-[11px]">$</code> to find partial matches.</li>
-                        </ul>
-                    </div>
-
-                    <!-- Step 5 -->
-                    <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 space-y-2">
-                        <div class="flex items-center gap-2.5">
-                            <span class="w-7 h-7 rounded-lg bg-teal-600 text-white font-bold flex items-center justify-center text-xs">5</span>
-                            <h4 class="font-bold text-sm text-nipo-navy">Perform a Common Law & Digital Search</h4>
-                        </div>
-                        <p class="text-xs text-slate-600 leading-relaxed pl-9">Prior unregistered active business use can still pose legal challenges. Search:</p>
-                        <ul class="text-xs text-slate-700 space-y-1 pl-9 list-disc list-inside">
-                            <li>Google Web Search & Domain Name WHOIS Registrars.</li>
-                            <li>Local Business & Company Registries (e.g., eROC portal).</li>
-                            <li>Social Media Handles (Instagram, LinkedIn, Facebook, X).</li>
-                        </ul>
-                    </div>
-
-                    <!-- Step 6 -->
-                    <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 space-y-2">
-                        <div class="flex items-center gap-2.5">
-                            <span class="w-7 h-7 rounded-lg bg-teal-600 text-white font-bold flex items-center justify-center text-xs">6</span>
-                            <h4 class="font-bold text-sm text-nipo-navy">Evaluate Your Findings</h4>
-                        </div>
-                        <div class="pl-9 space-y-1 text-xs">
-                            <p><span class="font-bold text-rose-600">High Conflict:</span> Identical/similar mark in same class &rarr; High risk; modify mark.</p>
-                            <p><span class="font-bold text-amber-600">Low Conflict:</span> Similar mark in completely unrelated class &rarr; Generally permissible.</p>
-                            <p><span class="font-bold text-emerald-600">Clear:</span> No confusingly similar marks found &rarr; Safe to proceed with filing.</p>
-                        </div>
-                    </div>
-
-                </div>
-
-                <!-- Pro Tip Footer Note -->
-                <div class="bg-amber-50 border border-amber-300 p-4 rounded-2xl text-xs text-amber-950 flex items-start gap-3">
-                    <i class="fa-solid fa-circle-info text-amber-600 text-base mt-0.5"></i>
-                    <div>
-                        <strong>Pro Tip Before Filing:</strong> If you uncover borderline similarities, pairing a word mark with a unique logo or distinctive visual layout can sometimes help differentiate it during official examination. For complex or high-stakes filings, consulting an IP attorney or registered agent is recommended.
-                    </div>
-                </div>
-
-            </div>
-        </div>
-
-        <!-- ================= SECTION 2: EMBEDDED FLOWCHART IMAGE & PROCESS DETAILS ================= -->
-        <div id="content-process" class="space-y-6 hidden">
-            <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-sm space-y-6">
-                <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 pb-4 border-b border-slate-200">
-                    <div>
-                        <span class="text-xs font-bold text-amber-600 uppercase" id="proc-badge">Official Workflow Diagram</span>
-                        <h3 class="text-2xl font-bold text-nipo-navy font-serif mt-1" id="proc-main-title">Trademark Registration Basic Process Flowchart</h3>
-                        <p class="text-xs text-slate-500 mt-1" id="proc-main-sub">Complete visual breakdown of filing, examination, acceptance, gazette publication, refusal hearings, and 10-year renewal cycles.</p>
-                    </div>
-                    <button onclick="window.print()" class="bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold px-4 py-2 rounded-xl text-xs transition flex items-center gap-2 shadow-sm">
-                        <i class="fa-solid fa-print"></i> Print Diagram
-                    </button>
-                </div>
-
-                <!-- Attached Flowchart Image Viewport -->
-                <div class="bg-slate-50 border-2 border-slate-200 rounded-2xl p-4 shadow-inner text-center">
-                    <img src="Gemini_Generated_Image_zbwpe5zbwpe5zbwp.jpg" alt="Trademark Registration Basic Process Flowchart" class="w-full max-w-5xl mx-auto rounded-xl shadow-md border border-slate-300 object-contain hover:scale-[1.01] transition-transform duration-300">
-                    <p class="text-[11px] text-slate-500 mt-3 font-medium">
-                        <i class="fa-solid fa-circle-info text-amber-500 mr-1"></i> Visual Workflow: Follows the legal application pathway from Formality Examination to Gazette Publication or Hearing & Court Appeals.
-                    </p>
-                </div>
-            </div>
-        </div>
-
-        <!-- ================= SECTION 3: NICE CLASSIFICATION SEARCH & WIPO MGS LINK ================= -->
-        <div id="content-nice" class="space-y-6 hidden">
-            <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
-                <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6 pb-6 border-b border-slate-200">
-                    <div>
-                        <span class="text-xs font-bold uppercase text-amber-600 tracking-wider" id="nice-badge">Classification Lookup</span>
-                        <h3 class="text-2xl font-bold text-nipo-navy font-serif mt-1" id="nice-main-title">Nice Classification (All 45 Classes)</h3>
-                        <p class="text-xs text-slate-500 mt-1" id="nice-main-sub">Browse Classes 1 to 34 (Goods) and Classes 35 to 45 (Services). Use keyword search or check official WIPO MGS.</p>
-                    </div>
-                    <div class="flex items-center gap-3 w-full md:w-auto">
-                        <div class="w-full md:w-72 relative">
-                            <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400"></i>
-                            <input type="text" id="nice-keyword-input" onkeyup="filterNiceInteractive()" placeholder="Search class or keyword..." class="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm focus:outline-none focus:border-nipo-navy">
-                        </div>
-                        <a href="https://webaccess.wipo.int/mgs/" target="_blank" class="bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold px-4 py-2.5 rounded-xl text-xs transition flex items-center gap-2 whitespace-nowrap shadow-sm">
-                            <i class="fa-solid fa-globe"></i> <span id="btn-wipo-mgs">WIPO Madrid Goods & Services (MGS)</span>
-                        </a>
-                    </div>
-                </div>
-
-                <div class="flex gap-2 mb-6">
-                    <button onclick="filterNiceCategory('all')" id="nice-cat-all" class="nice-cat-btn px-3.5 py-1.5 rounded-lg text-xs font-bold bg-nipo-navy text-white">All Classes (1-45)</button>
-                    <button onclick="filterNiceCategory('goods')" id="nice-cat-goods" class="nice-cat-btn px-3.5 py-1.5 rounded-lg text-xs font-bold bg-slate-100 text-slate-700 hover:bg-slate-200">Goods (Classes 1-34)</button>
-                    <button onclick="filterNiceCategory('services')" id="nice-cat-services" class="nice-cat-btn px-3.5 py-1.5 rounded-lg text-xs font-bold bg-slate-100 text-slate-700 hover:bg-slate-200">Services (Classes 35-45)</button>
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="nice-classes-container">
-                    <!-- Dynamic nice cards -->
-                </div>
-            </div>
-        </div>
-
-        <!-- ================= SECTION 4: DOCUMENT CHECKLISTS ================= -->
-        <div id="content-checklists" class="space-y-6 hidden">
-            <div id="printable-area" class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-sm space-y-6">
-                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 pb-6 border-b border-slate-200 no-print">
-                    <div>
-                        <span class="text-xs font-bold text-amber-600 uppercase" id="chk-badge">Filing Preparation</span>
-                        <h3 class="text-2xl font-bold text-nipo-navy font-serif" id="chk-main-title">Mandatory Document Checklists</h3>
-                        <p class="text-xs text-slate-500 mt-1" id="chk-main-sub">Review required documents before approaching front desk officers or Shroff.</p>
-                    </div>
-                    <button onclick="window.print()" class="bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold px-4 py-2.5 rounded-xl text-xs transition flex items-center gap-2 shadow-sm">
-                        <i class="fa-solid fa-print"></i> <span id="btn-print-chk">Print Checklist</span>
-                    </button>
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 no-print">
-                    <button onclick="showChecklist('m01')" id="chk-btn-m01" class="chk-tab-btn active p-4 rounded-xl border-2 border-nipo-navy bg-nipo-navy text-white text-left transition">
-                        <div class="font-bold text-sm">Form M 01</div>
-                        <div class="text-xs opacity-80 mt-1" id="chk-tab-1">New Trademark Application</div>
-                    </button>
-                    <button onclick="showChecklist('m03')" id="chk-btn-m03" class="chk-tab-btn p-4 rounded-xl border-2 border-slate-200 bg-slate-50 text-slate-800 text-left transition">
-                        <div class="font-bold text-sm">Form M 03 / Assignments</div>
-                        <div class="text-xs opacity-80 mt-1" id="chk-tab-2">Change Name/Address & Transfers</div>
-                    </button>
-                    <button onclick="showChecklist('cr_deposit')" id="chk-btn-cr_deposit" class="chk-tab-btn p-4 rounded-xl border-2 border-slate-200 bg-slate-50 text-slate-800 text-left transition">
-                        <div class="font-bold text-sm">Copyright Deposit</div>
-                        <div class="text-xs opacity-80 mt-1" id="chk-tab-3">Voluntary Work Registration</div>
-                    </button>
-                </div>
-
-                <div id="checklist-display" class="space-y-6 pt-2">
-                    <!-- Dynamic checklist items -->
-                </div>
-            </div>
-        </div>
-
-        <!-- ================= SECTION 5: UPGRADED FEE ESTIMATOR & COMPLETE STRUCTURE ================= -->
-        <div id="content-fees" class="space-y-10 hidden">
-            
-            <!-- Interactive Fee Estimator Component -->
-            <div class="bg-gradient-to-br from-nipo-navy to-nipo-navyLight text-white p-6 sm:p-8 rounded-3xl shadow-xl border border-amber-500/30 space-y-8">
-                
-                <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6 border-b border-white/10 pb-6">
-                    <div>
-                        <span class="bg-amber-500/20 text-amber-300 border border-amber-500/40 text-[11px] font-bold px-3 py-1 rounded-full uppercase">
-                            Gazette No. 2509/17 Revision + 18% VAT Compliant
-                        </span>
-                        <h3 class="text-2xl sm:text-3xl font-extrabold font-serif mt-3 text-white">
-                            Interactive Trademark Fee Estimator
-                        </h3>
-                        <p class="text-xs sm:text-sm text-slate-300 mt-1 max-w-2xl">
-                            Switch between calculation modes below. Select either your applicant category or your publication word count/size criteria independently.
-                        </p>
-                    </div>
-
-                    <!-- Big Total Payable Display -->
-                    <div class="bg-black/40 border-2 border-amber-400/60 p-5 rounded-2xl text-center min-w-[280px] w-full lg:w-auto shadow-inner">
-                        <span class="text-xs text-amber-300 font-bold uppercase tracking-wider block">Estimated Total Payable</span>
-                        <div class="text-3xl sm:text-4xl font-black text-amber-400 mt-2 font-mono" id="est-total-amount">Rs. 2,360.00</div>
-                        <span class="text-[10px] text-slate-300 block mt-1">Includes Official Base Fee + 18% VAT</span>
-                    </div>
-                </div>
-
-                <!-- Calculation Mode Selector Sub-tabs -->
-                <div class="flex bg-slate-900/80 p-1.5 rounded-xl border border-slate-700 max-w-md">
-                    <button onclick="switchCalcMode('app')" id="mode-btn-app" class="calc-subtag active flex-1 py-2 px-4 rounded-lg text-xs font-bold transition text-center">
-                        1. Application / Other Fees
-                    </button>
-                    <button onclick="switchCalcMode('pub')" id="mode-btn-pub" class="calc-subtag flex-1 py-2 px-4 rounded-lg text-xs font-bold text-slate-300 transition text-center">
-                        2. Publication Fees (Section 111(7))
-                    </button>
-                </div>
-
-                <!-- Mode 1: Applicant Type & Stage -->
-                <div id="calc-panel-app" class="bg-slate-900/60 p-6 rounded-2xl border border-slate-700/80 space-y-4">
-                    <h4 class="text-xs font-bold text-amber-300 uppercase tracking-wider">Select Applicant Type & Stage</h4>
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <label onclick="setAppType('individual')" id="card-app-individual" class="cursor-pointer bg-slate-950 border-2 border-amber-400 p-4 rounded-xl block transition">
-                            <div class="text-amber-400 font-bold text-xs uppercase">Individual Applicant</div>
-                            <div class="text-xl font-black text-white font-mono mt-1">Rs. 2,360.00</div>
-                            <div class="text-[10px] text-slate-400 mt-1">Per Mark Application</div>
-                        </label>
-                        <label onclick="setAppType('corporate')" id="card-app-corporate" class="cursor-pointer bg-slate-950 border border-slate-700 p-4 rounded-xl block transition">
-                            <div class="text-amber-400 font-bold text-xs uppercase">Corporate / Company</div>
-                            <div class="text-xl font-black text-white font-mono mt-1">Rs. 7,080.00</div>
-                            <div class="text-[10px] text-slate-400 mt-1">Other / Registered Company</div>
-                        </label>
-                        <label onclick="setAppType('collective')" id="card-app-collective" class="cursor-pointer bg-slate-950 border border-slate-700 p-4 rounded-xl block transition">
-                            <div class="text-amber-400 font-bold text-xs uppercase">Collective / Certification</div>
-                            <div class="text-xl font-black text-white font-mono mt-1">Rs. 11,800.00</div>
-                            <div class="text-[10px] text-slate-400 mt-1">Special Mark Category</div>
-                        </label>
-                    </div>
-                </div>
-
-                <!-- Mode 2: Publication Word Count & Size Criteria -->
-                <div id="calc-panel-pub" class="bg-slate-900/60 p-6 rounded-2xl border border-slate-700/80 space-y-4 hidden">
-                    <h4 class="text-xs font-bold text-amber-300 uppercase tracking-wider">Publication Word Count & Mark Size Criteria (Section 111(7))</h4>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                        <label onclick="setPubTier('1a')" id="card-pub-1a" class="cursor-pointer bg-slate-950 border-2 border-amber-400 p-4 rounded-xl block transition">
-                            <div class="text-xs text-amber-300 font-bold">Tier 1-A</div>
-                            <div class="text-sm font-bold text-white mt-0.5">0–10 words</div>
-                            <div class="text-[11px] text-slate-400">Mark size &le; 4x4 cm</div>
-                            <div class="text-lg font-black text-amber-400 font-mono mt-2">Rs. 2,000.00</div>
-                        </label>
-                        <label onclick="setPubTier('1b')" id="card-pub-1b" class="cursor-pointer bg-slate-950 border border-slate-700 p-4 rounded-xl block transition">
-                            <div class="text-xs text-amber-300 font-bold">Tier 1-B</div>
-                            <div class="text-sm font-bold text-white mt-0.5">0–10 words</div>
-                            <div class="text-[11px] text-slate-400">Mark size > 4x4 cm</div>
-                            <div class="text-lg font-black text-amber-400 font-mono mt-2">Rs. 2,500.00</div>
-                        </label>
-                        <label onclick="setPubTier('2a')" id="card-pub-2a" class="cursor-pointer bg-slate-950 border border-slate-700 p-4 rounded-xl block transition">
-                            <div class="text-xs text-amber-300 font-bold">Tier 2-A</div>
-                            <div class="text-sm font-bold text-white mt-0.5">11–20 words</div>
-                            <div class="text-[11px] text-slate-400">Mark size &le; 4x4 cm</div>
-                            <div class="text-lg font-black text-amber-400 font-mono mt-2">Rs. 3,000.00</div>
-                        </label>
-                        <label onclick="setPubTier('2b')" id="card-pub-2b" class="cursor-pointer bg-slate-950 border border-slate-700 p-4 rounded-xl block transition">
-                            <div class="text-xs text-amber-300 font-bold">Tier 2-B</div>
-                            <div class="text-sm font-bold text-white mt-0.5">11–20 words</div>
-                            <div class="text-[11px] text-slate-400">Mark size > 4x4 cm</div>
-                            <div class="text-lg font-black text-amber-400 font-mono mt-2">Rs. 3,500.00</div>
-                        </label>
-                        <label onclick="setPubTier('3a')" id="card-pub-3a" class="cursor-pointer bg-slate-950 border border-slate-700 p-4 rounded-xl block transition">
-                            <div class="text-xs text-amber-300 font-bold">Tier 3-A</div>
-                            <div class="text-sm font-bold text-white mt-0.5">More than 20 words</div>
-                            <div class="text-[11px] text-slate-400">Mark size &le; 4x4 cm</div>
-                            <div class="text-lg font-black text-amber-400 font-mono mt-2">Rs. 4,000.00</div>
-                        </label>
-                        <label onclick="setPubTier('3b')" id="card-pub-3b" class="cursor-pointer bg-slate-950 border border-slate-700 p-4 rounded-xl block transition">
-                            <div class="text-xs text-amber-300 font-bold">Tier 3-B</div>
-                            <div class="text-sm font-bold text-white mt-0.5">More than 20 words</div>
-                            <div class="text-[11px] text-slate-400">Mark size > 4x4 cm</div>
-                            <div class="text-lg font-black text-amber-400 font-mono mt-2">Rs. 5,500.00</div>
-                        </label>
-                    </div>
-                </div>
-
-            </div>
-
-            <!-- Complete Fee Structure Sections (1 to 8) -->
-            <div class="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200 shadow-sm space-y-8">
-                <div class="border-b border-slate-200 pb-4">
-                    <span class="text-xs font-bold uppercase tracking-wider text-amber-600">Official Schedule</span>
-                    <h3 class="text-2xl font-bold text-nipo-navy font-serif mt-1">Complete Trademark Fee Structure (2026 Revision)</h3>
-                    <p class="text-xs text-slate-500 mt-1">All statutory rates inclusive of 18% VAT as governed under IP Act No. 36 of 2003.</p>
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-
-                    <!-- Category 1 & 2 -->
-                    <div class="space-y-6">
-                        <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 space-y-3">
-                            <h4 class="font-bold text-sm text-nipo-navy flex items-center gap-2"><span class="w-6 h-6 rounded-full bg-amber-500 text-slate-950 flex items-center justify-center text-xs">1</span> Trademark Search & Initial Filings</h4>
-                            <div class="flex justify-between text-xs py-1.5 border-b border-slate-200">
-                                <span>Trademark Search (Per item/file)</span>
-                                <strong class="font-mono text-nipo-navy">Rs. 177.00</strong>
-                            </div>
-                        </div>
-
-                        <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 space-y-3">
-                            <h4 class="font-bold text-sm text-nipo-navy flex items-center gap-2"><span class="w-6 h-6 rounded-full bg-amber-500 text-slate-950 flex items-center justify-center text-xs">2</span> Trademark Application Cost</h4>
-                            <div class="space-y-2 text-xs">
-                                <div class="flex justify-between py-1 border-b border-slate-200">
-                                    <span>Individual Applicant (Per Mark)</span>
-                                    <strong class="font-mono text-nipo-navy">Rs. 2,360.00</strong>
-                                </div>
-                                <div class="flex justify-between py-1 border-b border-slate-200">
-                                    <span>Other / Corporate / Registered Company</span>
-                                    <strong class="font-mono text-nipo-navy">Rs. 7,080.00</strong>
-                                </div>
-                                <div class="flex justify-between py-1">
-                                    <span>Collective Mark / Certification Mark</span>
-                                    <strong class="font-mono text-nipo-navy">Rs. 11,800.00</strong>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Category 3: Publication Fees Table -->
-                        <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 space-y-3">
-                            <h4 class="font-bold text-sm text-nipo-navy flex items-center gap-2"><span class="w-6 h-6 rounded-full bg-amber-500 text-slate-950 flex items-center justify-center text-xs">3</span> Publication Fees (Section 111(7))</h4>
-                            <div class="overflow-x-auto">
-                                <table class="w-full text-xs text-left border-collapse">
-                                    <thead>
-                                        <tr class="border-b border-slate-300 text-slate-500 bg-slate-100/80">
-                                            <th class="py-2 px-3 font-semibold">Word Count Tier</th>
-                                            <th class="py-2 px-3 font-semibold">Mark Size Criteria</th>
-                                            <th class="py-2 px-3 font-semibold text-right">Fee (incl. 18% VAT)</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody class="divide-y divide-slate-200 text-slate-700">
-                                        <tr>
-                                            <td class="py-2 px-3 font-medium">0–10 words</td>
-                                            <td class="py-2 px-3">Mark size &le; 4x4 cm (Tier 1-A)</td>
-                                            <td class="py-2 px-3 text-right font-mono font-bold text-nipo-navy">Rs. 2,000.00</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="py-2 px-3 font-medium">0–10 words</td>
-                                            <td class="py-2 px-3">Mark size > 4x4 cm (Tier 1-B)</td>
-                                            <td class="py-2 px-3 text-right font-mono font-bold text-nipo-navy">Rs. 2,500.00</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="py-2 px-3 font-medium">11–20 words</td>
-                                            <td class="py-2 px-3">Mark size &le; 4x4 cm (Tier 2-A)</td>
-                                            <td class="py-2 px-3 text-right font-mono font-bold text-nipo-navy">Rs. 3,000.00</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="py-2 px-3 font-medium">11–20 words</td>
-                                            <td class="py-2 px-3">Mark size > 4x4 cm (Tier 2-B)</td>
-                                            <td class="py-2 px-3 text-right font-mono font-bold text-nipo-navy">Rs. 3,500.00</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="py-2 px-3 font-medium">More than 20 words</td>
-                                            <td class="py-2 px-3">Mark size &le; 4x4 cm (Tier 3-A)</td>
-                                            <td class="py-2 px-3 text-right font-mono font-bold text-nipo-navy">Rs. 4,000.00</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="py-2 px-3 font-medium">More than 20 words</td>
-                                            <td class="py-2 px-3">Mark size > 4x4 cm (Tier 3-B)</td>
-                                            <td class="py-2 px-3 text-right font-mono font-bold text-nipo-navy">Rs. 5,500.00</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-
-                        <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 space-y-3">
-                            <h4 class="font-bold text-sm text-nipo-navy flex items-center gap-2"><span class="w-6 h-6 rounded-full bg-amber-500 text-slate-950 flex items-center justify-center text-xs">4</span> Registration & Certification Fees</h4>
-                            <div class="space-y-2 text-xs">
-                                <div class="flex justify-between py-1 border-b border-slate-200">
-                                    <span>Mark Registration & Certificate Issuance</span>
-                                    <strong class="font-mono text-nipo-navy">Rs. 2,360.00</strong>
-                                </div>
-                                <div class="flex justify-between py-1 border-b border-slate-200">
-                                    <span>Additional Associated Mark Entry</span>
-                                    <strong class="font-mono text-nipo-navy">Rs. 590.00</strong>
-                                </div>
-                                <div class="flex justify-between py-1">
-                                    <span>Current Status Certificate / Priority Document</span>
-                                    <strong class="font-mono text-nipo-navy">Rs. 1,180.00</strong>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Category 5 to 8 -->
-                    <div class="space-y-6">
-                        <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 space-y-3">
-                            <h4 class="font-bold text-sm text-nipo-navy flex items-center gap-2"><span class="w-6 h-6 rounded-full bg-amber-500 text-slate-950 flex items-center justify-center text-xs">5</span> Renewal Fees (Every 10 Years)</h4>
-                            <div class="space-y-2 text-xs">
-                                <div class="flex justify-between py-1 border-b border-slate-200">
-                                    <span>Individual Owner Renewal</span>
-                                    <strong class="font-mono text-nipo-navy">Rs. 7,080.00</strong>
-                                </div>
-                                <div class="flex justify-between py-1 border-b border-slate-200">
-                                    <span>Other / Corporate Renewal</span>
-                                    <strong class="font-mono text-nipo-navy">Rs. 9,440.00</strong>
-                                </div>
-                                <div class="flex justify-between py-1 border-b border-slate-200">
-                                    <span>Collective or Certification Mark Renewal</span>
-                                    <strong class="font-mono text-nipo-navy">Rs. 11,800.00</strong>
-                                </div>
-                                <div class="flex justify-between py-1 text-rose-700 font-medium">
-                                    <span>Surcharge (Late payment up to 6 months)</span>
-                                    <strong class="font-mono">+10% of Fee</strong>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 space-y-3">
-                            <h4 class="font-bold text-sm text-nipo-navy flex items-center gap-2"><span class="w-6 h-6 rounded-full bg-amber-500 text-slate-950 flex items-center justify-center text-xs">6</span> Oppositions & Hearings</h4>
-                            <div class="space-y-2 text-xs">
-                                <div class="flex justify-between py-1 border-b border-slate-200">
-                                    <span>Notice of Opposition</span>
-                                    <strong class="font-mono text-nipo-navy">Rs. 4,720.00</strong>
-                                </div>
-                                <div class="flex justify-between py-1 border-b border-slate-200">
-                                    <span>Answer to Notice of Opposition</span>
-                                    <strong class="font-mono text-nipo-navy">Rs. 2,360.00</strong>
-                                </div>
-                                <div class="flex justify-between py-1 border-b border-slate-200">
-                                    <span>Hearing Examination (Per party)</span>
-                                    <strong class="font-mono text-nipo-navy">Rs. 2,360.00</strong>
-                                </div>
-                                <div class="flex justify-between py-1">
-                                    <span>Director General Reason Explanations</span>
-                                    <strong class="font-mono text-nipo-navy">Rs. 2,360.00</strong>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 space-y-3">
-                            <h4 class="font-bold text-sm text-nipo-navy flex items-center gap-2"><span class="w-6 h-6 rounded-full bg-amber-500 text-slate-950 flex items-center justify-center text-xs">7</span> Alterations, Assignments & Recordals</h4>
-                            <div class="space-y-2 text-xs">
-                                <div class="flex justify-between py-1 border-b border-slate-200">
-                                    <span>Change Name/Address (1st Mark)</span>
-                                    <strong class="font-mono text-nipo-navy">Rs. 1,652.00</strong>
-                                </div>
-                                <div class="flex justify-between py-1 border-b border-slate-200">
-                                    <span>Change Name/Address (Additional Marks)</span>
-                                    <strong class="font-mono text-nipo-navy">Rs. 826.00</strong>
-                                </div>
-                                <div class="flex justify-between py-1 border-b border-slate-200">
-                                    <span>Assignment / Transmission Recordal (1st Mark)</span>
-                                    <strong class="font-mono text-nipo-navy">Rs. 4,720.00</strong>
-                                </div>
-                                <div class="flex justify-between py-1 border-b border-slate-200">
-                                    <span>Assignment / Transmission Recordal (Add. Marks)</span>
-                                    <strong class="font-mono text-nipo-navy">Rs. 1,180.00</strong>
-                                </div>
-                                <div class="flex justify-between py-1 border-b border-slate-200">
-                                    <span>Licence / Franchise Agreement Recordal</span>
-                                    <strong class="font-mono text-nipo-navy">Rs. 2,360.00</strong>
-                                </div>
-                                <div class="flex justify-between py-1">
-                                    <span>Clerical Error Correction</span>
-                                    <strong class="font-mono text-nipo-navy">Rs. 826.00</strong>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 space-y-3">
-                            <h4 class="font-bold text-sm text-nipo-navy flex items-center gap-2"><span class="w-6 h-6 rounded-full bg-amber-500 text-slate-950 flex items-center justify-center text-xs">8</span> Document Copying & Inspection</h4>
-                            <div class="space-y-2 text-xs">
-                                <div class="flex justify-between py-1 border-b border-slate-200">
-                                    <span>File / Register Inspection (Per view)</span>
-                                    <strong class="font-mono text-nipo-navy">Rs. 177.00</strong>
-                                </div>
-                                <div class="flex justify-between py-1 border-b border-slate-200">
-                                    <span>A4 Copy (1st Page)</span>
-                                    <strong class="font-mono text-nipo-navy">Rs. 177.00</strong>
-                                </div>
-                                <div class="flex justify-between py-1 border-b border-slate-200">
-                                    <span>A4 Copy (Each Additional Page)</span>
-                                    <strong class="font-mono text-nipo-navy">Rs. 118.00</strong>
-                                </div>
-                                <div class="flex justify-between py-1 border-b border-slate-200">
-                                    <span>Certified Copy (1st Page)</span>
-                                    <strong class="font-mono text-nipo-navy">Rs. 354.00</strong>
-                                </div>
-                                <div class="flex justify-between py-1">
-                                    <span>Certified Copy (Each Additional Page)</span>
-                                    <strong class="font-mono text-nipo-navy">Rs. 177.00</strong>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-
-        </div>
-
-        <!-- ================= SECTION 6: COUNTERS & BANK INFO ================= -->
-        <div id="content-hours" class="space-y-6 hidden">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
-                    <div class="flex items-center gap-3">
-                        <div class="w-10 h-10 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center font-bold">⏰</div>
-                        <h3 class="text-lg font-bold font-serif text-nipo-navy" id="cnt-box-title">Counter Operating Hours</h3>
-                    </div>
-                    <ul class="space-y-3 text-xs text-slate-700">
-                        <li class="flex justify-between pb-2 border-b border-slate-100">
-                            <span id="cnt-l1">Shroff / Cashier Counter Payments:</span>
-                            <strong class="text-nipo-navy">9:00 AM – 3:00 PM</strong>
-                        </li>
-                        <li class="flex justify-between pb-2 border-b border-slate-100">
-                            <span id="cnt-l2">Public Search Desk:</span>
-                            <strong class="text-nipo-navy">9:00 AM – 3:30 PM</strong>
-                        </li>
-                        <li class="flex justify-between">
-                            <span id="cnt-l3">General Office Hours:</span>
-                            <strong class="text-nipo-navy">8:30 AM – 4:15 PM</strong>
-                        </li>
-                    </ul>
-                </div>
-
-                <!-- Bank Information Card with External Button -->
-                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between space-y-4">
-                    <div>
-                        <div class="flex items-center gap-3 mb-3">
-                            <div class="w-10 h-10 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center font-bold">🏦</div>
-                            <h3 class="text-lg font-bold font-serif text-nipo-navy" id="bank-box-title">Official Bank Deposit Details</h3>
-                        </div>
-                        <p class="text-xs text-slate-600 leading-relaxed mb-4">
-                            Access NIPO’s official payment portal to view account numbers, branch instructions, and payment guidelines directly from the NIPO website.
-                        </p>
-                    </div>
-                    
-                    <a href="https://www.nipo.gov.lk/web/index.php?option=com_content&view=category&id=14&Itemid=153&lang=en" 
-                       target="_blank" 
-                       rel="noopener noreferrer" 
-                       class="w-full bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold py-3 px-4 rounded-xl text-xs transition flex items-center justify-center gap-2 shadow-sm">
-                        <i class="fa-solid fa-arrow-up-right-from-square"></i>
-                        <span id="btn-official-bank-details">View Official NIPO Bank Details</span>
-                    </a>
-                </div>
-            </div>
-        </div>
-
-    </main>
-
-    <!-- Upgraded Comprehensive Footer -->
-    <footer class="bg-slate-900 text-slate-400 text-xs py-10 border-t border-slate-800 space-y-8">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
-            
-            <!-- Footer Upper Grid: Contact Info & Quick Links -->
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 pb-8 border-b border-slate-800">
-                
-                <!-- Section 1: Office Info & Address (5 Columns) -->
-                <div class="lg:col-span-5 space-y-4">
-                    <div class="flex items-center gap-3">
-                        <div class="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400 font-serif font-bold text-lg">
-                            NIPO
-                        </div>
-                        <div>
-                            <h4 class="text-sm font-bold text-white font-serif" id="ftr-contact-title">National Intellectual Property Office</h4>
-                            <p class="text-[11px] text-amber-400 font-medium">Trademark Division • Government of Sri Lanka</p>
-                        </div>
-                    </div>
-                    
-                    <p class="text-slate-300 leading-relaxed text-xs">
-                        Responsible for the administration, registration, and public inquiry services for Trademarks, Patents, Industrial Designs, Copyrights, and Geographical Indications in Sri Lanka under IP Act No. 36 of 2003.
-                    </p>
-
-                    <div class="space-y-2 text-xs text-slate-300 pt-1">
-                        <div class="flex items-start gap-2.5">
-                            <i class="fa-solid fa-location-dot text-amber-400 mt-0.5"></i>
-                            <span>3rd Floor, "Samagora Building", 400, D.R. Wijewardena Mawatha, Colombo 10, Sri Lanka.</span>
-                        </div>
-                        <div class="flex items-center gap-2.5">
-                            <i class="fa-solid fa-envelope text-teal-400"></i>
-                            <span>Email: <a href="mailto:niposl@nipo.gov.lk" class="text-amber-300 hover:underline">niposl@nipo.gov.lk</a> / <a href="mailto:info@nipo.gov.lk" class="text-amber-300 hover:underline">info@nipo.gov.lk</a></span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Section 2: Hotlines & Direct Lines (3 Columns) -->
-                <div class="lg:col-span-3 space-y-3">
-                    <h5 class="text-xs font-bold text-amber-400 uppercase tracking-wider" id="ftr-phones-title"><i class="fa-solid fa-phone mr-1.5"></i> Contact Numbers</h5>
-                    <ul class="space-y-2 text-xs text-slate-300">
-                        <li class="flex items-center gap-2">
-                            <span class="bg-red-500/20 text-red-400 border border-red-500/30 font-bold px-2 py-0.5 rounded text-[10px]">HOTLINE</span>
-                            <span class="font-bold text-white">1934</span>
-                        </li>
-                        <li class="flex items-center gap-2">
-                            <i class="fa-solid fa-phone-flip text-slate-400 text-[10px]"></i>
-                            <span>General Line 1: +94 11 268 9368</span>
-                        </li>
-                        <li class="flex items-center gap-2">
-                            <i class="fa-solid fa-phone-flip text-slate-400 text-[10px]"></i>
-                            <span>General Line 2: +94 11 268 9369</span>
-                        </li>
-                        <li class="flex items-center gap-2">
-                            <i class="fa-solid fa-phone-flip text-slate-400 text-[10px]"></i>
-                            <span>General Line 3: +94 11 268 9370</span>
-                        </li>
-                        <li class="flex items-center gap-2">
-                            <i class="fa-solid fa-fax text-slate-400 text-[10px]"></i>
-                            <span>Fax: +94 11 268 9330</span>
-                        </li>
-                    </ul>
-                </div>
-
-                <!-- Section 3: Counter Hours Summary (4 Columns) -->
-                <div class="lg:col-span-4 bg-slate-950/60 p-4 rounded-2xl border border-slate-800 space-y-2">
-                    <h5 class="text-xs font-bold text-amber-400 uppercase tracking-wider flex items-center gap-2" id="ftr-hrs-title">
-                        <i class="fa-solid fa-clock text-emerald-400"></i> Counter Operating Schedule
-                    </h5>
-                    <div class="space-y-1.5 text-xs text-slate-300">
-                        <div class="flex justify-between py-1 border-b border-slate-800">
-                            <span>Cashier / Shroff Counter:</span>
-                            <span class="font-bold text-white font-mono">09:00 AM – 03:00 PM</span>
-                        </div>
-                        <div class="flex justify-between py-1 border-b border-slate-800">
-                            <span>Public Search Counter:</span>
-                            <span class="font-bold text-white font-mono">09:00 AM – 03:30 PM</span>
-                        </div>
-                        <div class="flex justify-between py-1">
-                            <span>Weekends & Public Holidays:</span>
-                            <span class="font-bold text-rose-400">Closed</span>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-
-            <!-- Quick Links Section in Footer -->
-            <div class="bg-slate-950/80 p-5 rounded-2xl border border-slate-800">
-                <span class="text-xs font-bold text-amber-400 uppercase tracking-wider block mb-3 text-center sm:text-left" id="ftr-quick-links-title">
-                    <i class="fa-solid fa-link mr-1.5"></i> Quick Resource Portals
-                </span>
-                <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2.5">
-                    <a href="https://www.nipo.gov.lk/web/index.php?option=com_content&view=article&id=39&catid=11&Itemid=158&lang=en" target="_blank" rel="noopener noreferrer" class="bg-slate-900 hover:bg-slate-800 text-slate-200 hover:text-white border border-slate-800 p-2.5 rounded-xl text-[11px] font-semibold transition text-center flex flex-col items-center justify-center gap-1">
-                        <i class="fa-solid fa-file-signature text-amber-400 text-sm"></i>
-                        <span id="ftr-link-1">NIPO Forms</span>
-                    </a>
-                    <a href="https://nipo.lk.wipo.net/" target="_blank" rel="noopener noreferrer" class="bg-slate-900 hover:bg-slate-800 text-slate-200 hover:text-white border border-slate-800 p-2.5 rounded-xl text-[11px] font-semibold transition text-center flex flex-col items-center justify-center gap-1">
-                        <i class="fa-solid fa-database text-teal-400 text-sm"></i>
-                        <span id="ftr-link-2">NIPO Database</span>
-                    </a>
-                    <a href="https://branddb.wipo.int/" target="_blank" rel="noopener noreferrer" class="bg-slate-900 hover:bg-slate-800 text-slate-200 hover:text-white border border-slate-800 p-2.5 rounded-xl text-[11px] font-semibold transition text-center flex flex-col items-center justify-center gap-1">
-                        <i class="fa-solid fa-globe text-blue-400 text-sm"></i>
-                        <span id="ftr-link-3">WIPO Database</span>
-                    </a>
-                    <a href="https://webaccess.wipo.int/mgs/" target="_blank" rel="noopener noreferrer" class="bg-slate-900 hover:bg-slate-800 text-slate-200 hover:text-white border border-slate-800 p-2.5 rounded-xl text-[11px] font-semibold transition text-center flex flex-col items-center justify-center gap-1">
-                        <i class="fa-solid fa-list-check text-emerald-400 text-sm"></i>
-                        <span id="ftr-link-4">MGS Goods List</span>
-                    </a>
-                    <a href="https://documents.gov.lk/web/gazettes" target="_blank" rel="noopener noreferrer" class="bg-slate-900 hover:bg-slate-800 text-slate-200 hover:text-white border border-slate-800 p-2.5 rounded-xl text-[11px] font-semibold transition text-center flex flex-col items-center justify-center gap-1 col-span-2 sm:col-span-1">
-                        <i class="fa-solid fa-newspaper text-purple-400 text-sm"></i>
-                        <span id="ftr-link-5">Gov. Gazette</span>
-                    </a>
-                </div>
-            </div>
-
-            <!-- Copyright Line -->
-            <div class="text-center space-y-1 pt-2">
-                <p>Copyright © 2026 National Intellectual Property Office of Sri Lanka (Trademark Division). All Rights Reserved.</p>
-                <p class="text-[11px] text-slate-500">Trademark Division Front Desk Visitor Assistance Terminal</p>
-            </div>
-        </div>
-    </footer>
-
-    <!-- JavaScript Application Logic -->
-    <script>
-        // --- GitHub CSV Data Loader (Configured with your exact repository URL) ---
-        const csvUrl = "https://raw.githubusercontent.com/sandaruwanipo/nipo-visitor-portal/refs/heads/main/TM.csv";
-        
-        let scannedFilesSet = new Set(); // Stores Column A file numbers for instant lookup
-
-        function loadScannedCsvFromGitHub() {
-            const badge = document.getElementById('csv-status-badge');
-            
-            Papa.parse(csvUrl, {
-                download: true,
-                header: false, // Reads rows directly (Column A is index 0)
-                skipEmptyLines: true,
-                complete: function(results) {
-                    scannedFilesSet.clear();
-                    
-                    results.data.forEach(row => {
-                        // Extract value from Column A (index 0)
-                        if (row[0]) {
-                            const cleanNum = row[0].toString().trim().toLowerCase();
-                            if(cleanNum) {
-                                scannedFilesSet.add(cleanNum);
-                            }
-                        }
-                    });
-
-                    badge.className = "bg-emerald-50 text-emerald-800 border border-emerald-300 text-[11px] font-bold px-3 py-1.5 rounded-xl flex items-center gap-2";
-                    badge.innerHTML = `<i class="fa-solid fa-circle-check text-emerald-600"></i> Loaded ${scannedFilesSet.size} File Numbers from TM.csv`;
-                },
-                error: function(err) {
-                    badge.className = "bg-rose-50 text-rose-800 border border-rose-300 text-[11px] font-bold px-3 py-1.5 rounded-xl flex items-center gap-2";
-                    badge.innerHTML = `<i class="fa-solid fa-triangle-exclamation text-rose-600"></i> CSV Load Failed (Check GitHub URL)`;
-                    console.error("Error loading CSV:", err);
-                }
-            });
-        }
-
-        function checkFileScanStatus() {
-            const rawInput = document.getElementById('scan-file-input').value.trim();
-            const container = document.getElementById('scan-result-container');
-            container.classList.remove('hidden');
-
-            if (!rawInput) {
-                container.innerHTML = `
-                    <div class="bg-amber-50 border border-amber-300 p-4 rounded-2xl text-xs text-amber-900 flex items-center gap-3">
-                        <i class="fa-solid fa-triangle-exclamation text-amber-600 text-base"></i>
-                        <span>Please enter a valid file number to check.</span>
-                    </div>
-                `;
-                return;
-            }
-
-            const searchVal = rawInput.toLowerCase();
-            const isScanned = scannedFilesSet.has(searchVal);
-
-            if (isScanned) {
-                container.innerHTML = `
-                    <div class="bg-emerald-50 border-2 border-emerald-500 p-6 rounded-2xl shadow-sm space-y-4">
-                        <div class="flex items-center justify-between border-b border-emerald-200 pb-3">
-                            <div class="flex items-center gap-2">
-                                <span class="w-8 h-8 rounded-full bg-emerald-500 text-white flex items-center justify-center font-bold"><i class="fa-solid fa-check"></i></span>
-                                <div>
-                                    <span class="text-xs font-bold uppercase tracking-wider text-emerald-700 block">File Status: Digitized & Available</span>
-                                    <h4 class="text-lg font-bold text-slate-900 font-mono">${rawInput}</h4>
-                                </div>
-                            </div>
-                            <span class="bg-emerald-100 text-emerald-800 text-[11px] font-bold px-3 py-1 rounded-full border border-emerald-300">Scanned & Verified</span>
-                        </div>
-                        <p class="text-xs text-slate-700 leading-relaxed">
-                            This file number was successfully found in Column A of your live <code class="font-mono font-bold">TM.csv</code> GitHub dataset.
-                        </p>
-                        <div class="bg-white p-3 rounded-xl border border-emerald-200 text-[11px] text-slate-600">
-                            <i class="fa-solid fa-circle-info text-emerald-600 mr-1"></i> File is scanned and ready for agent review or retrieval.
-                        </div>
-                    </div>
-                `;
-            } else {
-                container.innerHTML = `
-                    <div class="bg-rose-50 border-2 border-rose-400 p-6 rounded-2xl shadow-sm space-y-4">
-                        <div class="flex items-center justify-between border-b border-rose-200 pb-3">
-                            <div class="flex items-center gap-2">
-                                <span class="w-8 h-8 rounded-full bg-rose-500 text-white flex items-center justify-center font-bold"><i class="fa-solid fa-xmark"></i></span>
-                                <div>
-                                    <span class="text-xs font-bold uppercase tracking-wider text-rose-700 block">File Status: Not Scanned / Record Not Found</span>
-                                    <h4 class="text-lg font-bold text-slate-900 font-mono">${rawInput}</h4>
-                                </div>
-                            </div>
-                            <span class="bg-rose-100 text-rose-800 text-[11px] font-bold px-3 py-1 rounded-full border border-rose-300">Pending Scan</span>
-                        </div>
-                        <p class="text-xs text-slate-700 leading-relaxed">
-                            This file number is missing from Column A of the scanned CSV list. It may require physical paper file retrieval from the record room archives.
-                        </p>
-                        <div class="bg-white p-3 rounded-xl border border-rose-200 text-[11px] text-slate-600">
-                            <i class="fa-solid fa-triangle-exclamation text-rose-600 mr-1"></i> Please check physical record keeper archives.
-                        </div>
-                    </div>
-                `;
-            }
-        }
-
-        // --- Tri-lingual Dictionary ---
-        const tr = {
-            en: {
-                hotline: "Hotline: 1934",
-                mainTitle: "National Intellectual Property Office (Trademark Division)",
-                sinhalaSub: "ජාතික බුද්ධිමය දේපළ කාර්යාලය (වෙළඳ ලකුණු අංශය) • ශ්‍රී ලංකාව",
-                subTag: "Trademark Division Public Kiosk & Inquiry Portal",
-                counterHoursLbl: "Counter Hours: 9:00 AM - 3:00 PM",
-                navDivs: "Main Divisions", navScanCheck: "Scanned File Check", navSearchGuide: "Basic Search Guide", navProcess: "Trademark Process Flowchart", navNice: "Nice Classes (1-45) & WIPO MGS",
-                navChk: "Document Checklists", navFees: "Fee Estimator & Structure", navHrs: "Counter & Bank Info",
-                divBannerTitle: "National Intellectual Property Office - Trademark Division Portal",
-                divBannerDesc: "Explore trademark application procedures, official fee calculators, Nice classifications (1-45), and mandatory document checklists.",
-                cardTmBadge: "Primary Focus", cardTmTitle: "Trademarks Division", cardTmDesc: "Protects brand names, logos, slogans, and distinctive signs. Rights are acquired through official registration under IP Act No. 36 of 2003.",
-                cardTmStats: "Protection Highlights", tm1: "Validity: 10 years from filing date", tm2: "Renewal: Every 10 years indefinitely", tm3: "Classification: Nice Classes 1 to 45",
-                btnViewProc: "View Registration Process Flowchart",
-                scBadge: "Internal Staff & Agent Verification Tool", scMainTitle: "Old / Active File Digital Scan Status Checker",
-                scMainDesc: "Enter a trademark application or file number below. The system checks against your live TM.csv file (Column A) hosted on GitHub.",
-                scLblInput: "Enter File / Application Number", btnCheckScan: "Check Status",
-                scHint: "Data sourced directly from Column A of your GitHub TM.csv file.",
-                sgBadge: "Client Advisory Guide", sgMainTitle: "Basic Trademark Clearance Search",
-                sgMainDesc: "Conducting a trademark clearance search before submitting your application is a crucial step. It helps you avoid costly rejections, legal disputes, and the hassle of having to rebrand later.",
-                sgLinksTitle: "Quick Portals & Databases", btnNipoSearch: "NIPO Online Search", btnWipoDb: "WIPO Brand Database", btnMgsChecker: "MGS Goods List Checker", btnIpAct: "NIPO IP Act No. 36",
-                procBadge: "Official Workflow Diagram", procTitle: "Trademark Registration Basic Process Flowchart", procSub: "Complete visual breakdown of filing, examination, acceptance, gazette publication, refusal hearings, and 10-year renewal cycles.",
-                niceBadge: "Classification Lookup", niceTitle: "Nice Classification (All 45 Classes)", niceSub: "Browse Classes 1 to 34 (Goods) and Classes 35 to 45 (Services). Use keyword search or check official WIPO MGS.",
-                btnWipoMgs: "WIPO Madrid Goods & Services (MGS)",
-                chkBadge: "Filing Preparation", chkTitle: "Mandatory Document Checklists", chkSub: "Review required documents before approaching front desk officers or Shroff.",
-                btnPrintChk: "Print Checklist", chkTab1: "New Trademark Application", chkTab2: "Change Name/Address & Transfers", chkTab3: "Voluntary Work Registration",
-                cntBoxTitle: "Counter Operating Hours", cntL1: "Shroff / Cashier Counter Payments:", cntL2: "Public Search Desk:", cntL3: "General Office Hours:",
-                bankBoxTitle: "Official Bank Deposit Details", btnOfficialBankDetails: "View Official NIPO Bank Details",
-                ftrContactTitle: "National Intellectual Property Office", ftrPhonesTitle: "Contact Numbers", ftrHrsTitle: "Counter Operating Schedule",
-                ftrQuickLinksTitle: "Quick Resource Portals", ftrLink1: "NIPO Forms", ftrLink2: "NIPO Database", ftrLink3: "WIPO Database", ftrLink4: "MGS Goods List", ftrLink5: "Gov. Gazette"
-            },
-            si: {
-                hotline: "රැකියා උණුසුම් අංකය: 1934",
-                mainTitle: "ජාතික බුද්ධිමය දේපළ කාර්යාලය (වෙළඳ ලකුණු අංශය)",
-                sinhalaSub: "ජාතික බුද්ධිමය දේපළ කාර්යාලය (වෙළඳ ලකුණු අංශය) • ශ්‍රී ලංකාව",
-                subTag: "වෙළඳ ලකුණු අංශයේ ප්‍රසිද්ධ තොරතුරු කුටිය",
-                counterHoursLbl: "කවුන්ටර වේලාවන්: පෙ.ව. 9:00 - ප.ව. 3:00",
-                navDivs: "ප්‍රධාන අංශ", navScanCheck: "ස්කෑන් කළ ගොනු පරීක්ෂාව", navSearchGuide: "මූලික සෙවුම් මාර්ගෝපදේශය", navProcess: "ලියාපදිංචි ක්‍රියාවලි ප්‍රවාහ සටහන", navNice: "නයිස් කාණ්ඩ (1-45) සහ WIPO MGS",
-                navChk: "ලේඛන ලැයිස්තු", navFees: "ගාස්තු ගණකය සහ ව්‍යුහය", navHrs: "කවුන්ටර සහ බැංකු",
-                divBannerTitle: "ජාතික බුද්ධිමය දේපළ කාර්යාලය - වෙළඳ ලකුණු අංශය",
-                divBannerDesc: "වෙළඳ ලකුණු අයැදුම්පත්‍ර ක්‍රියාපටිපාටිය, ගාස්තු ගණක යන්ත්‍රය, නයිස් කාණ්ඩ සහ ලේඛන ලැයිස්තු පරීක්ෂා කරන්න.",
-                cardTmBadge: "ප්‍රධාන අවධානය", cardTmTitle: "වෙළඳ ලකුණු අංශය", cardTmDesc: "වෙළඳ නාම, ලාංඡන ආරක්ෂා කරයි. 2003 අංක 36 දරන බුද්ධිමය දේපළ පනත යටතේ ලියාපදිංචි කරනු ලැබේ.",
-                cardTmStats: "ආරක්ෂණ විශේෂතා", tm1: "වලංගු කාලය: ඉල්ලුම් කළ දින සිට වසර 10", tm2: "අලුත් කිරීම: සෑම වසර 10 කට වරක්", tm3: "වර්ගීකරණය: නයිස් කාණ්ඩ 1 සිට 45 දක්වා",
-                btnViewProc: "ලියාපදිංචි ක්‍රියාවලි ප්‍රවාහ සටහන බලන්න",
-                scBadge: "කාර්ය මණ්ඩල සත්‍යාපන මෙවලම", scMainTitle: "පැරණි / සක්‍රීය ගොනු ඩිජිටල් ස්කෑන් තත්ත්ව පරීක්ෂකය",
-                scMainDesc: "GitHub හි ඇති TM.csv ගොනුවේ 'A' තීරුව පදනම් කර ගනිමින් ගොනු ස්කෑන් තත්ත්වය පරීක්ෂා කරන්න.",
-                scLblInput: "ගොනු / අයැදුම්පත්‍ර අංකය ඇතුළත් කරන්න", btnCheckScan: "තත්ත්වය පරීක්ෂා කරන්න",
-                scHint: "ඔබගේ GitHub CSV ගොනුවේ A තීරුවෙන් දත්ත ලබා ගනී.",
-                sgBadge: "සේවාදායක උපදේශන මාර්ගෝපදේශය", sgMainTitle: "මූලික වෙළඳ ලකුණු සෙවීම",
-                sgMainDesc: "අයදුම්පතක් ඉදිරිපත් කිරීමට පෙර වෙළඳ ලකුණු සෙවීමක් සිදු කිරීම අත්‍යවශ්‍ය පියවරකි.",
-                sgLinksTitle: "ඉක්මන් පෝටල සහ දත්ත සමුදායන්", btnNipoSearch: "NIPO සෙවුම් පෝටලය", btnWipoDb: "WIPO ජාත්‍යන්තර දත්ත පද්ධතිය", btnMgsChecker: "MGS භාණ්ඩ ලැයිස්තු පරීක්ෂකය", btnIpAct: "NIPO බුද්ධිමය දේපළ පනත",
-                procBadge: "නිල ක්‍රියාවලි සටහන", procTitle: "වෙළඳ ලකුණු ලියාපදිංචි කිරීමේ මූලික ක්‍රියාවලි ප්‍රවාහ සටහන", procSub: "පරීක්ෂා කිරීම, ගැසට් කිරීම සහ ලියාපදිංචි කිරීම.",
-                niceBadge: "කාණ්ඩ සෙවුම", niceTitle: "නයිස් වර්ගීකරණය (කාණ්ඩ 45 ම)", niceSub: "භාණ්ඩ (1-34) සහ සේවා (35-45) කාණ්ඩ පිරික්සන්න.",
-                btnWipoMgs: "WIPO Madrid MGS වෙත පිවිසෙන්න",
-                chkBadge: "සූදානම් වීම", chkTitle: "අත්‍යවශ්‍ය ලේඛන ලැයිස්තුව", chkSub: "ඉදිරිපත් කිරීමට පෙර අවශ්‍ය ලේඛන පරීක්ෂා කරන්න.",
-                btnPrintChk: "ලැයිස්තුව මුද්‍රණය කරන්න", chkTab1: "නව වෙළඳ ලකුණු අයැදුම්පත", chkTab2: "නම/ලිපිනය වෙනස් කිරීම", chkTab3: "ප්‍රකාශන හිමිකම් තැන්පත් කිරීම",
-                cntBoxTitle: "කවුන්ටර ක්‍රියාකාරී වේලාවන්", cntL1: "මුදල් කවුන්ටරය (Shroff):", cntL2: "මහජන සෙවුම් අංශය:", cntL3: "සාමාන්‍ය කාර්යාල වේලාවන්:",
-                bankBoxTitle: "නිල බැංකු තැන්පතු විස්තර", btnOfficialBankDetails: "නිල NIPO බැංකු විස්තර බලන්න",
-                ftrContactTitle: "ජාතික බුද්ධිමය දේපළ කාර්යාලය", ftrPhonesTitle: "දුරකථන අංක", ftrHrsTitle: "කවුන්ටර කාලසටහන",
-                ftrQuickLinksTitle: "ඉක්මන් පිවිසුම්", ftrLink1: "NIPO අයැදුම්පත්", ftrLink2: "NIPO දත්ත පද්ධතිය", ftrLink3: "WIPO දත්ත පද්ධතිය", ftrLink4: "MGS භාණ්ඩ ලැයිස්තුව", ftrLink5: "රජයේ ගැසට් පත්‍රය"
-            },
-            ta: {
-                hotline: "உதவி எண்: 1934",
-                mainTitle: "தேசிய அறிவுசார் சொத்து அலுவலகம் (வணிகச்சின்னப் பிரிவு)",
-                sinhalaSub: "தேசிய அறிவுசார் சொத்து அலுவலகம் (வணிகச்சின்னப் பிரிவு) • இலங்கை",
-                subTag: "வணிகச்சின்னப் பிரிவு பொது தகவல் மையம்",
-                counterHoursLbl: "கவுண்டர் நேரம்: மு.ப 9:00 - பி.ப 3:00",
-                navDivs: "முக்கிய பிரிவுகள்", navScanCheck: "ஸ்கேன் செய்யப்பட்ட கோப்பு", navSearchGuide: "அடிப்படை தேடல் வழிகாட்டி", navProcess: "செயல்முறை பாய்வுப்படம்", navNice: "நைஸ் வகுப்புகள் (1-45) & WIPO MGS",
-                navChk: "ஆவணப் பட்டியல்கள்", navFees: "கட்டண மதிப்பீடு & அமைப்பு", navHrs: "கவுண்டர் & வங்கி",
-                divBannerTitle: "தேசிய அறிவுசார் சொத்து அலுவலகம் - வணிகச்சின்னப் பிரிவு",
-                divBannerDesc: "வணிகச்சின்ன விண்ணப்ப நடைமுறைகள் மற்றும் ஆவணப் பட்டியல்களைப் பார்வையிடவும்.",
-                cardTmBadge: "முதன்மை கவனம்", cardTmTitle: "வணிகச்சின்னப் பிரிவு", cardTmDesc: "பிராண்ட் பெயர்கள், லோகோக்களைப் பாதுகாக்கிறது.",
-                cardTmStats: "பாதுகாப்பு சிறப்பம்சங்கள்", tm1: "செல்லுபடியாகும் காலம்: 10 ஆண்டுகள்", tm2: "புதுப்பித்தல்: ஒவ்வொரு 10 ஆண்டுகளுக்கு ஒருமுறை", tm3: "வகைப்பாடு: நைஸ் வகுப்புகள் 1 முதல் 45 வரை",
-                btnViewProc: "செயல்முறை பாய்வுப்படத்தைக் காண்க",
-                scBadge: "உள்ளக சரிபார்ப்பு கருவி", scMainTitle: "கோப்பு டிஜிட்டல் ஸ்கேன் நிலை சரிபார்ப்பு",
-                scMainDesc: "GitHub-ல் உள்ள TM.csv கோப்பின் 'A' நெடுவரிசையைப் பயன்படுத்தி கோப்பு நிலையைச் சரிபார்க்கவும்.",
-                scLblInput: "கோப்பு / விண்ணப்ப எண்ணை உள்ளிடவும்", btnCheckScan: "நிலையைச் சரிபார்க்கவும்",
-                scHint: "உங்கள் GitHub TM.csv கோப்பின் A நெடுவரிசையிலிருந்து தரவு பெறப்படுகிறது.",
-                sgBadge: "வாடிக்கையாளர் வழிகாட்டி", sgMainTitle: "அடிப்படை வணிகச்சின்ன தேடல்",
-                sgMainDesc: "விண்ணப்பத்தைச் சமர்ப்பிப்பதற்கு முன் வணிகச்சின்னத் தேடலை நடத்துவது ஒரு முக்கியமான படியாகும்.",
-                sgLinksTitle: "விரைவு இணைப்புகள்", btnNipoSearch: "NIPO ஆன்லைன் தேடல்", btnWipoDb: "WIPO பிராண்ட் தரவுத்தளம்", btnMgsChecker: "MGS பொருட்கள் சரிபார்ப்பு", btnIpAct: "NIPO IP சட்டம் எண் 36",
-                procBadge: "அதிகாரப்பூர்வ பாய்வுப்படம்", procTitle: "வணிகச்சின்ன பதிவு அடிப்படை செயல்முறை பாய்வுப்படம்", procSub: "பரிசீலனை மற்றும் பதிவு செயல்முறை.",
-                niceBadge: "வகுப்பு தேடல்", niceTitle: "நைஸ் வகைப்பாடு (அனைத்து 45 வகுப்புகளும்)", niceSub: "சரக்குகள் (1-34) மற்றும் சேவைகள் (35-45) வகுப்புகளைத் தேடுங்கள்.",
-                btnWipoMgs: "WIPO Madrid MGS இணைப்பைப் பார்வையிடவும்",
-                chkBadge: "தயாரிப்பு வழிகாட்டி", chkTitle: "கட்டாய ஆவணப் பட்டியல்கள்", chkSub: "சமர்ப்பிப்பதற்கு முன் தேவையான ஆவணங்களைச் சரிபார்க்கவும்.",
-                btnPrintChk: "சரிபார்ப்புப் பட்டியலை அச்சிடுக", chkTab1: "புதிய வணிகச்சின்ன விண்ணப்பம்", chkTab2: "பெயர்/முகவரி மாற்றம்", chkTab3: "பதிப்புரிமை வைப்பு",
-                cntBoxTitle: "கவுண்டர் வேலை நேரம்", cntL1: "பணம் செலுத்தும் கவுண்டர் (Shroff):", cntL2: "பொது தேடல் பிரிவு:", cntL3: "பொது அலுவலக நேரம்:",
-                bankBoxTitle: "வங்கி வைப்பு விவரங்கள்", btnOfficialBankDetails: "அதிகாரப்பூர்வ வங்கி விவரங்களைப் பார்க்கவும்",
-                ftrContactTitle: "தேசிய அறிவுசார் சொத்து அலுவலகம்", ftrPhonesTitle: "தொடர்பு எண்கள்", ftrHrsTitle: "கவுண்டர் நேர அட்டவணை",
-                ftrQuickLinksTitle: "விரைவு இணைப்புகள்", ftrLink1: "NIPO படிவங்கள்", ftrLink2: "NIPO தரவுத்தளம்", ftrLink3: "WIPO தரவுத்தளம்", ftrLink4: "MGS பொருட்கள் பட்டியல்", ftrLink5: "அரச கெஜட்"
-            }
-        };
-
-        function setLanguage(lang) {
-            ['en', 'si', 'ta'].forEach(l => {
-                const btn = document.getElementById('lang-' + l);
-                if(l === lang) {
-                    btn.className = "px-2.5 py-0.5 rounded text-[11px] font-bold bg-amber-500 text-slate-950 transition";
-                } else {
-                    btn.className = "px-2.5 py-0.5 rounded text-[11px] font-bold text-slate-300 hover:text-white transition";
-                }
-            });
-
-            const t = tr[lang];
-            if(!t) return;
-            document.getElementById('txt-hotline').textContent = t.hotline;
-            document.getElementById('header-main-title').textContent = t.mainTitle;
-            document.getElementById('header-sinhala-sub').textContent = t.sinhalaSub;
-            document.getElementById('header-sub-tag').textContent = t.subTag;
-            document.getElementById('txt-counter-hours-lbl').textContent = t.counterHoursLbl;
-            document.getElementById('nav-lbl-divs').textContent = t.navDivs;
-            document.getElementById('nav-lbl-scancheck').textContent = t.navScanCheck;
-            document.getElementById('nav-lbl-searchguide').textContent = t.navSearchGuide;
-            document.getElementById('nav-lbl-process').textContent = t.navProcess;
-            document.getElementById('nav-lbl-nice').textContent = t.navNice;
-            document.getElementById('nav-lbl-chk').textContent = t.navChk;
-            document.getElementById('nav-lbl-fees').textContent = t.navFees;
-            document.getElementById('nav-lbl-hrs').textContent = t.navHrs;
-
-            // Divisions & Cards
-            document.getElementById('div-banner-title').textContent = t.divBannerTitle;
-            document.getElementById('div-banner-desc').textContent = t.divBannerDesc;
-            document.getElementById('card-tm-badge').textContent = t.cardTmBadge;
-            document.getElementById('card-tm-title').textContent = t.cardTmTitle;
-            document.getElementById('card-tm-desc').textContent = t.cardTmDesc;
-            document.getElementById('card-tm-stats-title').textContent = t.cardTmStats;
-            document.getElementById('tm-stat-1').textContent = t.tm1;
-            document.getElementById('tm-stat-2').textContent = t.tm2;
-            document.getElementById('tm-stat-3').textContent = t.tm3;
-            document.getElementById('btn-view-process').textContent = t.btnViewProc;
-
-            // Scan Check Tab Labels
-            document.getElementById('sc-badge').textContent = t.scBadge;
-            document.getElementById('sc-main-title').textContent = t.scMainTitle;
-            document.getElementById('sc-main-desc').textContent = t.scMainDesc;
-            document.getElementById('sc-lbl-input').textContent = t.scLblInput;
-            document.getElementById('btn-check-scan').textContent = t.btnCheckScan;
-            document.getElementById('sc-hint').textContent = t.scHint;
-
-            // Search Guide Tab Labels
-            document.getElementById('sg-badge').textContent = t.sgBadge;
-            document.getElementById('sg-main-title').textContent = t.sgMainTitle;
-            document.getElementById('sg-main-desc').textContent = t.sgMainDesc;
-            document.getElementById('sg-links-title').textContent = t.sgLinksTitle;
-            document.getElementById('btn-nipo-search').textContent = t.btnNipoSearch;
-            document.getElementById('btn-wipo-db').textContent = t.btnWipoDb;
-            document.getElementById('btn-mgs-checker').textContent = t.btnMgsChecker;
-            document.getElementById('btn-ip-act').textContent = t.btnIpAct;
-
-            document.getElementById('card-cr-badge').textContent = lang === 'en' ? 'Secondary Wing' : (lang === 'si' ? 'ද්විතියික අංශය' : 'இரண்டாம் நிலை');
-            document.getElementById('card-cr-title').textContent = lang === 'en' ? 'Copyright & Related Rights' : (lang === 'si' ? 'ප්‍රකාශන හිමිකම් සහ ආශ්‍රිත අයිතිවාසිකම්' : 'பதிப்புரிமை மற்றும் உரிமைகள்');
-            document.getElementById('card-cr-desc').textContent = lang === 'en' ? 'Protects literary, artistic, musical works, and software automatically upon creation without mandatory registration.' : (lang === 'si' ? 'සාහිත්‍ය, කලාත්මක, සංගීත කෘති සහ මෘදුකාංග ආරක්ෂා කරයි.' : 'இலக்கிய, கலை, இசைப் படைப்புகளைப் பாதுகாக்கிறது.');
-            document.getElementById('btn-view-cr-chk').textContent = lang === 'en' ? 'Copyright Deposit Checklist' : (lang === 'si' ? 'ප්‍රකාශන හිමිකම් ලැයිස්තුව' : 'பதிப்புரிமை சரிபார்ப்புப் பட்டியல்');
-
-            document.getElementById('card-gi-badge').textContent = lang === 'en' ? 'Regional Protection' : (lang === 'si' ? 'කලාපීය ආරක්ෂාව' : 'பிராந்திய பாதுகாப்பு');
-            document.getElementById('card-gi-title').textContent = lang === 'en' ? 'Geographical Indications (GIs)' : (lang === 'si' ? 'භූගෝලීය දර්ශක (GIs)' : 'புவியியல் குறிப்புகள் (GIs)');
-            document.getElementById('card-gi-desc').textContent = lang === 'en' ? 'Protects goods originating from specific regions linked to geographical origin (e.g., Ceylon Tea).' : (lang === 'si' ? 'භූගෝලීය ප්‍රදේශවලට ආවේණික නිෂ්පාදන ආරක්ෂා කරයි (උදා: සිeylon තේ).' : 'குறிப்பிட்ட பகுதியிலிருந்து உருவாகும் பொருட்களைப் பாதுகாக்கிறது.');
-            document.getElementById('btn-view-gi-guide').textContent = lang === 'en' ? 'GI Registration Guide' : (lang === 'si' ? 'GI ලියාපදිංචි කිරීමේ මාර්ගෝපදේශය' : 'GI பதிவு வழிகாட்டி');
-
-            // Process Flowchart Labels
-            document.getElementById('proc-badge').textContent = t.procBadge;
-            document.getElementById('proc-main-title').textContent = t.procTitle;
-            document.getElementById('proc-main-sub').textContent = t.procSub;
-
-            // Nice Classes
-            document.getElementById('nice-badge').textContent = t.niceBadge;
-            document.getElementById('nice-main-title').textContent = t.niceTitle;
-            document.getElementById('nice-main-sub').textContent = t.niceSub;
-            document.getElementById('btn-wipo-mgs').textContent = t.btnWipoMgs;
-
-            // Checklists
-            document.getElementById('chk-badge').textContent = t.chkBadge;
-            document.getElementById('chk-main-title').textContent = t.chkTitle;
-            document.getElementById('chk-main-sub').textContent = t.chkSub;
-            document.getElementById('btn-print-chk').textContent = t.btnPrintChk;
-            document.getElementById('chk-tab-1').textContent = t.chkTab1;
-            document.getElementById('chk-tab-2').textContent = t.chkTab2;
-            document.getElementById('chk-tab-3').textContent = t.chkTab3;
-
-            // Counter & Bank
-            document.getElementById('cnt-box-title').textContent = t.cntBoxTitle;
-            document.getElementById('cnt-l1').textContent = t.cntL1;
-            document.getElementById('cnt-l2').textContent = t.cntL2;
-            document.getElementById('cnt-l3').textContent = t.cntL3;
-            document.getElementById('bank-box-title').textContent = t.bankBoxTitle;
-            document.getElementById('btn-official-bank-details').textContent = t.btnOfficialBankDetails;
-
-            // Footer Section Titles
-            document.getElementById('ftr-contact-title').textContent = t.ftrContactTitle;
-            document.getElementById('ftr-phones-title').textContent = t.ftrPhonesTitle;
-            document.getElementById('ftr-hrs-title').textContent = t.ftrHrsTitle;
-            document.getElementById('ftr-quick-links-title').textContent = t.ftrQuickLinksTitle;
-            document.getElementById('ftr-link-1').textContent = t.ftrLink1;
-            document.getElementById('ftr-link-2').textContent = t.ftrLink2;
-            document.getElementById('ftr-link-3').textContent = t.ftrLink3;
-            document.getElementById('ftr-link-4').textContent = t.ftrLink4;
-            document.getElementById('ftr-link-5').textContent = t.ftrLink5;
-        }
-
-        // --- Live Clock ---
-        function updateClock() {
-            const now = new Date();
-            document.getElementById('live-clock').textContent = now.toLocaleTimeString();
-        }
-        setInterval(updateClock, 1000);
-
-        // --- Tab Switching ---
-        function switchTab(tabId) {
-            ['divisions', 'scancheck', 'searchguide', 'process', 'nice', 'checklists', 'fees', 'hours'].forEach(id => {
-                document.getElementById('content-' + id).classList.add('hidden');
-                document.getElementById('tab-' + id).className = "tab-btn px-4 py-2.5 rounded-lg whitespace-nowrap text-slate-600 hover:bg-slate-100 transition flex items-center gap-2";
-            });
-
-            document.getElementById('content-' + tabId).classList.remove('hidden');
-            const activeBtn = document.getElementById('tab-' + tabId);
-            activeBtn.className = "tab-btn active px-4 py-2.5 rounded-lg whitespace-nowrap transition flex items-center gap-2";
-        }
-
-        // --- All 45 Nice Classes Data ---
-        const niceClassesData = [
-            {num: 1, type: "goods", title: "Chemicals for industry, science, agriculture, horticulture and forestry."},
-            {num: 2, type: "goods", title: "Paints, varnishes, lacquers, preservatives against rust and wood deterioration."},
-            {num: 3, type: "goods", title: "Cosmetics, perfumery, essential oils, non-medicated soaps, cleaning preparations."},
-            {num: 4, type: "goods", title: "Industrial oils and greases, wax, candles and wicks for lighting."},
-            {num: 5, type: "goods", title: "Pharmaceuticals, medical and veterinary preparations, dietetic food."},
-            {num: 6, type: "goods", title: "Common metals and their alloys, ores, metal building materials."},
-            {num: 7, type: "goods", title: "Machines, machine tools, power-operated tools, motors and engines."},
-            {num: 8, type: "goods", title: "Hand tools and implements, cutlery, side arms, razors."},
-            {num: 9, type: "goods", title: "Scientific, research, optical, weighing, measuring, signaling, checking, life-saving apparatus; computers and computer software."},
-            {num: 10, type: "goods", title: "Surgical, medical, dental and veterinary apparatus and instruments."},
-            {num: 11, type: "goods", title: "Apparatus and installations for lighting, heating, cooling, steam generating, cooking."},
-            {num: 12, type: "goods", title: "Vehicles; apparatus for locomotion by land, air or water."},
-            {num: 13, type: "goods", title: "Firearms; ammunition and projectiles; explosives; fireworks."},
-            {num: 14, type: "goods", title: "Precious metals and their alloys; jewellery, precious and semi-precious stones; horological instruments."},
-            {num: 15, type: "goods", title: "Musical instruments."},
-            {num: 16, type: "goods", title: "Paper and cardboard; printed matter; bookbinding material; photographs; stationery and office requisites."},
-            {num: 17, type: "goods", title: "Unprocessed and semi-processed rubber, gutta-percha, gum, asbestos, mica."},
-            {num: 18, type: "goods", title: "Leather and imitations of leather; animal skins and hides; trunks and travelling bags; umbrellas."},
-            {num: 19, type: "goods", title: "Building materials (non-metallic); non-metallic rigid pipes for building; asphalt, pitch."},
-            {num: 20, type: "goods", title: "Furniture, mirrors, picture frames; unworked or semi-worked bone, horn, ivory."},
-            {num: 21, type: "goods", title: "Household or kitchen utensils and containers; cookware and tableware; combs and sponges."},
-            {num: 22, type: "goods", title: "Ropes and string; nets; tents and awnings; sails; sacks and bags."},
-            {num: 23, type: "goods", title: "Yarns and threads for textile use."},
-            {num: 24, type: "goods", title: "Textiles and substitutes for textiles; bed linen; table linen."},
-            {num: 25, type: "goods", title: "Clothing, footwear, headwear."},
-            {num: 26, type: "goods", title: "Lace and embroidery, ribbons and braid; buttons, hooks and eyes, pins."},
-            {num: 27, type: "goods", title: "Carpets, rugs, mats and matting, linoleum and other materials for covering floors."},
-            {num: 28, type: "goods", title: "Games, toys and playthings; video game apparatus; gymnastic and sporting articles."},
-            {num: 29, type: "goods", title: "Meat, fish, poultry and game; meat extracts; preserved, frozen, dried and cooked fruits and vegetables."},
-            {num: 30, type: "goods", title: "Coffee, tea, cocoa and artificial coffee; rice; flour and preparations made from cereals; bread, pastries and confectionery; edible ices; sugar, honey, yeast, salt, mustard, vinegar, sauces, spices."},
-            {num: 31, type: "goods", title: "Raw and unprocessed agricultural, aquacultural, horticultural and forestry products."},
-            {num: 32, type: "goods", title: "Beers; non-alcoholic beverages; mineral and aerated waters; fruit beverages and fruit juices; syrups."},
-            {num: 33, type: "goods", title: "Alcoholic beverages (except beers)."},
-            {num: 34, type: "goods", title: "Tobacco; smokers' articles; matches."},
-            {num: 35, type: "services", title: "Advertising; business management; business administration; office functions."},
-            {num: 36, type: "services", title: "Insurance; financial affairs; monetary affairs; real estate affairs."},
-            {num: 37, type: "services", title: "Building construction; repair; installation services."},
-            {num: 38, type: "services", title: "Telecommunications."},
-            {num: 39, type: "services", title: "Transport; packaging and storage of goods; travel arrangement."},
-            {num: 40, type: "services", title: "Treatment of materials; recycling of waste; air purification and water treatment."},
-            {num: 41, type: "services", title: "Education; providing of training; entertainment; sporting and cultural activities."},
-            {num: 42, type: "services", title: "Scientific and technological services and research; industrial analysis; design and development of computer hardware and software."},
-            {num: 43, type: "services", title: "Services for providing food and drink; temporary accommodation."},
-            {num: 44, type: "services", title: "Medical services; veterinary services; hygienic and beauty care for human beings or animals."},
-            {num: 45, type: "services", title: "Legal services; security services for the physical protection of tangible property and individuals."}
-        ];
-
-        let currentNiceCategory = 'all';
-
-        function renderNiceClasses(filter = '') {
-            const container = document.getElementById('nice-classes-container');
-            container.innerHTML = '';
-
-            const filtered = niceClassesData.filter(c => {
-                const matchesCat = (currentNiceCategory === 'all' || c.type === currentNiceCategory);
-                const matchesKey = c.num.toString().includes(filter) || c.title.toLowerCase().includes(filter.toLowerCase());
-                return matchesCat && matchesKey;
-            });
-
-            if(filtered.length === 0) {
-                container.innerHTML = `<div class="col-span-full text-center py-8 text-slate-400 text-xs">No matching Nice classes found.</div>`;
-                return;
-            }
-
-            filtered.forEach(c => {
-                const card = document.createElement('div');
-                card.className = "bg-slate-50 border border-slate-200 p-4 rounded-xl hover:border-nipo-navy transition flex flex-col justify-between";
-                card.innerHTML = `
-                    <div>
-                        <div class="flex items-center justify-between mb-2">
-                            <span class="text-xs font-extrabold text-amber-600 bg-amber-50 px-2 py-0.5 rounded-md border border-amber-200">Class ${c.num}</span>
-                            <span class="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded ${c.type === 'goods' ? 'bg-blue-50 text-blue-700' : 'bg-emerald-50 text-emerald-700'}">${c.type}</span>
-                        </div>
-                        <p class="text-xs text-slate-700 leading-relaxed">${c.title}</p>
-                    </div>
-                `;
-                container.appendChild(card);
-            });
-        }
-
-        function filterNiceCategory(cat) {
-            currentNiceCategory = cat;
-            ['all', 'goods', 'services'].forEach(c => {
-                const btn = document.getElementById('nice-cat-' + c);
-                if(c === cat) {
-                    btn.className = "nice-cat-btn px-3.5 py-1.5 rounded-lg text-xs font-bold bg-nipo-navy text-white";
-                } else {
-                    btn.className = "nice-cat-btn px-3.5 py-1.5 rounded-lg text-xs font-bold bg-slate-100 text-slate-700 hover:bg-slate-200";
-                }
-            });
-            renderNiceClasses(document.getElementById('nice-keyword-input').value);
-        }
-
-        function filterNiceInteractive() {
-            renderNiceClasses(document.getElementById('nice-keyword-input').value);
-        }
-
-        // --- Document Checklists Data ---
-        const checklistsData = {
-            m01: {
-                title: "Form M 01 - Application for Registration of Trademark",
-                items: [
-                    "Duly filled and signed Form M 01 (Trademark Application Form).",
-                    "6 clear specimens / representations of the trademark (Max size: 10 cm x 10 cm).",
-                    "Power of Attorney (POA) if filed through an authorized IP Agent or Attorney.",
-                    "Certified translation and transliteration if the mark contains non-English, Sinhala, or Tamil characters.",
-                    "Priority document (if claiming priority under Paris Convention within 6 months of foreign filing)."
-                ]
-            },
-            m03: {
-                title: "Form M 03 / Assignments & Change of Name/Address",
-                items: [
-                    "Duly completed Form M 03 request letter.",
-                    "Certified copy of Certificate of Change of Name / Business Registration.",
-                    "Original Trademark Certificate or certified duplicate copy.",
-                    "Assignment deed executed by assignor and assignee (for transfers/transmissions).",
-                    "Applicable NIPO fee receipt."
-                ]
-            },
-            cr_deposit: {
-                title: "Copyright Voluntary Work Deposit Checklist",
-                items: [
-                    "Completed Copyright Deposit application form.",
-                    "Two identical copies of the work (Manuscript, software CD/source, artwork, or audio recording).",
-                    "Proof of authorship / Declaration of ownership signed by author(s).",
-                    "National Identity Card (NIC) or passport copy of the applicant.",
-                    "Applicable voluntary deposit fee receipt."
-                ]
-            }
-        };
-
-        function showChecklist(formKey) {
-            ['m01', 'm03', 'cr_deposit'].forEach(k => {
-                const btn = document.getElementById('chk-btn-' + k);
-                if(k === formKey) {
-                    btn.className = "chk-tab-btn active p-4 rounded-xl border-2 border-nipo-navy bg-nipo-navy text-white text-left transition";
-                } else {
-                    btn.className = "chk-tab-btn p-4 rounded-xl border-2 border-slate-200 bg-slate-50 text-slate-800 text-left transition";
-                }
-            });
-
-            const data = checklistsData[formKey];
-            const display = document.getElementById('checklist-display');
-            display.innerHTML = `
-                <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200 space-y-4">
-                    <h4 class="font-bold text-nipo-navy text-base font-serif">${data.title}</h4>
-                    <ul class="space-y-3 text-xs text-slate-700">
-                        ${data.items.map(item => `<li class="flex items-start gap-2.5"><i class="fa-solid fa-square-check text-amber-500 mt-0.5 text-sm"></i> <span>${item}</span></li>`).join('')}
-                    </ul>
-                </div>
-            `;
-        }
-
-        // --- Upgraded Fee Estimator Logic ---
-        let currentMode = 'app'; // 'app' or 'pub'
-        let selectedAppType = 'individual';
-        let selectedPubTier = '1a';
-
-        const appFees = {
-            individual: 2360,
-            corporate: 7080,
-            collective: 11800
-        };
-
-        const pubFees = {
-            '1a': 2000,
-            '1b': 2500,
-            '2a': 3000,
-            '2b': 3500,
-            '3a': 4000,
-            '3b': 5500
-        };
-
-        function switchCalcMode(mode) {
-            currentMode = mode;
-            ['app', 'pub'].forEach(m => {
-                const btn = document.getElementById('mode-btn-' + m);
-                const panel = document.getElementById('calc-panel-' + m);
-                if(m === mode) {
-                    btn.className = "calc-subtag active flex-1 py-2 px-4 rounded-lg text-xs font-bold transition text-center";
-                    panel.classList.remove('hidden');
-                } else {
-                    btn.className = "calc-subtag flex-1 py-2 px-4 rounded-lg text-xs font-bold text-slate-300 transition text-center";
-                    panel.classList.add('hidden');
-                }
-            });
-            updateKioskFee();
-        }
-
-        function setAppType(type) {
-            selectedAppType = type;
-            ['individual', 'corporate', 'collective'].forEach(t => {
-                const card = document.getElementById('card-app-' + t);
-                if(t === type) {
-                    card.className = "cursor-pointer bg-slate-950 border-2 border-amber-400 p-4 rounded-xl block transition";
-                } else {
-                    card.className = "cursor-pointer bg-slate-950 border border-slate-700 p-4 rounded-xl block transition";
-                }
-            });
-            updateKioskFee();
-        }
-
-        function setPubTier(tier) {
-            selectedPubTier = tier;
-            ['1a', '1b', '2a', '2b', '3a', '3b'].forEach(t => {
-                const card = document.getElementById('card-pub-' + t);
-                if(t === tier) {
-                    card.className = "cursor-pointer bg-slate-950 border-2 border-amber-400 p-4 rounded-xl block transition";
-                } else {
-                    card.className = "cursor-pointer bg-slate-950 border border-slate-700 p-4 rounded-xl block transition";
-                }
-            });
-            updateKioskFee();
-        }
-
-        function updateKioskFee() {
-            let amount = 0;
-            if (currentMode === 'app') {
-                amount = appFees[selectedAppType] || 2360;
-            } else {
-                amount = pubFees[selectedPubTier] || 2000;
-            }
-
-            document.getElementById('est-total-amount').textContent = 'Rs. ' + amount.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
-        }
-
-        // Initialize on page load
-        window.onload = function() {
-            renderNiceClasses();
-            showChecklist('m01');
-            updateKioskFee();
-            loadScannedCsvFromGitHub(); // Fetch and load Column A CSV on startup
-        };
-    </script>
-</body>
+<body class="bg-[#f7f5f0] text-[#151515]">
+<div id="root"></div>
+<script type="module">
+import React,{useState,useEffect} from 'react';
+import {createRoot} from 'react-dom/client';
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDZCEGLKPn5gBvxWmlCQ45glHjLBASTdEo",
+  authDomain: "nipo-roster.firebaseapp.com",
+  databaseURL: "https://nipo-roster-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "nipo-roster",
+  storageBucket: "nipo-roster.firebasestorage.app",
+  messagingSenderId: "310280134303",
+  appId: "1:310280134303:web:0f7ff4fa5d53c0cf754caa"
+};
+
+let db=null, fb=null;
+async function initFB(){
+ try{
+  const {initializeApp}=await import("https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js");
+  const {getFirestore, doc, setDoc, onSnapshot}=await import("https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js");
+  const app=initializeApp(firebaseConfig);
+  db=getFirestore(app);
+  fb={doc,setDoc,onSnapshot};
+  return true;
+ }catch(e){console.error(e); return false;}
+}
+
+const Ni=["THILINA PRABA.","THILINA SANDA.","THUSHARI","UPEKHA","ACHINI","AJITH","IROSHI","ISURI","JAYANTHA","KAVITH","NAYOMI","RAVIMINI"];
+
+function App(){
+ const [infoPool,setInfoPool]=useState([...Ni]);
+ const [lunchPool,setLunchPool]=useState([...Ni]);
+ const [year,setYear]=useState(new Date().getFullYear());
+ const [month,setMonth]=useState(new Date().getMonth());
+ const [starters,setStarters]=useState({});
+ const [swaps,setSwaps]=useState([]);
+ const [lastUpdated,setLastUpdated]=useState(null);
+ const [isAdmin,setIsAdmin]=useState(false);
+ const [showLogin,setShowLogin]=useState(false);
+ const [cred,setCred]=useState({u:'',p:''});
+ const [selA,setSelA]=useState('');
+ const [selB,setSelB]=useState('');
+ const [poolType,setPoolType]=useState('info');
+ const [filter,setFilter]=useState('ALL');
+ const [fbReady,setFbReady]=useState(false);
+ const [toast,setToast]=useState(null);
+ const [now,setNow]=useState(new Date());
+ useEffect(()=>{const i=setInterval(()=>setNow(new Date()),1000); return ()=>clearInterval(i)},[]);
+
+ useEffect(()=>{
+  const saved=localStorage.getItem('nipo_original_public');
+  if(saved){try{const d=JSON.parse(saved); if(d.infoPool) setInfoPool(d.infoPool); if(d.lunchPool) setLunchPool(d.lunchPool); if(d.swaps) setSwaps(d.swaps); if(d.starters) setStarters(d.starters); if(d.lastUpdated) setLastUpdated(d.lastUpdated);}catch{}}
+ },[]);
+
+ useEffect(()=>{
+  (async()=>{
+   const ok=await initFB();
+   if(ok){
+    setFbReady(true);
+    const r=fb.doc(db,"nipoRoster","live");
+    fb.onSnapshot(r,(snap)=>{
+     const v=snap.exists()? snap.data(): null;
+     if(v){
+      if(v.infoPool) setInfoPool(v.infoPool);
+      if(v.lunchPool) setLunchPool(v.lunchPool);
+      if(v.swaps) setSwaps(v.swaps);
+      if(v.starters) setStarters(v.starters);
+      if(v.lastUpdated) setLastUpdated(v.lastUpdated);
+     }
+    });
+   }
+  })();
+ },[]);
+
+ const saveAll=async (o)=>{
+  const data={
+   infoPool: o.infoPool??infoPool,
+   lunchPool: o.lunchPool??lunchPool,
+   swaps: o.swaps??swaps,
+   starters: o.starters??starters,
+   lastUpdated: o.lastUpdated??lastUpdated
+  };
+  localStorage.setItem('nipo_original_public',JSON.stringify(data));
+  if(fbReady && db){ try{ await fb.setDoc(fb.doc(db,"nipoRoster","live"), data, {merge:true});}catch(e){console.error(e);} }
+ };
+
+ const monthKey=`${year}-${String(month+1).padStart(2,'0')}`;
+ const curStarter=starters[monthKey]||{info:infoPool[0], lunch:lunchPool[0]};
+ const getRotated=(pool, starter)=>{
+  if(!starter) return pool;
+  const idx=pool.indexOf(starter);
+  if(idx<=0) return pool;
+  return [...pool.slice(idx),...pool.slice(0,idx)];
+ };
+ const rotInfo=getRotated(infoPool, curStarter.info);
+ const rotLunch=getRotated(lunchPool, curStarter.lunch);
+
+ const days=[];
+ const d=new Date(year,month,1);
+ while(d.getMonth()===month){const day=d.getDay(); if(day>=1&&day<=5) days.push(new Date(d)); d.setDate(d.getDate()+1);}
+
+ const orig={};
+ days.forEach((dt,i)=>{
+  const ds=dt.toISOString().split('T')[0];
+  orig[ds]={info: rotInfo[i%rotInfo.length], lunch: rotLunch[i%rotLunch.length]};
+ });
+ const fin={...Object.fromEntries(Object.entries(orig).map(([k,v])=>[k,{...v}]))};
+ const detail={};
+ swaps.filter(s=>s.monthKey===monthKey).forEach(s=>{
+  const a=s.dateA, b=s.dateB;
+  if(fin[a]&&fin[b]){
+   if(s.type==='info'){
+    const t=fin[a].info; fin[a].info=fin[b].info; fin[b].info=t;
+    detail[a]={orig:orig[a].info, curr:fin[a].info};
+    detail[b]={orig:orig[b].info, curr:fin[b].info};
+   }else{
+    const t=fin[a].lunch; fin[a].lunch=fin[b].lunch; fin[b].lunch=t;
+    detail[a]={orig:orig[a].lunch, curr:fin[a].lunch};
+    detail[b]={orig:orig[b].lunch, curr:fin[b].lunch};
+   }
+  }
+ });
+
+ const swappedDates = new Set();
+ swaps.filter(s=>s.monthKey===monthKey).forEach(s=>{ swappedDates.add(s.dateA); swappedDates.add(s.dateB); });
+ const filtered=filter==='ALL'? days : days.filter(dt=>{
+  const ds=dt.toISOString().split('T')[0];
+  if(swappedDates.has(ds)) return true;
+  const f=fin[ds]; return f && (f.info===filter || f.lunch===filter);
+ });
+
+ const hm=now.getHours()*60+now.getMinutes();
+ const infoLive=hm>=8*60+45 && hm<=16*60;
+ const lunchLive=hm>=12*60+30 && hm<=13*60;
+
+ const doSwap=()=>{
+  if(!selA||!selB||selA===selB){setToast('Select two different dates'); setTimeout(()=>setToast(null),2500); return;}
+  const dateA=days.find(x=>x.toISOString().split('T')[0]===selA);
+  const dateB=days.find(x=>x.toISOString().split('T')[0]===selB);
+  if(!dateA||!dateB){setToast('Dates not in current month'); setTimeout(()=>setToast(null),2500); return;}
+  const offA=poolType==='info'? fin[selA]?.info : fin[selA]?.lunch;
+  const offB=poolType==='info'? fin[selB]?.info : fin[selB]?.lunch;
+  const ns={id:Date.now().toString(), dateA:selA, dateB:selB, type:poolType, officerA_before:offA, officerB_before:offB, monthKey, createdAt:new Date().toISOString()};
+  const up=[...swaps, ns];
+  setSwaps(up); saveAll({swaps:up});
+  setToast(`Swapped ${offA} ↔ ${offB} - only 2 dates`); setTimeout(()=>setToast(null),3000);
+  setSelA(''); setSelB('');
+ };
+
+ const handleUpdate=async()=>{
+  const iso=new Date().toISOString();
+  setLastUpdated(iso);
+  await saveAll({lastUpdated:iso});
+  setToast(fbReady ? '✅ LIVE! All public links updated instantly' : 'Saved locally');
+  setTimeout(()=>setToast(null),3000);
+ };
+
+ const months=["JANUARY","FEBRUARY","MARCH","APRIL","MAY","JUNE","JULY","AUGUST","SEPTEMBER","OCTOBER","NOVEMBER","DECEMBER"];
+
+ return React.createElement('div',{},
+  React.createElement('div',{className:`sticky top-0 z-40 border-b ${fbReady?'bg-emerald-500 text-white border-emerald-600':'bg-amber-200 text-[#4a3b00] border-amber-300'} px-4 md:px-6 py-2 flex justify-between items-center text-[12px] mono`},
+   React.createElement('div',{className:'flex items-center gap-2'},
+    React.createElement('span',{className:`h-2 w-2 rounded-full ${fbReady?'bg-white animate-pulse':'bg-amber-700'}`}),
+    fbReady ? '🔴 LIVE REALTIME DB - All public views sync' : 'LOCAL MODE - Enable Realtime DB rules to go live'
+   ),
+   React.createElement('span',{className:'text-[11px]'}, lastUpdated ? `Last: ${new Date(lastUpdated).toLocaleString('en-GB',{timeZone:'Asia/Colombo'})} Colombo` : 'Not updated')
+  ),
+  React.createElement('header',{className:'bg-[#f7f5f0] border-b border-[#e6ddd1] px-4 md:px-6 py-5 flex justify-between items-start'},
+   React.createElement('div',{className:'flex gap-4'},
+    React.createElement('div',{className:'hidden md:flex h-14 w-14 bg-[#0f2a1f] text-[#f7f5f0] items-center justify-center font-bold text-xl'},'NIPO'),
+    React.createElement('div',{},
+     React.createElement('h1',{className:'text-2xl md:text-[28px] font-bold leading-none'},'Nipo Roster'),
+     React.createElement('p',{className:'text-[11px] mono uppercase tracking-[0.2em] opacity-60 mt-1'},'Information & Lunch Duty • Final Cover • Public Live'),
+     React.createElement('div',{className:'mt-2 flex gap-2'},
+      React.createElement('span',{className:'text-[10px] mono border border-[#e6ddd1] bg-white px-2 py-1 rounded-full'},'08:45-16:00 INFO LIVE'),
+      React.createElement('span',{className:'text-[10px] mono border border-[#e6ddd1] bg-white px-2 py-1 rounded-full'},'12:30-13:00 LUNCH LIVE')
+     )
+    )
+   ),
+   React.createElement('div',{className:'flex items-center gap-3'},
+    React.createElement('div',{className:'text-right hidden md:block'},
+     React.createElement('div',{className:'mono text-[12px]'}, now.toLocaleDateString('en-GB',{timeZone:'Asia/Colombo'})),
+     React.createElement('div',{className:'mono text-[15px] font-semibold'}, now.toLocaleTimeString('en-GB',{timeZone:'Asia/Colombo'}))
+    ),
+    !isAdmin ? React.createElement('button',{onClick:()=>setShowLogin(true), className:'bg-[#0f2a1f] text-white px-4 py-2 text-[12px] mono uppercase'},'Admin')
+    : React.createElement('div',{className:'flex gap-2'},
+       React.createElement('button',{onClick:handleUpdate, className:'bg-[#0f2a1f] text-white px-4 py-2 text-[12px] mono uppercase'},'Update ↗'),
+       React.createElement('button',{onClick:()=>setIsAdmin(false), className:'bg-white border border-[#e6ddd1] px-3 py-2 text-[11px] mono'},'Logout')
+      )
+   )
+  ),
+  showLogin && React.createElement('div',{className:'fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4'},
+   React.createElement('div',{className:'bg-white p-6 w-80 border'},
+    React.createElement('h3',{className:'mono uppercase text-[13px] font-bold mb-3'},'Admin Login'),
+    React.createElement('input',{value:cred.u, onChange:e=>setCred({...cred,u:e.target.value}), placeholder:'Username', className:'w-full border border-[#e6ddd1] bg-[#efebe4] px-3 py-2 text-[13px] mono mb-2'}),
+    React.createElement('input',{value:cred.p, onChange:e=>setCred({...cred,p:e.target.value}), type:'password', placeholder:'Password', className:'w-full border border-[#e6ddd1] bg-[#efebe4] px-3 py-2 text-[13px] mono mb-3'}),
+    React.createElement('div',{className:'flex gap-2'},
+     React.createElement('button',{onClick:()=>{if(cred.u==='admin'&&cred.p==='nipo2026'){setIsAdmin(true); setShowLogin(false); setToast('Admin granted');}else setToast('Invalid'); setTimeout(()=>setToast(null),2000);}, className:'flex-1 bg-[#0f2a1f] text-white py-2 mono text-[12px] uppercase'},'Login'),
+     React.createElement('button',{onClick:()=>setShowLogin(false), className:'px-4 border border-[#e6ddd1] mono text-[12px]'},'Cancel')
+    ),
+    React.createElement('p',{className:'text-[10px] mono opacity-50 mt-2'},'admin / nipo2026')
+   )
+  ),
+  React.createElement('main',{className:'max-w-[1280px] mx-auto px-4 md:px-6 py-6 grid grid-cols-12 gap-6'},
+   React.createElement('div',{className:'col-span-12 lg:col-span-4 space-y-5'},
+    React.createElement('div',{className:'bg-white border border-[#e6ddd1] p-4'},
+     React.createElement('div',{className:'flex justify-between items-center'},
+      React.createElement('h3',{className:'mono text-[11px] uppercase tracking-widest opacity-60'},'Month Control'),
+      React.createElement('div',{className:'flex gap-1'},
+       React.createElement('button',{onClick:()=>{let m=month-1,y=year; if(m<0){m=11;y--;} setMonth(m); setYear(y);}, className:'h-7 w-7 border border-[#e6ddd1] grid place-items-center'},'‹'),
+       React.createElement('button',{onClick:()=>{let m=month+1,y=year; if(m>11){m=0;y++;} setMonth(m); setYear(y);}, className:'h-7 w-7 border border-[#e6ddd1] grid place-items-center'},'›')
+      )
+     ),
+     React.createElement('div',{className:'mt-3 flex items-baseline gap-2'},
+      React.createElement('div',{className:'text-[32px] font-bold leading-none'},months[month]),
+      React.createElement('div',{className:'mono text-[16px] opacity-60'},year)
+     ),
+     React.createElement('div',{className:'mt-4 grid grid-cols-2 gap-3'},
+      React.createElement('div',{},
+       React.createElement('label',{className:'mono text-[10px] uppercase opacity-60'},'Info Starter'),
+       React.createElement('select',{value:curStarter.info, onChange:e=>{const mk=`${year}-${String(month+1).padStart(2,'0')}`; const up={...starters,[mk]:{...curStarter,info:e.target.value}}; setStarters(up); saveAll({starters:up});}, className:'mt-1 w-full bg-[#efebe4] border border-[#e6ddd1] px-2 py-2 mono text-[12px]', disabled:!isAdmin},
+        infoPool.map(o=> React.createElement('option',{key:o,value:o},o))
+       )
+      ),
+      React.createElement('div',{},
+       React.createElement('label',{className:'mono text-[10px] uppercase opacity-60'},'Lunch Starter'),
+       React.createElement('select',{value:curStarter.lunch, onChange:e=>{const mk=`${year}-${String(month+1).padStart(2,'0')}`; const up={...starters,[mk]:{...curStarter,lunch:e.target.value}}; setStarters(up); saveAll({starters:up});}, className:'mt-1 w-full bg-[#efebe4] border border-[#e6ddd1] px-2 py-2 mono text-[12px]', disabled:!isAdmin},
+        lunchPool.map(o=> React.createElement('option',{key:o,value:o},o))
+       )
+      )
+     )
+    ),
+    isAdmin && React.createElement('div',{className:'bg-[#0f2a1f] text-[#f7f5f0] p-4'},
+     React.createElement('h3',{className:'mono text-[12px] uppercase tracking-widest font-semibold'},'Single Nearest Swap Only'),
+     React.createElement('p',{className:'mono text-[11px] opacity-70 mt-1'},'Only 2 nearest dates swap, not whole month. Shows may cover tags.'),
+     React.createElement('div',{className:'mt-4 grid grid-cols-2 gap-2'},
+      React.createElement('div',{},
+       React.createElement('label',{className:'mono text-[10px] uppercase opacity-70'},'Date A'),
+       React.createElement('select',{value:selA, onChange:e=>setSelA(e.target.value), className:'mt-1 w-full bg-white/10 border border-white/20 px-2 py-2 mono text-[12px] text-white'},
+        React.createElement('option',{value:'',className:'text-black'},'Select'),
+        days.map(d=> React.createElement('option',{key:d.toISOString().split('T')[0], value:d.toISOString().split('T')[0], className:'text-black'}, d.toISOString().split('T')[0]))
+       )
+      ),
+      React.createElement('div',{},
+       React.createElement('label',{className:'mono text-[10px] uppercase opacity-70'},'Date B'),
+       React.createElement('select',{value:selB, onChange:e=>setSelB(e.target.value), className:'mt-1 w-full bg-white/10 border border-white/20 px-2 py-2 mono text-[12px] text-white'},
+        React.createElement('option',{value:'',className:'text-black'},'Select'),
+        days.map(d=> React.createElement('option',{key:d.toISOString().split('T')[0], value:d.toISOString().split('T')[0], className:'text-black'}, d.toISOString().split('T')[0]))
+       )
+      )
+     ),
+     React.createElement('div',{className:'mt-2 flex gap-2'},
+      ['info','lunch'].map(t=> React.createElement('button',{key:t, onClick:()=>setPoolType(t), className:`flex-1 py-2 mono text-[11px] uppercase border ${poolType===t?'bg-white text-black border-white':'border-white/30 text-white/70'}`},t))
+     ),
+     React.createElement('button',{onClick:doSwap, className:'mt-3 w-full bg-white text-black py-2.5 mono text-[12px] uppercase font-bold'},'Create Single Swap'),
+     swaps.length>0 && React.createElement('div',{className:'mt-3 border-t border-white/15 pt-2'},
+      swaps.filter(s=>s.monthKey===monthKey).map(s=> React.createElement('div',{key:s.id, className:'flex justify-between items-center bg-white/10 px-2 py-1 mono text-[10px] mb-1'},
+       React.createElement('span',{},`${s.dateA.slice(8)} ↔ ${s.dateB.slice(8)} ${s.type} ${s.officerA_before} ↔ ${s.officerB_before}`),
+       React.createElement('button',{onClick:()=>{const up=swaps.filter(x=>x.id!==s.id); setSwaps(up); saveAll({swaps:up});}, className:'opacity-60'},'✕')
+      ))
+     )
+    ),
+    React.createElement('div',{className:'bg-white border border-[#e6ddd1] p-4'},
+     React.createElement('h4',{className:'mono text-[11px] uppercase opacity-60'},'Filter by Officer'),
+     React.createElement('div',{className:'mt-2 flex flex-wrap gap-1.5'},
+      ['ALL',...Ni].map(o=> React.createElement('button',{key:o, onClick:()=>setFilter(o), className:`px-2.5 py-1 mono text-[10px] uppercase border ${filter===o?'bg-[#0f2a1f] text-white border-[#0f2a1f]':'border-[#e6ddd1]'}`},o))
+     )
+    )
+   ),
+   React.createElement('div',{className:'col-span-12 lg:col-span-8'},
+    React.createElement('div',{className:'bg-white border border-[#e6ddd1] overflow-hidden'},
+     React.createElement('div',{className:'flex justify-between items-center px-4 md:px-6 py-4 border-b border-[#e6ddd1]'},
+      React.createElement('h2',{className:'mono text-[13px] uppercase tracking-widest font-semibold'}, `Roster • ${months[month]} ${year}`),
+      React.createElement('span',{className:'mono text-[11px] opacity-50'}, `${filtered.length} working days`)
+     ),
+     React.createElement('div',{className:'overflow-auto'},
+      React.createElement('table',{className:'w-full border-collapse'},
+       React.createElement('thead',{className:'bg-[#efebe4] border-b border-[#e6ddd1]'},
+        React.createElement('tr',{className:'mono text-[11px] uppercase tracking-widest'},
+         React.createElement('th',{className:'text-left px-4 md:px-6 py-3'},'Date'),
+         React.createElement('th',{className:'text-left px-2 py-3'},'Day'),
+         React.createElement('th',{className:'text-left px-4 py-3'},'Officer • Information'),
+         React.createElement('th',{className:'text-left px-4 py-3'},'Lunch')
+        )
+       ),
+       React.createElement('tbody',{},
+        filtered.map(dt=>{
+         const ds=dt.toISOString().split('T')[0];
+         const f=fin[ds], o=orig[ds];
+         const d=detail[ds];
+         const today=new Date().toDateString()===dt.toDateString();
+         const isSwapped = swappedDates.has(ds);
+         return React.createElement('tr',{key:ds, className:`border-b border-[#e6ddd1] ${today?'bg-amber-50/60':''} ${isSwapped?'!bg-[#fff7d6] border-l-4 border-l-amber-400':''}`},
+          React.createElement('td',{className:'px-4 md:px-6 py-3 mono text-[13px] font-medium'}, dt.getDate().toString().padStart(2,'0')),
+          React.createElement('td',{className:'px-2 py-3 mono text-[11px] uppercase'}, dt.toLocaleDateString('en-US',{weekday:'short'}).toUpperCase()),
+          React.createElement('td',{className:`px-4 py-3 relative ${today&&infoLive?'bg-red-50/80':''}`},
+           today&&infoLive && React.createElement('span',{className:'absolute left-0 top-0 bottom-0 w-[3px] bg-[#ff3b30] live-blink'}),
+           React.createElement('div',{className:'flex items-center gap-2'},
+            React.createElement('span',{className:`mono text-[13px] font-semibold ${today&&infoLive?'text-[#ff3b30]':''}`}, f?.info||'-'),
+            today&&infoLive && React.createElement('span',{className:'bg-[#ff3b30] text-white text-[9px] px-1.5 py-0.5 rounded-full mono uppercase live-blink'},'Live Info')
+           ),
+           d&&f.info!==o.info && React.createElement('div',{className:'mt-1 inline-flex bg-amber-100 border border-amber-200 px-2 py-0.5 mono text-[10px]'}, `${f.info} may cover the ${o.info} duty`)
+          ),
+          React.createElement('td',{className:`px-4 py-3 relative ${today&&lunchLive?'bg-orange-50/80':''}`},
+           today&&lunchLive && React.createElement('span',{className:'absolute left-0 top-0 bottom-0 w-[3px] bg-[#ff9500] live-blink'}),
+           React.createElement('div',{className:'flex items-center gap-2'},
+            React.createElement('span',{className:`mono text-[13px] ${today&&lunchLive?'text-[#ff9500] font-semibold':''}`}, f?.lunch||'-'),
+            today&&lunchLive && React.createElement('span',{className:'bg-[#ff9500] text-white text-[9px] px-1.5 py-0.5 rounded-full mono uppercase live-blink'},'Live Lunch')
+           ),
+           d&&f.lunch!==o.lunch && React.createElement('div',{className:'mt-1 inline-flex bg-orange-100 border border-orange-200 px-2 py-0.5 mono text-[10px]'}, `${f.lunch} may cover the ${o.lunch} duty`)
+          )
+         );
+        })
+       )
+      )
+     )
+    ),
+    React.createElement('div',{className:'mt-4 bg-white border border-[#e6ddd1] p-4 mono text-[11px] flex justify-between opacity-60'},
+     React.createElement('span',{},'DATE | DAY | OFFICER | LUNCH • No weekends'),
+     React.createElement('span',{}, fbReady ? 'Realtime DB Live Sync' : 'Local Mode')
+    )
+   )
+  ),
+  toast && React.createElement('div',{className:'fixed bottom-4 left-1/2 -translate-x-1/2 bg-[#151515] text-white px-4 py-2.5 rounded-full mono text-[12px] z-50'}, toast)
+ );
+}
+createRoot(document.getElementById('root')).render(React.createElement(App));
+</script>
+<script>(function(){var loc=location.href.replace(/#.*$/,"");var ATTR_NAMES=["data-product-id","data-productid","data-product_id","product-id","productid","product_id","data-source-entity-id","source-entity-id","source_entity_id","data-product","data-metadata","data-meta"];var DATASET_KEYS=["productId","productid","product_id","sourceEntityId","sourceentityid","source_entity_id","product","metadata","meta"];function readProductId(value){if(typeof value!=="string"||value.length===0)return null;if(/^[0-9]{6,}$/.test(value))return value;var match=value.match(/(?:product(?:_|-)?id|source(?:_|-)?entity(?:_|-)?id)["'=:\s]+([0-9]{6,})/i);return match?match[1]:null}function extractProductId(start){for(var node=start;node&&node!==document.body;node=node.parentElement){for(var i=0;i<ATTR_NAMES.length;i++){var attrValue=node.getAttribute&&node.getAttribute(ATTR_NAMES[i]);var attrProductId=readProductId(attrValue);if(attrProductId)return attrProductId}var dataset=node.dataset||null;if(dataset){for(var j=0;j<DATASET_KEYS.length;j++){var dataValue=dataset[DATASET_KEYS[j]];var dataProductId=readProductId(dataValue);if(dataProductId)return dataProductId}}}return null}function isInlineMediaSlotElement(node){return !!(node&&node.getAttribute&&node.getAttribute("data-clippy-inline-media-slot")!==null)}function findInlineMediaSlot(start){for(var node=start;node&&node!==document.body;node=node.parentElement){if(isInlineMediaSlotElement(node))return node}return null}function readInlineMediaUrl(node){if(!node)return null;return node.getAttribute&&((node.getAttribute("data-clippy-inline-media-url")||node.getAttribute("data-url")||node.getAttribute("data_url")))||node.href||null}function stripHash(url){return String(url).replace(/#.*$/,"")}function urlsMatch(a,b){if(!a||!b)return false;try{return stripHash(new URL(a,loc).href)===stripHash(new URL(b,loc).href)}catch(_){return stripHash(a)===stripHash(b)}}function isFirstPartyReelUrl(value){try{var url=new URL(value,loc);if(url.protocol!=="https:")return false;var host=url.hostname.toLowerCase();var supported=host==="instagram.com"||host.endsWith(".instagram.com")||host==="facebook.com"||host.endsWith(".facebook.com");return supported&&/\/reels?\//i.test(url.pathname)}catch(_){return false}}function isInlineMediaUrlClick(node,href){var slot=findInlineMediaSlot(node);if(!slot)return false;var slotUrl=readInlineMediaUrl(slot);if(slotUrl)return urlsMatch(href,slotUrl);return isFirstPartyReelUrl(href)}function findDataHref(start){for(var node=start;node&&node!==document.body;node=node.parentElement){if(node.getAttribute){var href=node.getAttribute("data-href")||node.getAttribute("data-url");if(href)return{href:href,node:node}}}return null}var nativeOpen=window.open;window.open=function(url){if(parent!==window&&typeof url==="string"&&/^https?:\/\//.test(url)){parent.postMessage({type:"ecto:usercontent-link-click",href:url},"*");return null}return nativeOpen?nativeOpen.apply(window,arguments):null};document.addEventListener("click",function(e){var target=e.target instanceof Element?e.target:null;if(!target)return;if(parent===window)return;var a=target.closest?target.closest("a[href]"):null;if(a&&a.href&&/^https?:\/\//.test(a.href)&&a.href.replace(/#.*$/,"")!==loc){if(isInlineMediaUrlClick(a,a.href))return;var productId=extractProductId(target)||extractProductId(a);if(productId){e.preventDefault();parent.postMessage({type:"ecto-artifact-link-click",productId:productId},"*");return}e.preventDefault();parent.postMessage({type:"ecto:usercontent-link-click",href:a.href},"*");return}var dataHref=findDataHref(target);if(dataHref&&/^https?:\/\//.test(dataHref.href)&&dataHref.href.replace(/#.*$/,"")!==loc){if(isInlineMediaUrlClick(dataHref.node,dataHref.href))return;e.preventDefault();parent.postMessage({type:"ecto:usercontent-link-click",href:dataHref.href},"*")}},true)})();</script><script>(function(){var FOCUS_TYPE="ecto:artifact-focus-request";var CLOSE_TYPE="ecto:artifact-close-request";function focusArtifactDocument(){var body=document.body;if(!body)return;try{window.focus();}catch(e){}if(!body.hasAttribute("tabindex"))body.setAttribute("tabindex","-1");try{body.focus({preventScroll:true});}catch(e){try{body.focus();}catch(e2){}}}window.addEventListener("message",function(event){if(event.source!==window.parent)return;var data=event.data;if(!data||typeof data!=="object"||data.type!==FOCUS_TYPE)return;if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",focusArtifactDocument,{once:true});return;}focusArtifactDocument();});window.addEventListener("keydown",function(event){if(event.key!=="Escape")return;window.setTimeout(function(){if(event.defaultPrevented)return;window.parent.postMessage({type:CLOSE_TYPE},"*");},0);});})();</script></body>
 </html>
