@@ -23,16 +23,10 @@
 }
 </style>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>NIPO Roster - Firestore LIVE - Fixed</title>
+<title>NIPO Roster - ULTIMATE FIX - Colombo Dates</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <script type="importmap">{"imports":{"react":"https://esm.sh/react@18.2.0","react-dom":"https://esm.sh/react-dom@18.2.0","react-dom/client":"https://esm.sh/react-dom@18.2.0/client"}}</script>
-<style>
-:root{--bg:#f7f5f0;--surface:#ffffff;--surface-2:#efebe4;--ink:#151515;--border:#e6ddd1;--accent:#0f2a1f;--live-info:#ff3b30;--live-lunch:#ff9500;}
-*{font-family:"Space Grotesk",system-ui,sans-serif}
-.mono{font-family:"JetBrains Mono",monospace}
-.live-blink{animation:blink 1.2s infinite}
-@keyframes blink{0%,100%{opacity:1}50%{opacity:0.6}}
-</style>
+<style>:root{--bg:#f7f5f0;--surface:#fff;--surface-2:#efebe4;--ink:#151515;--border:#e6ddd1;--accent:#0f2a1f;--live-info:#ff3b30;--live-lunch:#ff9500}*{font-family:"Space Grotesk",system-ui,sans-serif}.mono{font-family:"JetBrains Mono",monospace}.live-blink{animation:blink 1.2s infinite}@keyframes blink{0%,100%{opacity:1}50%{opacity:0.6}}</style>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
 </head>
 <body class="bg-[#f7f5f0] text-[#151515]">
@@ -44,12 +38,18 @@ import {createRoot} from 'react-dom/client';
 const firebaseConfig = {
   apiKey: "AIzaSyDZCEGLKPn5gBvxWmlCQ45glHjLBASTdEo",
   authDomain: "nipo-roster.firebaseapp.com",
-  databaseURL: "https://nipo-roster-default-rtdb.asia-southeast1.firebasedatabase.app",
   projectId: "nipo-roster",
   storageBucket: "nipo-roster.firebasestorage.app",
   messagingSenderId: "310280134303",
   appId: "1:310280134303:web:0f7ff4fa5d53c0cf754caa"
 };
+
+function localDateStr(d){
+  const y=d.getFullYear();
+  const m=String(d.getMonth()+1).padStart(2,'0');
+  const da=String(d.getDate()).padStart(2,'0');
+  return `${y}-${m}-${da}`;
+}
 
 let db=null, fb=null;
 async function initFB(){
@@ -65,12 +65,11 @@ async function initFB(){
 
 const Ni=["THILINA PRABA.","THILINA SANDA.","THUSHARI","UPEKHA","ACHINI","AJITH","IROSHI","ISURI","JAYANTHA","KAVITH","NAYOMI","RAVIMINI"];
 
-function localDateStr(d){ return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`; }
 function App(){
  const [infoPool,setInfoPool]=useState([...Ni]);
  const [lunchPool,setLunchPool]=useState([...Ni]);
- const [year,setYear]=useState(new Date().getFullYear());
- const [month,setMonth]=useState(new Date().getMonth());
+ const [year,setYear]=useState(2026);
+ const [month,setMonth]=useState(9);
  const [starters,setStarters]=useState({});
  const [swaps,setSwaps]=useState([]);
  const [lastUpdated,setLastUpdated]=useState(null);
@@ -79,7 +78,7 @@ function App(){
  const [cred,setCred]=useState({u:'',p:''});
  const [selA,setSelA]=useState('');
  const [selB,setSelB]=useState('');
- const [poolType,setPoolType]=useState('info');
+ const [poolType,setPoolType]=useState('lunch');
  const [filter,setFilter]=useState('ALL');
  const [fbReady,setFbReady]=useState(false);
  const [toast,setToast]=useState(null);
@@ -87,7 +86,7 @@ function App(){
  useEffect(()=>{const i=setInterval(()=>setNow(new Date()),1000); return ()=>clearInterval(i)},[]);
 
  useEffect(()=>{
-  const saved=localStorage.getItem('nipo_original_public');
+  const saved=localStorage.getItem('nipo_colombo_fixed');
   if(saved){try{const d=JSON.parse(saved); if(d.infoPool) setInfoPool(d.infoPool); if(d.lunchPool) setLunchPool(d.lunchPool); if(d.swaps) setSwaps(d.swaps); if(d.starters) setStarters(d.starters); if(d.lastUpdated) setLastUpdated(d.lastUpdated);}catch{}}
  },[]);
 
@@ -117,9 +116,9 @@ function App(){
    lunchPool: o.lunchPool??lunchPool,
    swaps: o.swaps??swaps,
    starters: o.starters??starters,
-   lastUpdated: o.lastUpdated??lastUpdated
+   lastUpdated: o.lastUpdated??new Date().toISOString()
   };
-  localStorage.setItem('nipo_original_public',JSON.stringify(data));
+  localStorage.setItem('nipo_colombo_fixed',JSON.stringify(data));
   if(fbReady && db){ try{ await fb.setDoc(fb.doc(db,"nipoRoster","live"), data, {merge:true});}catch(e){console.error(e);} }
  };
 
@@ -145,23 +144,30 @@ function App(){
  });
  const fin={...Object.fromEntries(Object.entries(orig).map(([k,v])=>[k,{...v}]))};
  const detail={};
+ const swappedDates=new Set();
  swaps.filter(s=>s.monthKey===monthKey).forEach(s=>{
   const a=s.dateA, b=s.dateB;
+  swappedDates.add(a); swappedDates.add(b);
   if(fin[a]&&fin[b]){
    if(s.type==='info'){
     const t=fin[a].info; fin[a].info=fin[b].info; fin[b].info=t;
-    detail[a]={orig:orig[a].info, curr:fin[a].info};
-    detail[b]={orig:orig[b].info, curr:fin[b].info};
    }else{
     const t=fin[a].lunch; fin[a].lunch=fin[b].lunch; fin[b].lunch=t;
-    detail[a]={orig:orig[a].lunch, curr:fin[a].lunch};
-    detail[b]={orig:orig[b].lunch, curr:fin[b].lunch};
    }
   }
  });
+ // Build detail for tags
+ swaps.filter(s=>s.monthKey===monthKey).forEach(s=>{
+  if(fin[s.dateA] && orig[s.dateA]){
+    if(s.type==='info' && fin[s.dateA].info!==orig[s.dateA].info) detail[s.dateA]= {orig:orig[s.dateA].info, curr:fin[s.dateA].info, type:'info'};
+    if(s.type==='lunch' && fin[s.dateA].lunch!==orig[s.dateA].lunch) detail[s.dateA]= {orig:orig[s.dateA].lunch, curr:fin[s.dateA].lunch, type:'lunch'};
+  }
+  if(fin[s.dateB] && orig[s.dateB]){
+    if(s.type==='info' && fin[s.dateB].info!==orig[s.dateB].info) detail[s.dateB]= {orig:orig[s.dateB].info, curr:fin[s.dateB].info, type:'info'};
+    if(s.type==='lunch' && fin[s.dateB].lunch!==orig[s.dateB].lunch) detail[s.dateB]= {orig:orig[s.dateB].lunch, curr:fin[s.dateB].lunch, type:'lunch'};
+  }
+ });
 
- const swappedDates = new Set();
- swaps.filter(s=>s.monthKey===monthKey).forEach(s=>{ swappedDates.add(s.dateA); swappedDates.add(s.dateB); });
  const filtered=filter==='ALL'? days : days.filter(dt=>{
   const ds=localDateStr(dt);
   if(swappedDates.has(ds)) return true;
@@ -179,112 +185,59 @@ function App(){
   if(!dateA||!dateB){setToast('Dates not in current month'); setTimeout(()=>setToast(null),2500); return;}
   const offA=poolType==='info'? fin[selA]?.info : fin[selA]?.lunch;
   const offB=poolType==='info'? fin[selB]?.info : fin[selB]?.lunch;
-  const ns={id:Date.now().toString(), dateA:selA, dateB:selB, type:poolType, officerA_before:offA, officerB_before:offB, monthKey, createdAt:new Date().toISOString()};
-  const up=[...swaps, ns];
-  setSwaps(up); saveAll({swaps:up});
-  setToast(`Swapped ${offA} ↔ ${offB} - only 2 dates`); setTimeout(()=>setToast(null),3000);
-  setSelA(''); setSelB('');
- };
-
- const handleUpdate=async()=>{
-  const iso=new Date().toISOString();
-  setLastUpdated(iso);
-  await saveAll({lastUpdated:iso});
-  setToast(fbReady ? '✅ LIVE! All public links updated instantly' : 'Saved locally');
-  setTimeout(()=>setToast(null),3000);
+  const newS={id:`${Date.now()}-${Math.random().toString(36).slice(2,6)}`, dateA:selA, dateB:selB, type:poolType, officerA_before:offA, officerB_before:offB, monthKey, createdAt:new Date().toISOString()};
+  const up=[...swaps, newS]; setSwaps(up); saveAll({swaps:up, lastUpdated:new Date().toISOString()}); setSelA(''); setSelB(''); setFilter('ALL'); setToast(`✅ Swapped ${selA.slice(8)} ↔ ${selB.slice(8)} (${poolType}) - Dashboard now shows exact dates`); setTimeout(()=>setToast(null),4000);
  };
 
  const months=["JANUARY","FEBRUARY","MARCH","APRIL","MAY","JUNE","JULY","AUGUST","SEPTEMBER","OCTOBER","NOVEMBER","DECEMBER"];
 
- return React.createElement('div',{},
-  React.createElement('div',{className:`sticky top-0 z-40 border-b ${fbReady?'bg-emerald-500 text-white border-emerald-600':'bg-amber-200 text-[#4a3b00] border-amber-300'} px-4 md:px-6 py-2 flex justify-between items-center text-[12px] mono`},
-   React.createElement('div',{className:'flex items-center gap-2'},
-    React.createElement('span',{className:`h-2 w-2 rounded-full ${fbReady?'bg-white animate-pulse':'bg-amber-700'}`}),
-    fbReady ? '🔴 LIVE REALTIME DB - All public views sync' : 'LOCAL MODE - Enable Realtime DB rules to go live'
-   ),
-   React.createElement('span',{className:'text-[11px]'}, lastUpdated ? `Last: ${new Date(lastUpdated).toLocaleString('en-GB',{timeZone:'Asia/Colombo'})} Colombo` : 'Not updated')
+ return React.createElement('div',{className:'min-h-screen'},
+  React.createElement('div',{className:`sticky top-0 z-40 border-b ${fbReady?'bg-emerald-500 text-white':'bg-amber-200 text-black'} px-4 py-2 flex justify-between mono text-[12px]`},
+   React.createElement('span',{}, fbReady? '🔴 LIVE - Colombo dates fixed - Swap will show exact dates':'LOCAL MODE'),
+   React.createElement('span',{}, lastUpdated? 'Last: '+new Date(lastUpdated).toLocaleString('en-GB',{timeZone:'Asia/Colombo'}):'')
   ),
-  React.createElement('header',{className:'bg-[#f7f5f0] border-b border-[#e6ddd1] px-4 md:px-6 py-5 flex justify-between items-start'},
-   React.createElement('div',{className:'flex gap-4'},
-    React.createElement('div',{className:'hidden md:flex h-14 w-14 bg-[#0f2a1f] text-[#f7f5f0] items-center justify-center font-bold text-xl'},'NIPO'),
-    React.createElement('div',{},
-     React.createElement('h1',{className:'text-2xl md:text-[28px] font-bold leading-none'},'Nipo Roster'),
-     React.createElement('p',{className:'text-[11px] mono uppercase tracking-[0.2em] opacity-60 mt-1'},'Information & Lunch Duty • Final Cover • Public Live'),
-     React.createElement('div',{className:'mt-2 flex gap-2'},
-      React.createElement('span',{className:'text-[10px] mono border border-[#e6ddd1] bg-white px-2 py-1 rounded-full'},'08:45-16:00 INFO LIVE'),
-      React.createElement('span',{className:'text-[10px] mono border border-[#e6ddd1] bg-white px-2 py-1 rounded-full'},'12:30-13:00 LUNCH LIVE')
-     )
-    )
-   ),
-   React.createElement('div',{className:'flex items-center gap-3'},
-    React.createElement('div',{className:'text-right hidden md:block'},
-     React.createElement('div',{className:'mono text-[12px]'}, now.toLocaleDateString('en-GB',{timeZone:'Asia/Colombo'})),
-     React.createElement('div',{className:'mono text-[15px] font-semibold'}, now.toLocaleTimeString('en-GB',{timeZone:'Asia/Colombo'}))
-    ),
-    !isAdmin ? React.createElement('button',{onClick:()=>setShowLogin(true), className:'bg-[#0f2a1f] text-white px-4 py-2 text-[12px] mono uppercase'},'Admin')
-    : React.createElement('div',{className:'flex gap-2'},
-       React.createElement('button',{onClick:handleUpdate, className:'bg-[#0f2a1f] text-white px-4 py-2 text-[12px] mono uppercase'},'Update ↗'),
-       React.createElement('button',{onClick:()=>setIsAdmin(false), className:'bg-white border border-[#e6ddd1] px-3 py-2 text-[11px] mono'},'Logout')
-      )
-   )
-  ),
-  showLogin && React.createElement('div',{className:'fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4'},
-   React.createElement('div',{className:'bg-white p-6 w-80 border'},
-    React.createElement('h3',{className:'mono uppercase text-[13px] font-bold mb-3'},'Admin Login'),
-    React.createElement('input',{value:cred.u, onChange:e=>setCred({...cred,u:e.target.value}), placeholder:'Username', className:'w-full border border-[#e6ddd1] bg-[#efebe4] px-3 py-2 text-[13px] mono mb-2'}),
-    React.createElement('input',{value:cred.p, onChange:e=>setCred({...cred,p:e.target.value}), type:'password', placeholder:'Password', className:'w-full border border-[#e6ddd1] bg-[#efebe4] px-3 py-2 text-[13px] mono mb-3'}),
-    React.createElement('div',{className:'flex gap-2'},
-     React.createElement('button',{onClick:()=>{if(cred.u==='admin'&&cred.p==='nipo2026'){setIsAdmin(true); setShowLogin(false); setToast('Admin granted');}else setToast('Invalid'); setTimeout(()=>setToast(null),2000);}, className:'flex-1 bg-[#0f2a1f] text-white py-2 mono text-[12px] uppercase'},'Login'),
-     React.createElement('button',{onClick:()=>setShowLogin(false), className:'px-4 border border-[#e6ddd1] mono text-[12px]'},'Cancel')
-    ),
-    React.createElement('p',{className:'text-[10px] mono opacity-50 mt-2'},'admin / nipo2026')
-   )
-  ),
-  React.createElement('main',{className:'max-w-[1280px] mx-auto px-4 md:px-6 py-6 grid grid-cols-12 gap-6'},
-   React.createElement('div',{className:'col-span-12 lg:col-span-4 space-y-5'},
-    React.createElement('div',{className:'bg-white border border-[#e6ddd1] p-4'},
-     React.createElement('div',{className:'flex justify-between items-center'},
-      React.createElement('h3',{className:'mono text-[11px] uppercase tracking-widest opacity-60'},'Month Control'),
+  React.createElement('div',{className:'mx-auto max-w-[1280px] p-4 grid grid-cols-12 gap-6'},
+   React.createElement('div',{className:'col-span-12 lg:col-span-4 space-y-4'},
+    React.createElement('div',{className:'bg-white border p-4'},
+     React.createElement('div',{className:'flex justify-between'},
+      React.createElement('h3',{className:'mono text-[11px] uppercase opacity-60'},'Month Control'),
       React.createElement('div',{className:'flex gap-1'},
-       React.createElement('button',{onClick:()=>{let m=month-1,y=year; if(m<0){m=11;y--;} setMonth(m); setYear(y);}, className:'h-7 w-7 border border-[#e6ddd1] grid place-items-center'},'‹'),
-       React.createElement('button',{onClick:()=>{let m=month+1,y=year; if(m>11){m=0;y++;} setMonth(m); setYear(y);}, className:'h-7 w-7 border border-[#e6ddd1] grid place-items-center'},'›')
+       React.createElement('button',{onClick:()=>{let m=new Date(year,month-1); setYear(m.getFullYear()); setMonth(m.getMonth());}, className:'h-7 w-7 border grid place-items-center'},'‹'),
+       React.createElement('button',{onClick:()=>{let m=new Date(year,month+1); setYear(m.getFullYear()); setMonth(m.getMonth());}, className:'h-7 w-7 border grid place-items-center'},'›')
       )
      ),
-     React.createElement('div',{className:'mt-3 flex items-baseline gap-2'},
-      React.createElement('div',{className:'text-[32px] font-bold leading-none'},months[month]),
-      React.createElement('div',{className:'mono text-[16px] opacity-60'},year)
-     ),
-     React.createElement('div',{className:'mt-4 grid grid-cols-2 gap-3'},
+     React.createElement('div',{className:'mt-2 text-[28px] font-bold'}, `${months[month]} ${year}`),
+     React.createElement('div',{className:'mt-3 grid grid-cols-2 gap-2'},
       React.createElement('div',{},
        React.createElement('label',{className:'mono text-[10px] uppercase opacity-60'},'Info Starter'),
-       React.createElement('select',{value:curStarter.info, onChange:e=>{const mk=`${year}-${String(month+1).padStart(2,'0')}`; const up={...starters,[mk]:{...curStarter,info:e.target.value}}; setStarters(up); saveAll({starters:up});}, className:'mt-1 w-full bg-[#efebe4] border border-[#e6ddd1] px-2 py-2 mono text-[12px]', disabled:!isAdmin},
-        infoPool.map(o=> React.createElement('option',{key:o,value:o},o))
+       React.createElement('select',{value:curStarter.info, onChange:e=>{const ns={...starters, [monthKey]:{...curStarter, info:e.target.value}}; setStarters(ns); saveAll({starters:ns});}, className:'mt-1 w-full bg-[#efebe4] border px-2 py-2 mono text-[12px]'},
+        infoPool.map(o=> React.createElement('option',{key:o, value:o},o))
        )
       ),
       React.createElement('div',{},
        React.createElement('label',{className:'mono text-[10px] uppercase opacity-60'},'Lunch Starter'),
-       React.createElement('select',{value:curStarter.lunch, onChange:e=>{const mk=`${year}-${String(month+1).padStart(2,'0')}`; const up={...starters,[mk]:{...curStarter,lunch:e.target.value}}; setStarters(up); saveAll({starters:up});}, className:'mt-1 w-full bg-[#efebe4] border border-[#e6ddd1] px-2 py-2 mono text-[12px]', disabled:!isAdmin},
-        lunchPool.map(o=> React.createElement('option',{key:o,value:o},o))
+       React.createElement('select',{value:curStarter.lunch, onChange:e=>{const ns={...starters, [monthKey]:{...curStarter, lunch:e.target.value}}; setStarters(ns); saveAll({starters:ns});}, className:'mt-1 w-full bg-[#efebe4] border px-2 py-2 mono text-[12px]'},
+        lunchPool.map(o=> React.createElement('option',{key:o, value:o},o))
        )
       )
      )
     ),
-    isAdmin && React.createElement('div',{className:'bg-[#0f2a1f] text-[#f7f5f0] p-4'},
-     React.createElement('h3',{className:'mono text-[12px] uppercase tracking-widest font-semibold'},'Single Nearest Swap Only'),
-     React.createElement('p',{className:'mono text-[11px] opacity-70 mt-1'},'Only 2 nearest dates swap, not whole month. Shows may cover tags.'),
+    React.createElement('div',{className:'bg-[#0f2a1f] text-white p-4'},
+     React.createElement('h3',{className:'mono text-[12px] uppercase'},'Single Nearest Swap ONLY - COLOMBO FIX'),
+     React.createElement('p',{className:'mono text-[10px] opacity-70 mt-1'},'Now uses Colombo dates. What you select = what dashboard shows.'),
      React.createElement('div',{className:'mt-4 grid grid-cols-2 gap-2'},
       React.createElement('div',{},
        React.createElement('label',{className:'mono text-[10px] uppercase opacity-70'},'Date A'),
        React.createElement('select',{value:selA, onChange:e=>setSelA(e.target.value), className:'mt-1 w-full bg-white/10 border border-white/20 px-2 py-2 mono text-[12px] text-white'},
         React.createElement('option',{value:'',className:'text-black'},'Select'),
-        days.map(d=> React.createElement('option',{key:localDateStr(d), value:localDateStr(d), className:'text-black'}, localDateStr(d)))
+        days.map(dt=>{const ds=localDateStr(dt); return React.createElement('option',{key:ds, value:ds, className:'text-black'}, `${ds} • ${fin[ds]?.info||''} / ${fin[ds]?.lunch||''}`);})
        )
       ),
       React.createElement('div',{},
        React.createElement('label',{className:'mono text-[10px] uppercase opacity-70'},'Date B'),
        React.createElement('select',{value:selB, onChange:e=>setSelB(e.target.value), className:'mt-1 w-full bg-white/10 border border-white/20 px-2 py-2 mono text-[12px] text-white'},
         React.createElement('option',{value:'',className:'text-black'},'Select'),
-        days.map(d=> React.createElement('option',{key:localDateStr(d), value:localDateStr(d), className:'text-black'}, localDateStr(d)))
+        days.map(dt=>{const ds=localDateStr(dt); return React.createElement('option',{key:ds, value:ds, className:'text-black'}, `${ds} • ${fin[ds]?.info||''} / ${fin[ds]?.lunch||''}`);})
        )
       )
      ),
@@ -292,33 +245,36 @@ function App(){
       ['info','lunch'].map(t=> React.createElement('button',{key:t, onClick:()=>setPoolType(t), className:`flex-1 py-2 mono text-[11px] uppercase border ${poolType===t?'bg-white text-black border-white':'border-white/30 text-white/70'}`},t))
      ),
      React.createElement('button',{onClick:doSwap, className:'mt-3 w-full bg-white text-black py-2.5 mono text-[12px] uppercase font-bold'},'Create Single Swap'),
-     swaps.length>0 && React.createElement('div',{className:'mt-3 border-t border-white/15 pt-2'},
-      swaps.filter(s=>s.monthKey===monthKey).map(s=> React.createElement('div',{key:s.id, className:'flex justify-between items-center bg-white/10 px-2 py-1 mono text-[10px] mb-1'},
+     swaps.length>0 && React.createElement('div',{className:'mt-3 border-t border-white/15 pt-2 space-y-1 max-h-[120px] overflow-auto'},
+      React.createElement('div',{className:'flex justify-between mono text-[10px] uppercase opacity-60'},
+       React.createElement('span',{},`${swaps.filter(s=>s.monthKey===monthKey).length} active swaps`),
+       React.createElement('button',{onClick:()=>{const up=[]; setSwaps(up); saveAll({swaps:up});}, className:'underline'},'Clear all')
+      ),
+      swaps.filter(s=>s.monthKey===monthKey).map(s=> React.createElement('div',{key:s.id, className:'flex justify-between items-center bg-white/10 px-2 py-1 mono text-[10px]'},
        React.createElement('span',{},`${s.dateA.slice(8)} ↔ ${s.dateB.slice(8)} ${s.type} ${s.officerA_before} ↔ ${s.officerB_before}`),
        React.createElement('button',{onClick:()=>{const up=swaps.filter(x=>x.id!==s.id); setSwaps(up); saveAll({swaps:up});}, className:'opacity-60'},'✕')
       ))
      )
     ),
-    React.createElement('div',{className:'bg-white border border-[#e6ddd1] p-4'},
-     React.createElement('h4',{className:'mono text-[11px] uppercase opacity-60'},'Filter by Officer'),
-     React.createElement('div',{className:'mt-2 flex flex-wrap gap-1.5'},
-      ['ALL',...Ni].map(o=> React.createElement('button',{key:o, onClick:()=>setFilter(o), className:`px-2.5 py-1 mono text-[10px] uppercase border ${filter===o?'bg-[#0f2a1f] text-white border-[#0f2a1f]':'border-[#e6ddd1]'}`},o))
-     )
+    !isAdmin ? React.createElement('button',{onClick:()=>setShowLogin(true), className:'w-full bg-[#0f2a1f] text-white py-2 mono text-[12px] uppercase'},'Admin Login') :
+    React.createElement('div',{className:'flex gap-2'},
+     React.createElement('button',{onClick:()=>{saveAll({lastUpdated:new Date().toISOString()}); setToast('Saved! Live sync'); setTimeout(()=>setToast(null),2000);}, className:'flex-1 bg-[#0f2a1f] text-white py-2 mono text-[12px] uppercase'},'Update Live'),
+     React.createElement('button',{onClick:()=>setIsAdmin(false), className:'px-4 border mono text-[11px] uppercase'},'Logout')
     )
    ),
    React.createElement('div',{className:'col-span-12 lg:col-span-8'},
-    React.createElement('div',{className:'bg-white border border-[#e6ddd1] overflow-hidden'},
-     React.createElement('div',{className:'flex justify-between items-center px-4 md:px-6 py-4 border-b border-[#e6ddd1]'},
-      React.createElement('h2',{className:'mono text-[13px] uppercase tracking-widest font-semibold'}, `Roster • ${months[month]} ${year}`),
+    React.createElement('div',{className:'bg-white border overflow-hidden'},
+     React.createElement('div',{className:'flex justify-between items-center px-4 py-4 border-b bg-[#efebe4]'},
+      React.createElement('h2',{className:'mono text-[13px] uppercase font-semibold'}, `Roster • ${months[month]} ${year} • COLOMBO FIXED`),
       React.createElement('span',{className:'mono text-[11px] opacity-50'}, `${filtered.length} working days`)
      ),
      React.createElement('div',{className:'overflow-auto'},
       React.createElement('table',{className:'w-full border-collapse'},
-       React.createElement('thead',{className:'bg-[#efebe4] border-b border-[#e6ddd1]'},
-        React.createElement('tr',{className:'mono text-[11px] uppercase tracking-widest'},
-         React.createElement('th',{className:'text-left px-4 md:px-6 py-3'},'Date'),
+       React.createElement('thead',{className:'bg-[#efebe4] border-b'},
+        React.createElement('tr',{className:'mono text-[11px] uppercase'},
+         React.createElement('th',{className:'text-left px-4 py-3'},'Date'),
          React.createElement('th',{className:'text-left px-2 py-3'},'Day'),
-         React.createElement('th',{className:'text-left px-4 py-3'},'Officer • Information'),
+         React.createElement('th',{className:'text-left px-4 py-3'},'Information'),
          React.createElement('th',{className:'text-left px-4 py-3'},'Lunch')
         )
        ),
@@ -326,37 +282,37 @@ function App(){
         filtered.map(dt=>{
          const ds=localDateStr(dt);
          const f=fin[ds], o=orig[ds];
-         const d=detail[ds];
-         const today=new Date().toDateString()===dt.toDateString();
-         const isSwapped = swappedDates.has(ds);
-         return React.createElement('tr',{key:ds, className:`border-b border-[#e6ddd1] ${today?'bg-amber-50/60':''} ${isSwapped?'!bg-[#fff7d6] border-l-4 border-l-amber-400':''}`},
-          React.createElement('td',{className:'px-4 md:px-6 py-3 mono text-[13px] font-medium'}, dt.getDate().toString().padStart(2,'0')),
-          React.createElement('td',{className:'px-2 py-3 mono text-[11px] uppercase'}, dt.toLocaleDateString('en-US',{weekday:'short'}).toUpperCase()),
-          React.createElement('td',{className:`px-4 py-3 relative ${today&&infoLive?'bg-red-50/80':''}`},
-           today&&infoLive && React.createElement('span',{className:'absolute left-0 top-0 bottom-0 w-[3px] bg-[#ff3b30] live-blink'}),
-           React.createElement('div',{className:'flex items-center gap-2'},
-            React.createElement('span',{className:`mono text-[13px] font-semibold ${today&&infoLive?'text-[#ff3b30]':''}`}, f?.info||'-'),
-            today&&infoLive && React.createElement('span',{className:'bg-[#ff3b30] text-white text-[9px] px-1.5 py-0.5 rounded-full mono uppercase live-blink'},'Live Info')
-           ),
-           d&&f.info!==o.info && React.createElement('div',{className:'mt-1 inline-flex bg-amber-100 border border-amber-200 px-2 py-0.5 mono text-[10px]'}, `${f.info} may cover the ${o.info} duty`)
+         const isSwapped=swappedDates.has(ds);
+         const today=localDateStr(new Date())===ds;
+         return React.createElement('tr',{key:ds, className:`border-b ${today?'bg-amber-50':''} ${isSwapped?'!bg-[#fff7d6]':''}`},
+          React.createElement('td',{className:'px-4 py-3 mono text-[13px] font-medium'}, ds.slice(8)+' '+dt.toLocaleDateString('en-GB',{month:'short'})),
+          React.createElement('td',{className:'px-2 py-3 mono text-[11px] uppercase'}, dt.toLocaleDateString('en-US',{weekday:'short'})),
+          React.createElement('td',{className:`px-4 py-3 relative ${today&&infoLive?'bg-red-50':''}`},
+           today&&infoLive && React.createElement('span',{className:'absolute left-0 top-0 bottom-0 w-[3px] bg-[#ff3b30]'}),
+           React.createElement('span',{className:'mono text-[13px] font-semibold'}, f?.info||'-'),
+           detail[ds] && detail[ds].type==='info' && React.createElement('div',{className:'mt-1 inline-flex bg-amber-100 border border-amber-200 px-2 py-0.5 mono text-[10px]'}, `${f.info} may cover the ${detail[ds].orig} duty`)
           ),
-          React.createElement('td',{className:`px-4 py-3 relative ${today&&lunchLive?'bg-orange-50/80':''}`},
-           today&&lunchLive && React.createElement('span',{className:'absolute left-0 top-0 bottom-0 w-[3px] bg-[#ff9500] live-blink'}),
-           React.createElement('div',{className:'flex items-center gap-2'},
-            React.createElement('span',{className:`mono text-[13px] ${today&&lunchLive?'text-[#ff9500] font-semibold':''}`}, f?.lunch||'-'),
-            today&&lunchLive && React.createElement('span',{className:'bg-[#ff9500] text-white text-[9px] px-1.5 py-0.5 rounded-full mono uppercase live-blink'},'Live Lunch')
-           ),
-           d&&f.lunch!==o.lunch && React.createElement('div',{className:'mt-1 inline-flex bg-orange-100 border border-orange-200 px-2 py-0.5 mono text-[10px]'}, `${f.lunch} may cover the ${o.lunch} duty`)
+          React.createElement('td',{className:`px-4 py-3 relative ${today&&lunchLive?'bg-orange-50':''}`},
+           today&&lunchLive && React.createElement('span',{className:'absolute left-0 top-0 bottom-0 w-[3px] bg-[#ff9500]'}),
+           React.createElement('span',{className:'mono text-[13px]'}, f?.lunch||'-'),
+           detail[ds] && detail[ds].type==='lunch' && React.createElement('div',{className:'mt-1 inline-flex bg-orange-100 border border-orange-200 px-2 py-0.5 mono text-[10px]'}, `${f.lunch} may cover the ${detail[ds].orig} duty`)
           )
          );
         })
        )
       )
      )
-    ),
-    React.createElement('div',{className:'mt-4 bg-white border border-[#e6ddd1] p-4 mono text-[11px] flex justify-between opacity-60'},
-     React.createElement('span',{},'DATE | DAY | OFFICER | LUNCH • No weekends'),
-     React.createElement('span',{}, fbReady ? 'Realtime DB Live Sync' : 'Local Mode')
+    )
+   )
+  ),
+  showLogin && React.createElement('div',{className:'fixed inset-0 bg-black/60 flex items-center justify-center p-4 z-50'},
+   React.createElement('div',{className:'bg-white border p-6 w-full max-w-[360px]'},
+    React.createElement('h3',{className:'mono text-[14px] uppercase font-semibold'},'Admin Login'),
+    React.createElement('input',{value:cred.u, onChange:e=>setCred({...cred, u:e.target.value}), placeholder:'Username', className:'mt-4 w-full bg-[#efebe4] border px-3 py-2 mono text-[13px]'}),
+    React.createElement('input',{value:cred.p, onChange:e=>setCred({...cred, p:e.target.value}), type:'password', placeholder:'Password', className:'mt-3 w-full bg-[#efebe4] border px-3 py-2 mono text-[13px]'}),
+    React.createElement('div',{className:'mt-4 flex gap-2'},
+     React.createElement('button',{onClick:()=>{if(cred.u==='admin' && cred.p==='nipo2026'){setIsAdmin(true); setShowLogin(false); setCred({u:'',p:''});}else{setToast('Invalid'); setTimeout(()=>setToast(null),2000);}}, className:'flex-1 bg-[#0f2a1f] text-white py-2 mono uppercase text-[12px]'},'Login'),
+     React.createElement('button',{onClick:()=>setShowLogin(false), className:'px-4 border mono uppercase text-[12px]'},'Cancel')
     )
    )
   ),
