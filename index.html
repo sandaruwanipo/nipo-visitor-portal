@@ -299,6 +299,20 @@ function App(){
      ),
      React.createElement('div',{className:'mt-3 text-[32px] font-bold leading-none'}, `${months[month]} ${year}`),
      React.createElement('div',{className:'mt-3 text-[11px] mono opacity-60'}, `${workingDays.length} working days • ${holidaysThisMonth.length} holidays • weekends excluded`),
+     React.createElement('div',{className:'mt-4 grid grid-cols-2 gap-2'},
+      React.createElement('div',{},
+       React.createElement('label',{className:'mono text-[10px] uppercase opacity-60'},'Info Starter'),
+       React.createElement('select',{value:curStarter.info, onChange:e=>{const ns={...starters, [monthKey]:{...curStarter, info:e.target.value}}; setStarters(ns); saveAll({starters:ns});}, className:'mt-1 w-full bg-[var(--surface-2)] border border-[var(--border)] px-2 py-2 mono text-[12px]'},
+        infoPool.map(o=> React.createElement('option',{key:'info-'+o, value:o},o))
+       )
+      ),
+      React.createElement('div',{},
+       React.createElement('label',{className:'mono text-[10px] uppercase opacity-60'},'Lunch Starter'),
+       React.createElement('select',{value:curStarter.lunch, onChange:e=>{const ns={...starters, [monthKey]:{...curStarter, lunch:e.target.value}}; setStarters(ns); saveAll({starters:ns});}, className:'mt-1 w-full bg-[var(--surface-2)] border border-[var(--border)] px-2 py-2 mono text-[12px]'},
+        lunchPool.map(o=> React.createElement('option',{key:'lunch-'+o, value:o},o))
+       )
+      )
+     ),
      holidaysThisMonth.length>0 && React.createElement('div',{className:'mt-3'},
       React.createElement('div',{className:'flex justify-between items-center'},
        React.createElement('span',{className:'mono text-[10px] uppercase opacity-50'},'Holidays this month'),
