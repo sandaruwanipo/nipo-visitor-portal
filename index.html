@@ -278,7 +278,7 @@
                         <span class="text-xs font-bold uppercase tracking-wider text-amber-600" id="sc-badge">Internal Staff & Agent Verification Tool</span>
                         <h3 class="text-2xl font-bold text-nipo-navy font-serif mt-1" id="sc-main-title">Old / Active File Digital Scan Status Checker</h3>
                         <p class="text-xs text-slate-600 mt-1 max-w-3xl leading-relaxed" id="sc-main-desc">
-                            Enter a trademark application or file number below. The system checks against your live <code class="bg-slate-100 px-1.5 py-0.5 rounded font-mono font-bold text-nipo-navy">TM.csv</code>
+                            Enter a trademark application or file number below. The system checks against your live <code class="bg-slate-100 px-1.5 py-0.5 rounded font-mono font-bold text-nipo-navy">TM.csv</code> file (Column A) hosted on GitHub.
                         </p>
                     </div>
                     <div id="csv-status-badge" class="bg-amber-50 text-amber-800 border border-amber-300 text-[11px] font-bold px-3 py-1.5 rounded-xl flex items-center gap-2">
@@ -300,7 +300,7 @@
                     </div>
                     <div class="text-[11px] text-slate-500 flex items-center gap-2">
                         <i class="fa-solid fa-circle-info text-amber-500"></i> 
-                        <span id="sc-hint">Data sourced directly from scanned trademark files DB </span>
+                        <span id="sc-hint">Data sourced directly from Column A of your GitHub TM.csv file.</span>
                     </div>
                 </div>
 
@@ -928,7 +928,7 @@
                         </div>
                         <div class="flex items-center gap-2.5">
                             <i class="fa-solid fa-envelope text-teal-400"></i>
-                            <span>Email: <a href="mailto:niposl@nipo.gov.lk" class="text-amber-300 hover:underline">niposl@nipo.gov.lk</a> | <a href="mailto:info@nipo.gov.lk" class="text-amber-300 hover:underline">info@nipo.gov.lk</a> | <a href="mailto:trademark@nipo.gov.lk" class="text-amber-300 hover:underline">trademark@nipo.gov.lk</a> </span>
+                            <span>Email: <a href="mailto:niposl@nipo.gov.lk" class="text-amber-300 hover:underline">niposl@nipo.gov.lk</a> / <a href="mailto:info@nipo.gov.lk" class="text-amber-300 hover:underline">info@nipo.gov.lk</a></span>
                         </div>
                     </div>
                 </div>
@@ -1137,7 +1137,7 @@
                 cardTmStats: "Protection Highlights", tm1: "Validity: 10 years from filing date", tm2: "Renewal: Every 10 years indefinitely", tm3: "Classification: Nice Classes 1 to 45",
                 btnViewProc: "View Registration Process Flowchart",
                 scBadge: "Internal Staff & Agent Verification Tool", scMainTitle: "Old / Active File Digital Scan Status Checker",
-                scMainDesc: "Enter a trademark application or file number below.",
+                scMainDesc: "Enter a trademark application or file number below. The system checks against your live TM.csv file (Column A) hosted on GitHub.",
                 scLblInput: "Enter File / Application Number", btnCheckScan: "Check Status",
                 scHint: "Data sourced directly from Column A of your GitHub TM.csv file.",
                 sgBadge: "Client Advisory Guide", sgMainTitle: "Basic Trademark Clearance Search",
@@ -1444,11 +1444,10 @@
             m01: {
                 title: "Form M 01 - Application for Registration of Trademark",
                 items: [
-                    "Duly filled and signed Form M 01 (Trademark Application Form)",
-                    "Copy of Duly filled Application Form"
-                    "2 clear specimens / representations of the trademark (Recommended size: 10 cm x 10 cm).",
-                    "Power of Attorney - POA (if filed through an authorized IP Agent or Attorney).",
-                    "Certified translation and transliteration (if the mark contains non-English, Sinhala, or Tamil characters).",
+                    "Duly filled and signed Form M 01 (Trademark Application Form).",
+                    "6 clear specimens / representations of the trademark (Max size: 10 cm x 10 cm).",
+                    "Power of Attorney (POA) if filed through an authorized IP Agent or Attorney.",
+                    "Certified translation and transliteration if the mark contains non-English, Sinhala, or Tamil characters.",
                     "Priority document (if claiming priority under Paris Convention within 6 months of foreign filing)."
                 ]
             },
